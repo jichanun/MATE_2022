@@ -1,5 +1,5 @@
 /Drivers
-/MDK-ARM
+/MDK-ARM/*
+!/MDK-ARM/Mate_Public.uvprojx
 /Middlewares
-*.mxproject
-*.ioc
+

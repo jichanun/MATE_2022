@@ -240,9 +240,9 @@ void Thread_LED(void *argument)
   /* Infinite loop */
   for(;;)
   {
-		SEVO_AngleSet(&SEVO_Angle) ;
-		PROP_SpeedSet(&PROP_Speed) ;
-    osDelay(1000);
+		HAL_GPIO_TogglePin(LED_G_GPIO_Port, LED_G_Pin) ;
+		HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin) ;
+    osDelay(500);
   }
   /* USER CODE END Thread_LED */
 }
@@ -268,11 +268,12 @@ void Thread_Remote_ISR(void *argument)
 			{
 				/* 遥控器正常接收处理 */
 				REMO_GetData(&REMO_Data) ;
+				RemoteTaskControl(&RemoteDataPort);
 				break ;
 			}
 			default :
 			{
-				/* 遥控器接收超时处理 */
+				/* 遥控器接收超时处理 （关控保护）*/
 				break ;
 			}
 		}
@@ -333,6 +334,7 @@ void Thread_Gyro1_ISR(void *argument)
 			case osOK :
 			{
 				/* 板载陀螺仪正常接收处理 */
+				get_HI229UMGyroData(&GYRO1_DATA);
 				break ;
 			}
 			default :
