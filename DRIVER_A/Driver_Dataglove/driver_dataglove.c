@@ -117,7 +117,7 @@ float hand_z;
 	{
 		/*a =( USART_RX_BUF[2]<<24 | USART_RX_BUF[3]<<16 | USART_RX_BUF[4]<<8 | USART_RX_BUF[5]) /1000;        
 		  a=((short)((USART_RX_BUF[35]<<8)| USART_RX_BUF[34]))/32768.0*180;      */
-	if(UART_RX1.Flag==1&&UART_RX1.DataBuf[0]==0xaa&&UART_RX1.DataBuf[1]==0xaa&&UART_RX1.DataBuf[45]==0xbb&&UART_RX1.DataBuf[46]==0xbb)//¼ìÑéÖ¡Í·Ö¡Î²	
+	if(UART_RX2.Flag==1&&UART_RX2.DataBuf[0]==0xaa&&UART_RX2.DataBuf[1]==0xaa&&UART_RX2.DataBuf[45]==0xbb&&UART_RX2.DataBuf[46]==0xbb)//¼ìÑéÖ¡Í·Ö¡Î²	
 	{//£¨´ó±Û¸©Ñö½Ç£©
 Angle_x1_HH=UART_RX2.DataBuf[2];
 Angle_x1_H=UART_RX2.DataBuf[3];
@@ -189,6 +189,8 @@ finger2=UART_RX2.DataBuf[41];
 finger3=UART_RX2.DataBuf[42];
 finger4=UART_RX2.DataBuf[43];
 finger5=UART_RX2.DataBuf[44];
+
+UART_RX2.Flag=0;
 }
 	}
 
