@@ -37,11 +37,14 @@ typedef struct _SEVO_DutyTypeDef
 {
 	int S_1 ;
 	int S_2 ;
+	int S_3;
 } SEVO_DutyTypeDef;
-
+float a,b,c;//数据手套原始数据解算角度
+SEVO_DutyTypeDef angle_DG={0};//数据手套角度参数
+SEVO_DutyTypeDef angle_={0};//另一种方案角度参数
 /* Exported functions prototypes ---------------------------------------------*/
 void SEVO_AngleSet(SEVO_DutyTypeDef* Angle) ;
-
+void ReadData_Dataglove();
 
 #ifdef __cplusplus
 }
