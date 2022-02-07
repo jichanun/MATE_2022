@@ -38,6 +38,7 @@ extern "C" {
 extern osSemaphoreId_t RTOS_ISRsem_Remote; 
 extern osSemaphoreId_t RTOS_ISRsem_Gyroscope; 
 extern osSemaphoreId_t RTOS_ISRsem_Gyroscope1; 
+extern osSemaphoreId_t sem_USART3_ISR_Handle ;
 
 /* Exported functions prototypes ---------------------------------------------*/
 

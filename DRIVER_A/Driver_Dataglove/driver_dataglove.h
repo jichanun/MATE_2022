@@ -21,17 +21,28 @@
 #include "bspConfig.h"
 
 /* Exported defines -----------------------------------------------------------*/
-extern float Angle_x1;
-extern float Angle_y1;
-extern float Angle_z1;
-extern float Angle_x2;
-extern float Angle_y2;
-extern float Angle_z2;
-extern uint8_t finger1;
-extern uint8_t finger2;
-extern uint8_t finger3;
-extern uint8_t finger4;
-extern uint8_t finger5;
+typedef struct _DTGL_DataTypeDef 
+{
+	float Angle_x1;
+	float Angle_y1;
+	float Angle_z1;
+	float Angle_x2;
+	float Angle_y2;
+	float Angle_z2;
+	float handQ1;
+	float handQ2;
+	float handQ3;
+	float handQ4;
+	float hand_x;
+	float hand_y;
+	float hand_z;
+	uint8_t finger1;
+	uint8_t finger2;
+	uint8_t finger3;
+	uint8_t finger4;
+	uint8_t finger5;
+} DTGL_DataTypeDef ;
+
 /* Exported constants --------------------------------------------------------*/
 
 
@@ -40,6 +51,7 @@ extern uint8_t finger5;
 
 /* Exported types ------------------------------------------------------------*/
 	
-	/* Exported functions prototypes ---------------------------------------------*/
-	void ReadData();
+	
+/* Exported functions prototypes ---------------------------------------------*/
+void ReadData(DTGL_DataTypeDef* Data);
 #endif

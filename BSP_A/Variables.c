@@ -25,6 +25,9 @@ GYRO_DataTypeDef GYRO_Data ;
 
 GYRO1_DataTypeDef GYRO1_DATA;
 
+	/* 数据手套数据 */
+DTGL_DataTypeDef DTGL_Data;
+
 RemoteDataPortStruct	RemoteDataPort;
 
 							/* -------- Task variables ---------*/

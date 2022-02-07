@@ -112,6 +112,13 @@ const osThreadAttr_t Thread_Claw__attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityAboveNormal3,
 };
+/* Definitions for Thread_FunctionVerify_ */
+osThreadId_t Thread_FunctionVerify_Handle;
+const osThreadAttr_t Thread_FunctionVerify__attributes = {
+  .name = "Thread_FunctionVerify_",
+  .stack_size = 64 * 4,
+  .priority = (osPriority_t) osPriorityRealtime2,
+};
 /* Definitions for sem_USART2_ISR_ */
 osSemaphoreId_t sem_USART2_ISR_Handle;
 const osSemaphoreAttr_t sem_USART2_ISR__attributes = {
@@ -147,6 +154,7 @@ void Thread_Depth_ISR(void *argument);
 void Thread_Chassis(void *argument);
 void Thread_Attitude(void *argument);
 void Thread_Claw(void *argument);
+void Thread_FunctionVerify(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -216,6 +224,9 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of Thread_Claw_ */
   Thread_Claw_Handle = osThreadNew(Thread_Claw, NULL, &Thread_Claw__attributes);
+
+  /* creation of Thread_FunctionVerify_ */
+  Thread_FunctionVerify_Handle = osThreadNew(Thread_FunctionVerify, NULL, &Thread_FunctionVerify__attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -435,6 +446,25 @@ void Thread_Claw(void *argument)
     osDelay(1);
   }
   /* USER CODE END Thread_Claw */
+}
+
+/* USER CODE BEGIN Header_Thread_FunctionVerify */
+/**
+* @brief Function implementing the Thread_FunctionVerify_ thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_Thread_FunctionVerify */
+void Thread_FunctionVerify(void *argument)
+{
+  /* USER CODE BEGIN Thread_FunctionVerify */
+  /* Infinite loop */
+  for(;;)
+  {
+		SEVO_AngleSet(&SEVO_Angle) ;
+    osDelay(100);
+  }
+  /* USER CODE END Thread_FunctionVerify */
 }
 
 /* Private application code --------------------------------------------------*/

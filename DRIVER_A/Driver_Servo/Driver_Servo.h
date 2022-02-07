@@ -37,11 +37,11 @@ typedef struct _SEVO_DutyTypeDef
 {
 	int S_1 ;
 	int S_2 ;
-	int S_3;
+	int S_3 ;
 } SEVO_DutyTypeDef;
 
-extern struct _SEVO_DutyTypeDef angle_DG;
-extern struct _SEVO_DutyTypeDef angle_;
+extern SEVO_DutyTypeDef angle_DG;
+extern SEVO_DutyTypeDef angle_;
 /* Exported functions prototypes ---------------------------------------------*/
 void SEVO_AngleSet(SEVO_DutyTypeDef* Angle) ;
 
@@ -51,5 +51,3 @@ void SEVO_AngleSet(SEVO_DutyTypeDef* Angle) ;
 #endif
 
 #endif /* DRIVER_SERVO_H */
-
-

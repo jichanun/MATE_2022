@@ -54,14 +54,19 @@ extern "C" {
 	/* 舵机句柄与通道定义 */
 #define SERVO1_TIM htim12
 #define SERVO2_TIM htim12
+#define SERVO3_TIM htim5
 #define SERVO1_Channel TIM_CHANNEL_2
 #define SERVO2_Channel TIM_CHANNEL_1
+#define SERVO3_Channel TIM_CHANNEL_1
 	/* 遥控器串口句柄与缓存定义 */
 #define REMOTE_UART huart1 
 #define REMO_RAW_Data UART_RX1 
 	/* 陀螺仪串口句柄与缓存定义 */
 #define GYRO_UART huart2 
 #define GYRO_RAW_Data UART_RX2 
+	/* 数据手套串口句柄与缓存定义 */
+#define DTGL_UART huart3 
+#define DTGL_RAW_Data UART_RX3 
 	/* 板载陀螺仪串口句柄与缓存定义 */
 #define GYRO1_UART huart6 
 #define GYRO1_RAW_Data UART_RX6 

@@ -62,6 +62,8 @@ void Error_Handler(void);
 #define LED_G_GPIO_Port GPIOC
 #define LED_R_Pin GPIO_PIN_3
 #define LED_R_GPIO_Port GPIOC
+#define S_3_Pin GPIO_PIN_0
+#define S_3_GPIO_Port GPIOA
 #define GYRO_Uart2_Tx_Pin GPIO_PIN_2
 #define GYRO_Uart2_Tx_GPIO_Port GPIOA
 #define GYRO_Uart2_Rx_Pin GPIO_PIN_3

@@ -38,9 +38,5 @@ void SEVO_AngleSet(SEVO_DutyTypeDef* Angle)
 {
 	__HAL_TIM_SetCompare(&SERVO1_TIM, SERVO1_Channel, DutyIDLE+Angle->S_1);
 	__HAL_TIM_SetCompare(&SERVO2_TIM, SERVO2_Channel, DutyIDLE+Angle->S_2);
-	//__HAL_TIM_SetCompare(&SERVO3_TIM, SERVO3_Channel, DutyIDLE+Angle->S_3);
+	__HAL_TIM_SetCompare(&SERVO3_TIM, SERVO3_Channel, DutyIDLE+Angle->S_3);
 }
-
-
-
-
