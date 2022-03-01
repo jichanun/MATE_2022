@@ -29,56 +29,79 @@ extern "C" {
 #include "tim.h"
   /* UART句柄 */
 #include "usart.h"
+  /* i2c句柄 */
+#include "i2c.h"
+
 
 /* Exported constants --------------------------------------------------------*/
-#define UART_RXBUF_LENGTH 100
+#define UART_BUF_LENGTH 100  	//UART缓冲长度，以byte为单位
+#define I2C_BUF_LENGTH 20			//I2C缓冲长度，以byte为单位
+#define I2C_Timeout 1000  		//I2C操作超时参数，以ms为单位
 
 /* Exported macro ------------------------------------------------------------*/
+	/* BSP状态宏定义 */	
+#define bsp_OK 		0 
+#define bsp_ERROR 1
 	/* 推进器句柄与通道定义 */
-#define HFL_TIM htim4
-#define HFR_TIM htim3
-#define HBL_TIM htim2
-#define HBR_TIM htim2
-#define HFL_Channel TIM_CHANNEL_2
+#define HFL_TIM 		htim4
+#define HFR_TIM 		htim3
+#define HBL_TIM 		htim2
+#define HBR_TIM 		htim2
+#define HFL_Channel	TIM_CHANNEL_2
 #define HFR_Channel TIM_CHANNEL_1
 #define HBL_Channel TIM_CHANNEL_2
 #define HBR_Channel TIM_CHANNEL_1
-#define VFL_TIM htim1
-#define VFR_TIM htim1
-#define VBL_TIM htim8
-#define VBR_TIM htim8
+#define VFL_TIM 		htim1
+#define VFR_TIM 		htim1
+#define VBL_TIM 		htim8
+#define VBR_TIM 		htim8
 #define VFL_Channel TIM_CHANNEL_2
 #define VFR_Channel TIM_CHANNEL_1
 #define VBL_Channel TIM_CHANNEL_4
 #define VBR_Channel TIM_CHANNEL_3
 	/* 舵机句柄与通道定义 */
-#define SERVO1_TIM htim12
-#define SERVO2_TIM htim12
-#define SERVO3_TIM htim5
-#define SERVO1_Channel TIM_CHANNEL_2
-#define SERVO2_Channel TIM_CHANNEL_1
-#define SERVO3_Channel TIM_CHANNEL_1
+#define SERVO1_TIM 			htim12
+#define SERVO2_TIM 			htim12
+#define SERVO3_TIM 			htim5
+#define SERVO1_Channel 	TIM_CHANNEL_2
+#define SERVO2_Channel 	TIM_CHANNEL_1
+#define SERVO3_Channel 	TIM_CHANNEL_1
 	/* 遥控器串口句柄与缓存定义 */
-#define REMOTE_UART huart1 
+#define REMOTE_UART 	huart1 
 #define REMO_RAW_Data UART_RX1 
 	/* 陀螺仪串口句柄与缓存定义 */
-#define GYRO_UART huart2 
+#define GYRO_UART 		huart2 
 #define GYRO_RAW_Data UART_RX2 
 	/* 数据手套串口句柄与缓存定义 */
-#define DTGL_UART huart3 
+#define DTGL_UART 		huart3 
 #define DTGL_RAW_Data UART_RX3 
 	/* 板载陀螺仪串口句柄与缓存定义 */
-#define GYRO1_UART huart6 
-#define GYRO1_RAW_Data UART_RX6 
+#define GYRO1_UART 			huart6 
+#define GYRO1_RAW_Data 	UART_RX6 
+	/* 深度I2C句柄与缓存定义 */
+#define DEPT_I2C 			hi2c2 
+#define DEPT_TX 	I2C2_TX_Data  
+#define DEPT_RX 	I2C2_RX_Data 
 
 /* Exported types ------------------------------------------------------------*/
 	/* UART缓存结构体定义 */
 typedef struct _UART_DataTypeDef
 {
-	uint8_t DataBuf[UART_RXBUF_LENGTH] ;
+	UART_HandleTypeDef* huart ;
+	uint8_t DataBuf[UART_BUF_LENGTH] ;
 	volatile uint16_t DataLength ;
 	volatile uint8_t Flag ;
 } UART_DataTypeDef;
+
+	/* IIC缓存结构体定义 */
+typedef struct _I2C_DataTypeDef
+{
+	I2C_HandleTypeDef *hi2c ;
+	uint8_t DataBuf[I2C_BUF_LENGTH] ;
+	uint8_t DevAddress ; 							//这里是7bit型的地址！
+	volatile uint16_t DataLength ;
+	volatile uint8_t Flag ;
+} I2C_DataTypeDef;
 
 /* Exported variables ------------------------------------------------------------*/
 extern UART_DataTypeDef UART_RX1 ;
@@ -86,6 +109,11 @@ extern UART_DataTypeDef UART_RX2 ;
 extern UART_DataTypeDef UART_RX3 ;
 extern UART_DataTypeDef UART_RX6 ;
 
+/* Exported functions prototypes ---------------------------------------------*/
+void bsp_init(void) ;
+uint8_t bsp_I2C_Transmit(I2C_DataTypeDef* I2C_Data) ;
+uint8_t bsp_I2C_Receive(I2C_DataTypeDef* I2C_Data) ;
+	
 #ifdef __cplusplus
 }
 #endif

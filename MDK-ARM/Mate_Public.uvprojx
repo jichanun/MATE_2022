@@ -618,6 +618,11 @@
               <FileType>1</FileType>
               <FilePath>..\BSP_A\bsp_CallBacks.c</FilePath>
             </File>
+            <File>
+              <FileName>bspConfig.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP_A\bspConfig.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

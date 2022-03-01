@@ -32,7 +32,12 @@ extern "C" {
 #include "task_remote.h"
 #include "driver_remote1.h"
 #include "driver_dataglove.h"
+#include "bspConfig.h"
+#include "i2c.h"
+
 /* Exported variables ------------------------------------------------------------*/
+extern I2C_DataTypeDef I2C2_RX_Data ;
+extern I2C_DataTypeDef I2C2_TX_Data ;
 extern PROP_DutyTypeDef PROP_Speed ;
 extern SEVO_DutyTypeDef SEVO_Angle ;
 extern REMO_DataTypeDef REMO_Data ;
@@ -40,6 +45,8 @@ extern GYRO_DataTypeDef GYRO_Data ;
 extern GYRO1_DataTypeDef GYRO1_DATA;
 extern RemoteDataPortStruct	RemoteDataPort;
 extern DTGL_DataTypeDef DTGL_Data;
+extern uint8_t i2cbuf[100] ;
+extern uint8_t flag ;
 
 /* Exported types ------------------------------------------------------------*/
 
@@ -51,7 +58,7 @@ extern DTGL_DataTypeDef DTGL_Data;
 
 
 /* Exported functions prototypes ---------------------------------------------*/
-
+void bsp_variables_init(void) ;
 
 /* Private defines -----------------------------------------------------------*/
 

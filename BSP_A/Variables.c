@@ -13,6 +13,10 @@
 #include "Variables.h"
 
 /* Declaration of variables --------------------------------------------------*/
+							/* ---------- bsp variables ----------*/
+I2C_DataTypeDef I2C2_RX_Data ;
+I2C_DataTypeDef I2C2_TX_Data ;
+
 							/* -------- Driver variables ---------*/
 	/* 推进器速度 */
 PROP_DutyTypeDef PROP_Speed ;
@@ -34,4 +38,14 @@ RemoteDataPortStruct	RemoteDataPort;
 							
 							
 							
+							/* -------- Test variables ---------*/
+uint8_t i2cbuf[100] ;
+uint8_t flag ;
+
+/* Initialization of variables --------------------------------------------------*/
+void bsp_variables_init(void) 
+{
+	I2C2_RX_Data.hi2c = &hi2c2 ;
+	I2C2_TX_Data.hi2c = &hi2c2 ;
+}
 /* VARIABLES_C */

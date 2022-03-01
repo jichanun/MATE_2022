@@ -28,6 +28,7 @@
 /* USER CODE BEGIN Includes */
 #include "RTOS.h"
 #include "Variables.h"
+#include "i2c.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -458,11 +459,36 @@ void Thread_Claw(void *argument)
 void Thread_FunctionVerify(void *argument)
 {
   /* USER CODE BEGIN Thread_FunctionVerify */
+	
+	uint8_t send1, send2 ;
+	send1 = 0x48 ;
+	send2 = 0x00;//0xA0+3*2 ;
   /* Infinite loop */
   for(;;)
   {
-		SEVO_AngleSet(&SEVO_Angle) ;
-    osDelay(100);
+		DEPT_TX.DataBuf[0] = send1 ;
+		DEPT_TX.DataLength=1 ;
+		DEPT_TX.DevAddress = 0X76 ;
+		DEPT_TX.Flag = 1 ;
+		flag=bsp_I2C_Transmit(&DEPT_TX) ;
+		osDelay(10) ;
+		DEPT_TX.DataBuf[0] = send2 ;
+		DEPT_TX.DataLength=1 ;
+		DEPT_TX.DevAddress = 0X76 ;
+		DEPT_TX.Flag = 1 ;
+		flag=bsp_I2C_Transmit(&DEPT_TX) ;
+		DEPT_RX.DataLength= 4;
+		DEPT_RX.DevAddress = 0X76 ;
+		flag=bsp_I2C_Receive(&DEPT_RX) ;
+		
+//		SEVO_AngleSet(&SEVO_Angle) ;
+//		HAL_I2C_Master_Transmit(&hi2c2,0xEC,&send1,1,1000) ;
+//    osDelay(10);
+//		HAL_I2C_Master_Transmit(&hi2c2,0xEC,&send2,1,1000) ;
+//		HAL_I2C_Master_Receive(&hi2c2,0xED,(uint8_t*)i2cbuf,4,1000) ;
+//		osDelay(1000);
+		PROP_SpeedSet(&PROP_Speed) ;
+		osDelay(10);
   }
   /* USER CODE END Thread_FunctionVerify */
 }
