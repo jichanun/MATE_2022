@@ -35,10 +35,10 @@ extern "C" {
 
 
 /* Exported variables --------------------------------------------------------*/
-extern UART_DataTypeDef UART_RX1 ;
-extern UART_DataTypeDef UART_RX2 ;
-extern UART_DataTypeDef UART_RX3 ;
-extern UART_DataTypeDef UART_RX6 ;
+extern UART_DataTypeDef UART1_RX ;
+extern UART_DataTypeDef UART2_RX ;
+extern UART_DataTypeDef UART3_RX ;
+extern UART_DataTypeDef UART6_RX ;
 
 /* Exported macro ------------------------------------------------------------*/
 

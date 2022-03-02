@@ -62,7 +62,7 @@ void MX_USART1_UART_Init(void)
   }
   /* USER CODE BEGIN USART1_Init 2 */
 	__HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE); //使能IDLE中断
-	HAL_UART_Receive_DMA(&huart1, UART_RX2.DataBuf, UART_BUF_LENGTH); //启动DMA传输
+	HAL_UART_Receive_DMA(&huart1, UART2_RX.DataBuf, UART_BUF_LENGTH); //启动DMA传输
   /* USER CODE END USART1_Init 2 */
 
 }
@@ -92,7 +92,7 @@ void MX_USART2_UART_Init(void)
   }
   /* USER CODE BEGIN USART2_Init 2 */
 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE); //使能IDLE中断
-	HAL_UART_Receive_DMA(&huart2, UART_RX2.DataBuf, UART_BUF_LENGTH); //启动DMA传输
+	HAL_UART_Receive_DMA(&huart2, UART2_RX.DataBuf, UART_BUF_LENGTH); //启动DMA传输
   /* USER CODE END USART2_Init 2 */
 
 }
@@ -122,7 +122,7 @@ void MX_USART3_UART_Init(void)
   }
   /* USER CODE BEGIN USART3_Init 2 */
 	__HAL_UART_ENABLE_IT(&huart3, UART_IT_IDLE); //使能IDLE中断
-	HAL_UART_Receive_DMA(&huart3, UART_RX3.DataBuf, UART_BUF_LENGTH); //启动DMA传输
+	HAL_UART_Receive_DMA(&huart3, UART3_RX.DataBuf, UART_BUF_LENGTH); //启动DMA传输
   /* USER CODE END USART3_Init 2 */
 
 }
@@ -152,7 +152,7 @@ void MX_USART6_UART_Init(void)
   }
   /* USER CODE BEGIN USART6_Init 2 */
 	__HAL_UART_ENABLE_IT(&huart6, UART_IT_IDLE); //使能IDLE中断
-	HAL_UART_Receive_DMA(&huart6, UART_RX6.DataBuf, UART_BUF_LENGTH); //启动DMA传输
+	HAL_UART_Receive_DMA(&huart6, UART6_RX.DataBuf, UART_BUF_LENGTH); //启动DMA传输
   /* USER CODE END USART6_Init 2 */
 
 }

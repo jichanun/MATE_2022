@@ -38,6 +38,9 @@ extern "C" {
 /* Exported variables ------------------------------------------------------------*/
 extern I2C_DataTypeDef I2C2_RX_Data ;
 extern I2C_DataTypeDef I2C2_TX_Data ;
+extern UART_DataTypeDef UART2_TX ;
+extern UART_DataTypeDef UART3_TX ;
+extern UART_DataTypeDef UART6_TX ;
 extern PROP_DutyTypeDef PROP_Speed ;
 extern SEVO_DutyTypeDef SEVO_Angle ;
 extern REMO_DataTypeDef REMO_Data ;
@@ -47,6 +50,7 @@ extern RemoteDataPortStruct	RemoteDataPort;
 extern DTGL_DataTypeDef DTGL_Data;
 extern uint8_t i2cbuf[100] ;
 extern uint8_t flag ;
+
 
 /* Exported types ------------------------------------------------------------*/
 

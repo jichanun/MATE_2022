@@ -31,7 +31,7 @@
   * @brief		遥控器数据解算
   * @param		REMO_Data :输出结果， REMO_DataTypeDef结构体指针，在Driver层中定义
   * @retval		None
-	* @note			关于UART_DataTypeDef类型(即UART_RX1)应该如何传递给函数的问题，目前暂无成熟想法，
+	* @note			关于UART_DataTypeDef类型(即UART1_RX)应该如何传递给函数的问题，目前暂无成熟想法，
 	*						暂时通过直接使用BSP层全局变量解决
 	*						Driver层的函数应当在设立的Task层中解决，可以定期解算，也可以使用Semaphore通知解算
   */

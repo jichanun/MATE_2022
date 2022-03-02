@@ -68,16 +68,19 @@ extern "C" {
 #define SERVO3_Channel 	TIM_CHANNEL_1
 	/* 遥控器串口句柄与缓存定义 */
 #define REMOTE_UART 	huart1 
-#define REMO_RAW_Data UART_RX1 
+#define REMO_RAW_Data UART1_RX 
 	/* 陀螺仪串口句柄与缓存定义 */
 #define GYRO_UART 		huart2 
-#define GYRO_RAW_Data UART_RX2 
+#define GYRO_RAW_Data UART2_RX 
+#define GYRO_TX 			UART2_TX 
 	/* 数据手套串口句柄与缓存定义 */
 #define DTGL_UART 		huart3 
-#define DTGL_RAW_Data UART_RX3 
+#define DTGL_RAW_Data UART3_RX 
+#define DTGL_TX 			UART3_TX 
 	/* 板载陀螺仪串口句柄与缓存定义 */
 #define GYRO1_UART 			huart6 
-#define GYRO1_RAW_Data 	UART_RX6 
+#define GYRO1_RAW_Data 	UART6_RX 
+#define GYRO1_TX 				UART6_TX 
 	/* 深度I2C句柄与缓存定义 */
 #define DEPT_I2C 			hi2c2 
 #define DEPT_TX 	I2C2_TX_Data  
@@ -104,15 +107,16 @@ typedef struct _I2C_DataTypeDef
 } I2C_DataTypeDef;
 
 /* Exported variables ------------------------------------------------------------*/
-extern UART_DataTypeDef UART_RX1 ;
-extern UART_DataTypeDef UART_RX2 ;
-extern UART_DataTypeDef UART_RX3 ;
-extern UART_DataTypeDef UART_RX6 ;
+extern UART_DataTypeDef UART1_RX ;
+extern UART_DataTypeDef UART2_RX ;
+extern UART_DataTypeDef UART3_RX ;
+extern UART_DataTypeDef UART6_RX ;
 
 /* Exported functions prototypes ---------------------------------------------*/
 void bsp_init(void) ;
 uint8_t bsp_I2C_Transmit(I2C_DataTypeDef* I2C_Data) ;
 uint8_t bsp_I2C_Receive(I2C_DataTypeDef* I2C_Data) ;
+uint8_t bsp_Uart_Transmit(UART_DataTypeDef* UART_Data) ;
 	
 #ifdef __cplusplus
 }

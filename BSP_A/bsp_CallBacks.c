@@ -23,10 +23,10 @@
 
 
 /* Private variables ---------------------------------------------------------*/
-UART_DataTypeDef UART_RX1 ;
-UART_DataTypeDef UART_RX2 ;
-UART_DataTypeDef UART_RX3 ;
-UART_DataTypeDef UART_RX6 ;
+UART_DataTypeDef UART1_RX ;
+UART_DataTypeDef UART2_RX ;
+UART_DataTypeDef UART3_RX ;
+UART_DataTypeDef UART6_RX ;
 
 /* Private function prototypes -----------------------------------------------*/
 

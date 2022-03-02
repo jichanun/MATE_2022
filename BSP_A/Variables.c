@@ -16,6 +16,9 @@
 							/* ---------- bsp variables ----------*/
 I2C_DataTypeDef I2C2_RX_Data ;
 I2C_DataTypeDef I2C2_TX_Data ;
+UART_DataTypeDef UART2_TX ;
+UART_DataTypeDef UART3_TX ;
+UART_DataTypeDef UART6_TX ;
 
 							/* -------- Driver variables ---------*/
 	/* 推进器速度 */
@@ -47,5 +50,8 @@ void bsp_variables_init(void)
 {
 	I2C2_RX_Data.hi2c = &hi2c2 ;
 	I2C2_TX_Data.hi2c = &hi2c2 ;
+	UART2_TX.huart = &huart2 ;
+	UART3_TX.huart = &huart3 ;
+	UART6_TX.huart = &huart6 ;
 }
 /* VARIABLES_C */

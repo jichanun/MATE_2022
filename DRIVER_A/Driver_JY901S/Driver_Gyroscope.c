@@ -44,7 +44,7 @@ float GYRO_AngleYawRelative=0 ;
   * @brief		陀螺仪数据解算
   * @param		GYRO_Data : 输出结果，GYRO_DataTypeDef结构体指针，在Driver层中定义
   * @retval		None
-	* @note			关于UART_DataTypeDef类型(即UART_RX2)应该如何传递给函数的问题，目前暂无成熟想法，
+	* @note			关于UART_DataTypeDef类型(即UART2_RX)应该如何传递给函数的问题，目前暂无成熟想法，
 	*						暂时通过直接使用BSP层全局变量解决.
 	*						Driver层的函数应当在设立的Task层中解决，可以定期解算，也可以使用Semaphore通知解算.
 	*						函数直接调用即可给出输出结果，自动根据解算内容调整

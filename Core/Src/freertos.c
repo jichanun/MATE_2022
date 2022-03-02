@@ -466,20 +466,20 @@ void Thread_FunctionVerify(void *argument)
   /* Infinite loop */
   for(;;)
   {
-		DEPT_TX.DataBuf[0] = send1 ;
-		DEPT_TX.DataLength=1 ;
-		DEPT_TX.DevAddress = 0X76 ;
-		DEPT_TX.Flag = 1 ;
-		flag=bsp_I2C_Transmit(&DEPT_TX) ;
-		osDelay(10) ;
-		DEPT_TX.DataBuf[0] = send2 ;
-		DEPT_TX.DataLength=1 ;
-		DEPT_TX.DevAddress = 0X76 ;
-		DEPT_TX.Flag = 1 ;
-		flag=bsp_I2C_Transmit(&DEPT_TX) ;
-		DEPT_RX.DataLength= 4;
-		DEPT_RX.DevAddress = 0X76 ;
-		flag=bsp_I2C_Receive(&DEPT_RX) ;
+//		DEPT_TX.DataBuf[0] = send1 ;
+//		DEPT_TX.DataLength=1 ;
+//		DEPT_TX.DevAddress = 0X76 ;
+//		DEPT_TX.Flag = 1 ;
+//		flag=bsp_I2C_Transmit(&DEPT_TX) ;
+//		osDelay(10) ;
+//		DEPT_TX.DataBuf[0] = send2 ;
+//		DEPT_TX.DataLength=1 ;
+//		DEPT_TX.DevAddress = 0X76 ;
+//		DEPT_TX.Flag = 1 ;
+//		flag=bsp_I2C_Transmit(&DEPT_TX) ;
+//		DEPT_RX.DataLength= 4;
+//		DEPT_RX.DevAddress = 0X76 ;
+//		flag=bsp_I2C_Receive(&DEPT_RX) ;
 		
 //		SEVO_AngleSet(&SEVO_Angle) ;
 //		HAL_I2C_Master_Transmit(&hi2c2,0xEC,&send1,1,1000) ;
@@ -487,6 +487,12 @@ void Thread_FunctionVerify(void *argument)
 //		HAL_I2C_Master_Transmit(&hi2c2,0xEC,&send2,1,1000) ;
 //		HAL_I2C_Master_Receive(&hi2c2,0xED,(uint8_t*)i2cbuf,4,1000) ;
 //		osDelay(1000);
+		UART2_TX.DataBuf[0] = send1 ;
+		UART2_TX.DataLength = 1 ;
+		UART2_TX.Flag = 1 ;
+//		flag=bsp_Uart_Transmit(&UART2_TX) ;
+HAL_UART_Transmit_DMA(UART2_TX.huart, UART2_TX.DataBuf, 
+								UART2_TX.DataLength);
 		PROP_SpeedSet(&PROP_Speed) ;
 		osDelay(10);
   }

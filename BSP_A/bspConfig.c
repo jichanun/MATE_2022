@@ -46,13 +46,13 @@ void bsp_init(void)
   * @param		I2C_Data : I2C接收数据结构体
   * @retval		bsp_OK ：接收正常
 							bsp_ERROR ：接收失败
-	* @note			采用 semaphore 实现中断延迟处理，回调函数应当尽可能快速执行完毕
-							引脚宏定义包含在main.h中
+	* @note			I2C 设备地址应当采用七位地址
+							
   */
 uint8_t bsp_I2C_Receive(I2C_DataTypeDef* I2C_Data) 
 {
-	if(HAL_I2C_Master_Receive(I2C_Data->hi2c,I2C_Data->DevAddress<<1,I2C_Data->DataBuf,
-														I2C_Data->DataLength,I2C_Timeout) != HAL_OK) 
+	if(HAL_I2C_Master_Receive_DMA(I2C_Data->hi2c,I2C_Data->DevAddress<<1,I2C_Data->DataBuf,
+														I2C_Data->DataLength) != HAL_OK) 
 	{
 		return bsp_ERROR ;
 	}
@@ -62,11 +62,11 @@ uint8_t bsp_I2C_Receive(I2C_DataTypeDef* I2C_Data)
 
 /**
 	* @brief		I2C发送函数
-* @param		I2C_Data : I2C发送数据结构体
+	* @param		I2C_Data : I2C发送数据结构体
   * @retval		bsp_OK ：接收正常
 							bsp_ERROR ：接收失败
-	* @note			采用 semaphore 实现中断延迟处理，回调函数应当尽可能快速执行完毕
-							引脚宏定义包含在main.h中
+	* @note			I2C 设备地址应当采用七位地址
+							
   */
 uint8_t bsp_I2C_Transmit(I2C_DataTypeDef* I2C_Data) 
 {
@@ -74,24 +74,35 @@ uint8_t bsp_I2C_Transmit(I2C_DataTypeDef* I2C_Data)
 	{
 		return bsp_ERROR ;
 	}
-	else if(HAL_I2C_Master_Transmit(I2C_Data->hi2c,I2C_Data->DevAddress<<1,I2C_Data->DataBuf,
-														I2C_Data->DataLength,I2C_Timeout) != HAL_OK) 
+	else if(HAL_I2C_Master_Transmit_DMA(I2C_Data->hi2c,I2C_Data->DevAddress<<1,I2C_Data->DataBuf,
+														I2C_Data->DataLength) != HAL_OK) 
 	{
 		return bsp_ERROR ;
 	}
+	while (HAL_I2C_GetState(I2C_Data->hi2c)!=HAL_I2C_STATE_READY) ;
 	I2C_Data->Flag = 0 ;
 	return bsp_OK ;
 }
 
 /**
-	* @brief		I2C发送函数
-  * @param		GPIO_Pin : GPIO 引脚宏定义
+	* @brief		UART发送函数
+  * @param		UART_Data : UART发送数据结构体
   * @retval		None
-	* @note			采用 semaphore 实现中断延迟处理，回调函数应当尽可能快速执行完毕
-							引脚宏定义包含在main.h中
+	* @note			None
+							
   */
-void Uart_Callback(UART_HandleTypeDef* huart, UART_DataTypeDef* Data) 
+uint8_t bsp_Uart_Transmit(UART_DataTypeDef* UART_Data) 
 {
-
+	if(UART_Data->Flag != 1)
+	{
+		return bsp_ERROR ;
+	}
+	else if(HAL_UART_Transmit_DMA(UART_Data->huart, UART_Data->DataBuf, 
+								UART_Data->DataLength) != HAL_OK) 
+	{
+		return bsp_ERROR ;
+	}
+	UART_Data->Flag = 0 ;
+	return bsp_OK ;
 }
 

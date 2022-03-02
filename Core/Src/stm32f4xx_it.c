@@ -57,6 +57,8 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern DMA_HandleTypeDef hdma_i2c2_rx;
+extern DMA_HandleTypeDef hdma_i2c2_tx;
 extern I2C_HandleTypeDef hi2c2;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart2_rx;
@@ -188,6 +190,20 @@ void DMA1_Stream1_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles DMA1 stream2 global interrupt.
+  */
+void DMA1_Stream2_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Stream2_IRQn 0 */
+
+  /* USER CODE END DMA1_Stream2_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_i2c2_rx);
+  /* USER CODE BEGIN DMA1_Stream2_IRQn 1 */
+
+  /* USER CODE END DMA1_Stream2_IRQn 1 */
+}
+
+/**
   * @brief This function handles DMA1 stream3 global interrupt.
   */
 void DMA1_Stream3_IRQHandler(void)
@@ -244,13 +260,27 @@ void I2C2_EV_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles I2C2 error interrupt.
+  */
+void I2C2_ER_IRQHandler(void)
+{
+  /* USER CODE BEGIN I2C2_ER_IRQn 0 */
+
+  /* USER CODE END I2C2_ER_IRQn 0 */
+  HAL_I2C_ER_IRQHandler(&hi2c2);
+  /* USER CODE BEGIN I2C2_ER_IRQn 1 */
+
+  /* USER CODE END I2C2_ER_IRQn 1 */
+}
+
+/**
   * @brief This function handles USART1 global interrupt.
   */
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
 	/* IDLE中断标志位重置，数据处理 */
-	UartIDLE_Callback(&huart1, &UART_RX1) ;
+	UartIDLE_Callback(&huart1, &UART1_RX) ;
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
@@ -265,7 +295,7 @@ void USART2_IRQHandler(void)
 {
   /* USER CODE BEGIN USART2_IRQn 0 */
 	/* IDLE中断标志位重置，数据处理 */
-	UartIDLE_Callback(&huart2, &UART_RX2) ;
+	UartIDLE_Callback(&huart2, &UART2_RX) ;
   /* USER CODE END USART2_IRQn 0 */
   HAL_UART_IRQHandler(&huart2);
   /* USER CODE BEGIN USART2_IRQn 1 */
@@ -280,12 +310,26 @@ void USART3_IRQHandler(void)
 {
   /* USER CODE BEGIN USART3_IRQn 0 */
 	/* IDLE中断标志位重置，数据处理 */
-	UartIDLE_Callback(&huart3, &UART_RX3) ;
+	UartIDLE_Callback(&huart3, &UART3_RX) ;
   /* USER CODE END USART3_IRQn 0 */
   HAL_UART_IRQHandler(&huart3);
   /* USER CODE BEGIN USART3_IRQn 1 */
 
   /* USER CODE END USART3_IRQn 1 */
+}
+
+/**
+  * @brief This function handles DMA1 stream7 global interrupt.
+  */
+void DMA1_Stream7_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Stream7_IRQn 0 */
+
+  /* USER CODE END DMA1_Stream7_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_i2c2_tx);
+  /* USER CODE BEGIN DMA1_Stream7_IRQn 1 */
+
+  /* USER CODE END DMA1_Stream7_IRQn 1 */
 }
 
 /**
@@ -350,7 +394,7 @@ void DMA2_Stream6_IRQHandler(void)
 void USART6_IRQHandler(void)
 {
   /* USER CODE BEGIN USART6_IRQn 0 */
-	UartIDLE_Callback(&huart6, &UART_RX6) ;
+	UartIDLE_Callback(&huart6, &UART6_RX) ;
   /* USER CODE END USART6_IRQn 0 */
   HAL_UART_IRQHandler(&huart6);
   /* USER CODE BEGIN USART6_IRQn 1 */
