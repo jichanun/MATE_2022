@@ -50,6 +50,7 @@ extern RemoteDataPortStruct	RemoteDataPort;
 extern DTGL_DataTypeDef DTGL_Data;
 extern uint8_t i2cbuf[100] ;
 extern uint8_t flag ;
+extern bsp_StatusTypeDef BSP_STATUS ;
 
 
 /* Exported types ------------------------------------------------------------*/

@@ -460,9 +460,9 @@ void Thread_FunctionVerify(void *argument)
 {
   /* USER CODE BEGIN Thread_FunctionVerify */
 	
-	uint8_t send1, send2 ;
-	send1 = 0x48 ;
-	send2 = 0x00;//0xA0+3*2 ;
+//	uint8_t send1, send2 ;
+//	send1 = 0x48 ;
+//	send2 = 0x00;//0xA0+3*2 ;
   /* Infinite loop */
   for(;;)
   {
@@ -487,13 +487,14 @@ void Thread_FunctionVerify(void *argument)
 //		HAL_I2C_Master_Transmit(&hi2c2,0xEC,&send2,1,1000) ;
 //		HAL_I2C_Master_Receive(&hi2c2,0xED,(uint8_t*)i2cbuf,4,1000) ;
 //		osDelay(1000);
-		UART2_TX.DataBuf[0] = send1 ;
-		UART2_TX.DataLength = 1 ;
-		UART2_TX.Flag = 1 ;
+//		UART2_TX.DataBuf[0] = send1 ;
+//		UART2_TX.DataLength = 1 ;
+//		UART2_TX.Flag = 1 ;
+//		BSP_STATUS=bsp_Uart_Transmit(&UART2_TX) ;
 //		flag=bsp_Uart_Transmit(&UART2_TX) ;
-HAL_UART_Transmit_DMA(UART2_TX.huart, UART2_TX.DataBuf, 
-								UART2_TX.DataLength);
-		PROP_SpeedSet(&PROP_Speed) ;
+//		HAL_UART_Transmit_DMA(UART2_TX.huart, UART2_TX.DataBuf, 
+//								UART2_TX.DataLength);
+//		PROP_SpeedSet(&PROP_Speed) ;
 		osDelay(10);
   }
   /* USER CODE END Thread_FunctionVerify */

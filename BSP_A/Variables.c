@@ -44,6 +44,7 @@ RemoteDataPortStruct	RemoteDataPort;
 							/* -------- Test variables ---------*/
 uint8_t i2cbuf[100] ;
 uint8_t flag ;
+bsp_StatusTypeDef BSP_STATUS ;
 
 /* Initialization of variables --------------------------------------------------*/
 void bsp_variables_init(void) 

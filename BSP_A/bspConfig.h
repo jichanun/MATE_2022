@@ -39,9 +39,6 @@ extern "C" {
 #define I2C_Timeout 1000  		//I2C操作超时参数，以ms为单位
 
 /* Exported macro ------------------------------------------------------------*/
-	/* BSP状态宏定义 */	
-#define bsp_OK 		0 
-#define bsp_ERROR 1
 	/* 推进器句柄与通道定义 */
 #define HFL_TIM 		htim4
 #define HFR_TIM 		htim3
@@ -106,6 +103,14 @@ typedef struct _I2C_DataTypeDef
 	volatile uint8_t Flag ;
 } I2C_DataTypeDef;
 
+	/* BSP状态枚举定义 */
+typedef enum _bsp_StatusTypeDef
+{
+	bsp_OK		= 0x00 ,
+	bsp_ERROR	= 0x01 ,
+	bsp_BUSY	= 0x02
+} bsp_StatusTypeDef ;
+
 /* Exported variables ------------------------------------------------------------*/
 extern UART_DataTypeDef UART1_RX ;
 extern UART_DataTypeDef UART2_RX ;
@@ -114,9 +119,9 @@ extern UART_DataTypeDef UART6_RX ;
 
 /* Exported functions prototypes ---------------------------------------------*/
 void bsp_init(void) ;
-uint8_t bsp_I2C_Transmit(I2C_DataTypeDef* I2C_Data) ;
-uint8_t bsp_I2C_Receive(I2C_DataTypeDef* I2C_Data) ;
-uint8_t bsp_Uart_Transmit(UART_DataTypeDef* UART_Data) ;
+bsp_StatusTypeDef bsp_I2C_Transmit(I2C_DataTypeDef* I2C_Data) ;
+bsp_StatusTypeDef bsp_I2C_Receive(I2C_DataTypeDef* I2C_Data) ;
+bsp_StatusTypeDef bsp_Uart_Transmit(UART_DataTypeDef* UART_Data) ;
 	
 #ifdef __cplusplus
 }

@@ -49,7 +49,7 @@ void bsp_init(void)
 	* @note			I2C 设备地址应当采用七位地址
 							
   */
-uint8_t bsp_I2C_Receive(I2C_DataTypeDef* I2C_Data) 
+bsp_StatusTypeDef bsp_I2C_Receive(I2C_DataTypeDef* I2C_Data) 
 {
 	if(HAL_I2C_Master_Receive_DMA(I2C_Data->hi2c,I2C_Data->DevAddress<<1,I2C_Data->DataBuf,
 														I2C_Data->DataLength) != HAL_OK) 
@@ -68,7 +68,7 @@ uint8_t bsp_I2C_Receive(I2C_DataTypeDef* I2C_Data)
 	* @note			I2C 设备地址应当采用七位地址
 							
   */
-uint8_t bsp_I2C_Transmit(I2C_DataTypeDef* I2C_Data) 
+bsp_StatusTypeDef bsp_I2C_Transmit(I2C_DataTypeDef* I2C_Data) 
 {
 	if(I2C_Data->Flag != 1)
 	{
@@ -91,7 +91,7 @@ uint8_t bsp_I2C_Transmit(I2C_DataTypeDef* I2C_Data)
 	* @note			None
 							
   */
-uint8_t bsp_Uart_Transmit(UART_DataTypeDef* UART_Data) 
+bsp_StatusTypeDef bsp_Uart_Transmit(UART_DataTypeDef* UART_Data) 
 {
 	if(UART_Data->Flag != 1)
 	{
@@ -105,4 +105,3 @@ uint8_t bsp_Uart_Transmit(UART_DataTypeDef* UART_Data)
 	UART_Data->Flag = 0 ;
 	return bsp_OK ;
 }
-
