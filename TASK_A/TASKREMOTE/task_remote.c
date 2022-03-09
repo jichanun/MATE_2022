@@ -22,7 +22,7 @@ RemoteDataPortStruct RemoteModeProcessData(RemoteDataProcessedStruct	RemoteDataR
 		
 	RemoteDataPortTemp.SinkSpeedZ	=		RemoteDataReceive.Channel_1;
 	RemoteDataPortTemp.YawIncrement		=	-	RemoteDataReceive.Channel_0;
-	
+	RemoteDataPortTemp.PitchIncrement = RemoteDataReceive.Wh;
 	RockerDataConvert(&(RemoteDataPortTemp.ChassisSpeedX),&(RemoteDataPortTemp.ChassisSpeedY));
 		/*右侧拨杆，二级模式切换*/
 //	switch(RemoteDataReceive.RightSwitch)

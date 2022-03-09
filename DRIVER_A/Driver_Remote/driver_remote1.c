@@ -99,8 +99,10 @@ RemoteDataProcessedStruct RemoteDataProcess(RemoteDataUnion RemoteDataRaw)
 //**********************************≤¶≈§***********************************************
 	RemoteDataProcessed.LeftSwitch = RemoteDataRaw.RemoteDataProcessed.RCValue.s2;
 	RemoteDataProcessed.RightSwitch= RemoteDataRaw.RemoteDataProcessed.RCValue.s1;
+//*********************************wheel***********************************************
+	RemoteDataProcessed.Wh = (float)RemoteDataRaw.RemoteDataProcessed.WH;
 	
-//********************************** Û±Í***********************************************
+	//********************************** Û±Í***********************************************
 	MouseX = RemoteDataRaw.RemoteDataProcessed.Mouse.x/32768.0f;
 	MouseY = RemoteDataRaw.RemoteDataProcessed.Mouse.y/32768.0f;
 	MouseZ = RemoteDataRaw.RemoteDataProcessed.Mouse.z/32768.0f;

@@ -35,6 +35,8 @@ typedef struct
 	MousePressEnum LeftMousePress;
 	MousePressEnum RightMousePress;
 	
+	float Wh;
+	
 	u8 KeyW:1;
 	u8 KeyS:1;
 	u8 KeyA:1;
@@ -69,7 +71,7 @@ typedef union
 			u16 Ch3:11;
 			u8	s1:2;
 			u8	s2:2;
-		}RCValue;
+		}RCValue;//0-5
 		
 		struct{
 			int16_t x;
@@ -77,7 +79,7 @@ typedef union
 			int16_t z;
 			uint8_t Press_l;
 			uint8_t Press_r;
-		}Mouse;
+		}Mouse;//6-13
 		
 		struct
 		{
@@ -97,8 +99,8 @@ typedef union
 			u8 KeyC:1;
 			u8 KeyV:1;
 			u8 KeyB:1;
-		}Key;
-	
+		}Key;//14-15
+		u16 WH;
 	}RemoteDataProcessed;
 	u8 RemoteDataRaw[18];
 }RemoteDataUnion;
