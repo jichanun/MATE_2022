@@ -23,12 +23,13 @@
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "RTOS.h"
 #include "Variables.h"
 #include "i2c.h"
+#include "Depth.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -455,32 +456,35 @@ void Thread_Claw(void *argument)
 * @param argument: Not used
 * @retval None
 */
+float temperaturee,pressuree,depthh;
+
 /* USER CODE END Header_Thread_FunctionVerify */
 void Thread_FunctionVerify(void *argument)
 {
   /* USER CODE BEGIN Thread_FunctionVerify */
 	
-//	uint8_t send1, send2 ;
-//	send1 = 0x48 ;
-//	send2 = 0x00;//0xA0+3*2 ;
+	uint8_t send1, send2 ;
+	send1 = 0x48 ;
+	send2 = 0x00;//0xA0+3*2 ;
   /* Infinite loop */
   for(;;)
   {
-//		DEPT_TX.DataBuf[0] = send1 ;
-//		DEPT_TX.DataLength=1 ;
-//		DEPT_TX.DevAddress = 0X76 ;
-//		DEPT_TX.Flag = 1 ;
-//		flag=bsp_I2C_Transmit(&DEPT_TX) ;
-//		osDelay(10) ;
-//		DEPT_TX.DataBuf[0] = send2 ;
-//		DEPT_TX.DataLength=1 ;
-//		DEPT_TX.DevAddress = 0X76 ;
-//		DEPT_TX.Flag = 1 ;
-//		flag=bsp_I2C_Transmit(&DEPT_TX) ;
-//		DEPT_RX.DataLength= 4;
-//		DEPT_RX.DevAddress = 0X76 ;
-//		flag=bsp_I2C_Receive(&DEPT_RX) ;
-		
+		DEPT_TX.DataBuf[0] = send1 ;
+		DEPT_TX.DataLength=1 ;
+		DEPT_TX.DevAddress = 0X76 ;
+		DEPT_TX.Flag = 1 ;
+		flag=bsp_I2C_Transmit(&DEPT_TX) ;
+		osDelay(10) ;
+		DEPT_TX.DataBuf[0] = send2 ;
+		DEPT_TX.DataLength=1 ;
+		DEPT_TX.DevAddress = 0X76 ;
+		DEPT_TX.Flag = 1 ;
+		flag=bsp_I2C_Transmit(&DEPT_TX) ;
+		DEPT_RX.DataLength= 4;
+		DEPT_RX.DevAddress = 0X76 ;
+		flag=bsp_I2C_Receive(&DEPT_RX) ;
+		osDelay(20);
+		depth();
 //		SEVO_AngleSet(&SEVO_Angle) ;
 //		HAL_I2C_Master_Transmit(&hi2c2,0xEC,&send1,1,1000) ;
 //    osDelay(10);
@@ -495,8 +499,9 @@ void Thread_FunctionVerify(void *argument)
 //		HAL_UART_Transmit_DMA(UART2_TX.huart, UART2_TX.DataBuf, 
 //								UART2_TX.DataLength);
 //		PROP_SpeedSet(&PROP_Speed) ;
-		osDelay(10);
+//		ReadMS5837(&temperaturee,&pressuree,&depthh);
   }
+
   /* USER CODE END Thread_FunctionVerify */
 }
 
