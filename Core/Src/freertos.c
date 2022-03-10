@@ -445,6 +445,7 @@ void Thread_Claw(void *argument)
   /* Infinite loop */
   for(;;)
   {
+		depth();
     osDelay(1);
   }
   /* USER CODE END Thread_Claw */
@@ -457,34 +458,24 @@ void Thread_Claw(void *argument)
 * @retval None
 */
 float temperaturee,pressuree,depthh;
-
+	uint8_t send1, send2 ;
+u8 Send=1;
 /* USER CODE END Header_Thread_FunctionVerify */
 void Thread_FunctionVerify(void *argument)
 {
   /* USER CODE BEGIN Thread_FunctionVerify */
 	
-	uint8_t send1, send2 ;
 	send1 = 0x48 ;
 	send2 = 0x00;//0xA0+3*2 ;
+	DepthInit();
   /* Infinite loop */
   for(;;)
   {
-		DEPT_TX.DataBuf[0] = send1 ;
-		DEPT_TX.DataLength=1 ;
-		DEPT_TX.DevAddress = 0X76 ;
-		DEPT_TX.Flag = 1 ;
-		flag=bsp_I2C_Transmit(&DEPT_TX) ;
-		osDelay(10) ;
-		DEPT_TX.DataBuf[0] = send2 ;
-		DEPT_TX.DataLength=1 ;
-		DEPT_TX.DevAddress = 0X76 ;
-		DEPT_TX.Flag = 1 ;
-		flag=bsp_I2C_Transmit(&DEPT_TX) ;
-		DEPT_RX.DataLength= 4;
-		DEPT_RX.DevAddress = 0X76 ;
-		flag=bsp_I2C_Receive(&DEPT_RX) ;
-		osDelay(20);
-		depth();
+		if (Send){
+			GetDepth();
+		}
+		else 
+			osDelay(20);
 //		SEVO_AngleSet(&SEVO_Angle) ;
 //		HAL_I2C_Master_Transmit(&hi2c2,0xEC,&send1,1,1000) ;
 //    osDelay(10);
