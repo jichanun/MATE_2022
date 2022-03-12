@@ -16,8 +16,8 @@
         <TargetCommonOption>
           <Device>STM32F405RGTx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F4xx_DFP.2.15.0</PackID>
-          <PackURL>http://www.keil.com/pack/</PackURL>
+          <PackID>Keil.STM32F4xx_DFP.2.12.0</PackID>
+          <PackURL>http://www.keil.com/pack</PackURL>
           <Cpu>IRAM(0x20000000-0x2001FFFF) IRAM2(0x10000000-0x1000FFFF) IROM(0x8000000-0x80FFFFF) CLOCK(25000000) FPU2 CPUTYPE("Cortex-M4") TZ</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F405xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\BSP_A;..\DRIVER_A\Driver_JY901S;..\DRIVER_A\Driver_Propellors;..\DRIVER_A\Driver_Remote;..\DRIVER_A\Driver_Servo;..\DRIVER_A\Driver_hi229;..\TASK_A\TASKREMOTE;..\TASK_A\TASKSERVO;..\DRIVER_A\Driver_Dataglove;..\DRIVER_A\Driver_ms5837;..\DRIVER_A\Driver_depth;..\DRIVER_A\Driver_pid;..\DRIVER_A\Driver_Chassis;..\TASK_A\TASKCHASSIS</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\BSP_A;..\DRIVER_A\Driver_JY901S;..\DRIVER_A\Driver_Propellors;..\DRIVER_A\Driver_Remote;..\DRIVER_A\Driver_Servo;..\DRIVER_A\Driver_hi229;..\TASK_A\TASKREMOTE;..\TASK_A\TASKSERVO;..\DRIVER_A\Driver_Dataglove;..\DRIVER_A\Driver_ms5837;..\DRIVER_A\Driver_depth;..\DRIVER_A\Driver_pid;..\DRIVER_A\Driver_Chassis;..\TASK_A\TASKCHASSIS;..\DRIVER_A\Driver_Attitude</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -683,6 +683,16 @@
               <FileType>1</FileType>
               <FilePath>..\DRIVER_A\Driver_Chassis\driver_chassis.c</FilePath>
             </File>
+            <File>
+              <FileName>att_pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVER_A\Driver_Attitude\att_pid.c</FilePath>
+            </File>
+            <File>
+              <FileName>attitude control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVER_A\Driver_Attitude\attitude control.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -724,5 +734,14 @@
     </components>
     <files/>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>Mate_Public</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>
