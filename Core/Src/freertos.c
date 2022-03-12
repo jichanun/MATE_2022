@@ -31,6 +31,7 @@
 #include "Depth.h"
 #include "task_chassis.h"
 #include "driver_chassis.h"
+#include "task_servo.h"
 
 /* USER CODE END Includes */
 
@@ -450,6 +451,7 @@ void Thread_Claw(void *argument)
   for(;;)
   {
 		depth();
+		ModeChooseandExcute(RemoteDataPort);
     osDelay(1);
   }
   /* USER CODE END Thread_Claw */

@@ -3,9 +3,8 @@
 #include "bspConfig.h"
 #include "driver_dataglove.h"
 #include "Variables.h"
-int Dummyswitch =1;
 
-void ModeChooseandExcute(void);
+void ModeChooseandExcute(RemoteDataPortStruct	RemoteDataPort);
 
 
 #endif 

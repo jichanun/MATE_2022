@@ -20,6 +20,7 @@ RemoteDataPortStruct RemoteModeProcessData(RemoteDataProcessedStruct	RemoteDataR
 	RemoteDataPortTemp.ChassisSpeedX	=	-	RemoteDataReceive.Channel_2;
 	RemoteDataPortTemp.ChassisSpeedY	=	-	RemoteDataReceive.Channel_3;
 		
+	RemoteDataPortTemp.Grasp=0;//虚拟开关判断
 	RemoteDataPortTemp.SinkSpeedZ	=		RemoteDataReceive.Channel_1;
 	RemoteDataPortTemp.YawIncrement		=	-	RemoteDataReceive.Channel_0;
 	RemoteDataPortTemp.PitchIncrement = RemoteDataReceive.Wh;
@@ -60,202 +61,13 @@ RemoteDataPortStruct RemoteModeProcessData(RemoteDataProcessedStruct	RemoteDataR
 RemoteDataPortStruct KeyboardModeProcessData(RemoteDataProcessedStruct	RemoteDataReceive)
 {
 	RemoteDataPortStruct	RemoteDataPortTemp={0};
-	
-
-	static u16 MouseRCount=0,MouseLCount=0;
-	
-	static s16 MouseXSentitiveValue=0;
-	static s16 MouseYSentitiveValue=0;
-	static float TurnARoundRef;
-	static u8 FlagTurning180=0,FlagTurningRight90=0,FlagTurningLeft90=0;
-	u8 FlagTurningTemp;
-	
-	//static u16 ShiftCount=0;
-//-----------------------------按键切换状态结构模型---------------------------	
-//	static u8 RemoteDataReceive.KeyQ_judge;
-//	static u8 RemoteDataReceive.KeyQ_t;
-//	if(RemoteDataReceive.KeyQ==0)
-//	{
-//		RemoteDataReceive.KeyQ_judge=1;
-//	}
-//	
-//	if((RemoteDataReceive.KeyQ==1)&&(RemoteDataReceive.KeyQ_judge==1))
-//	{
-//		RemoteDataReceive.KeyQ_t++;
-//		if(RemoteDataReceive.KeyQ_t>100)
-//			RemoteDataReceive.KeyQ_t=0;
-//		RemoteDataReceive.KeyQ_judge=0;
-//	}
-//	
-//	if(RemoteDataReceive.KeyQ_t%2==1)
-//		RemoteDataPortTemp.Friction=1;					//事件改这里
-//	else
-//		RemoteDataPortTemp.Friction=0;					//事件改这里
-//--------------------------------------------------------------------------
-
-//--------------------WIFI____CALL_ENGINEER---------------------------------
-//	if(key_c)
-//	{
-//		CAN1_Send_Msg_CallEngineer(SomeThing,1);
-//	}
-//--------------------------------------------------------------------------	
-	
-//---------------------------底盘按键控制逻辑-------------------------------	
-//	if(RemoteDataReceive.KeyShift)
-//	{
-//		RemoteDataPortTemp.ChassisSpeedY=(float)(RemoteDataReceive.KeyS-RemoteDataReceive.KeyW)*(KEY_MIN_SPEED);
-//		RemoteDataPortTemp.ChassisSpeedX=(float)(RemoteDataReceive.KeyA-RemoteDataReceive.KeyD)*(KEY_MIN_SPEED);
-//	}
-//	else
-//	{
-		RemoteDataPortTemp.ChassisSpeedY=(float)(RemoteDataReceive.KeyS-RemoteDataReceive.KeyW)*(KEY_MAX_SPEED);
-		RemoteDataPortTemp.ChassisSpeedX=(float)(RemoteDataReceive.KeyA-RemoteDataReceive.KeyD)*(KEY_MAX_SPEED);
-//	}
-
-		RemoteDataPortTemp.SinkSpeedZ=(float)(RemoteDataReceive.KeyShift-RemoteDataReceive.KeyCtrl)*(SINK_MAX_SPEED);
-
-//-------------------------鼠标精度控制--------------------------------
-//	if(RemoteDataReceive.KeyShift)
-//	{
-//		MouseYSentitiveValue = MOUSE_Y_SENTIVIVE_SLOW;
-//		MouseXSentitiveValue = MOUSE_X_SENTIVIVE_SLOW;
-//	}else
-//	{
-		MouseYSentitiveValue = MOUSE_Y_SENTIVIVE;
-		MouseXSentitiveValue = MOUSE_X_SENTIVIVE;
-//	}
-
-
-//---------------------------------------------------------------------
-	
-//---------------------云台鼠标控制逻辑--------------------------------	
-	
-	RemoteDataPortTemp.PitchIncrement = MouseYSentitiveValue*RemoteDataReceive.MouseY;
-	RemoteDataPortTemp.YawIncrement = MouseXSentitiveValue*RemoteDataReceive.MouseX;
-
-//*****************鼠标控制模型******************************
-	if(RemoteDataReceive.RightMousePress)
-		MouseRCount++;
-	else
-		MouseRCount=0;
-
-//	if(MouseRCount>120)
-//	{
-//		RemoteDataPortTemp.Friction=DISABLE;
-//		RemoteDataPortTemp.Laser=DISABLE;
-//	}else if (MouseRCount>0)
-//	{
-//		RemoteDataPortTemp.Friction=ENABLE;
-//		RemoteDataPortTemp.Laser=ENABLE;
-//	}
-
-	if(RemoteDataReceive.LeftMousePress)
-	{
-		MouseLCount++;
-	}
-	else
-	{
-		MouseLCount=0;
-	}
-	
-	if(MouseLCount>40)
-	{
-		RemoteDataPortTemp.Grasp = 1;
-	}else
-	{
-		RemoteDataPortTemp.Grasp = 0;
-	}
-//---------------------------------------------------------------------
-	
-//----------------------------快速转向 control logic----------------------
-	FlagTurningTemp = FlagTurningRight90 + FlagTurningLeft90 + FlagTurning180;
-	if(RemoteDataReceive.KeyX)
-	{
-		if(FlagTurningTemp==0)
-		{
-			FlagTurning180=1;
-			TurnARoundRef=GetYawGyroValue()+0.5f;
-		}
-	}
-	
-	FlagTurningTemp = FlagTurningRight90 + FlagTurningLeft90 + FlagTurning180;
-	if(RemoteDataReceive.KeyQ)
-	{
-		if(FlagTurningTemp==0)
-		{
-			FlagTurningRight90=1;
-			TurnARoundRef=GetYawGyroValue()+0.25f;
-		}
-	}
-
-	FlagTurningTemp = FlagTurningRight90 + FlagTurningLeft90 + FlagTurning180;
-	if(RemoteDataReceive.KeyE)
-	{
-		if(FlagTurningTemp==0)
-		{
-			FlagTurningLeft90=1;
-			TurnARoundRef=GetYawGyroValue()-0.25f;
-		}
-	}
-//---------------------------------------------------------------------
-//----------------------------other control logic----------------------
-	if(RemoteDataReceive.KeyV)
-	{
-//		set_work_state(CRAZY_STATE);
-	}
-	
-	if(RemoteDataReceive.KeyB)
-	{
-	}
-	
-	if(FlagTurningLeft90)
-	{
-		RemoteDataPortTemp.YawIncrement = 5*(TurnARoundRef-GetYawGyroValue());
-		if(RemoteDataPortTemp.YawIncrement>-0.4f)
-		{
-			RemoteDataPortTemp.YawIncrement=-0.4f;
-		}
-		else if(RemoteDataPortTemp.YawIncrement<-1)
-		{
-			RemoteDataPortTemp.YawIncrement=-1;
-		}
-		if(TurnARoundRef+0.02f>GetYawGyroValue())
-		{
-			FlagTurningLeft90=0;
-		}
-	}
-	if(FlagTurningRight90)
-	{
-		RemoteDataPortTemp.YawIncrement = 5*(TurnARoundRef-GetYawGyroValue());
-		if(RemoteDataPortTemp.YawIncrement<0.4f)
-		{
-			RemoteDataPortTemp.YawIncrement=0.4f;
-		}
-		else if(RemoteDataPortTemp.YawIncrement>1)
-		{
-			RemoteDataPortTemp.YawIncrement=1;
-		}
-		if(TurnARoundRef-0.02f<GetYawGyroValue())
-		{
-			FlagTurningRight90=0;
-		}
-	}
-	if(FlagTurning180)
-	{
-		RemoteDataPortTemp.YawIncrement = 3*(TurnARoundRef-GetYawGyroValue());
-		if(RemoteDataPortTemp.YawIncrement<0.4f)
-		{
-			RemoteDataPortTemp.YawIncrement=0.4f;
-		}
-		else if(RemoteDataPortTemp.YawIncrement>1)
-		{
-			RemoteDataPortTemp.YawIncrement=1;
-		}
-		if(TurnARoundRef-0.04f<GetYawGyroValue())
-		{
-			FlagTurning180=0;
-		}
-	}
+	RemoteDataPortTemp.ChassisSpeedX	=	-	RemoteDataReceive.Channel_2;
+	RemoteDataPortTemp.ChassisSpeedY	=	-	RemoteDataReceive.Channel_3;
+	RemoteDataPortTemp.Grasp=0;//虚拟开关判断
+	RemoteDataPortTemp.SinkSpeedZ	=		RemoteDataReceive.Channel_1;
+	RemoteDataPortTemp.YawIncrement		=	-	RemoteDataReceive.Channel_0;
+	RemoteDataPortTemp.PitchIncrement = RemoteDataReceive.Wh;
+	RockerDataConvert(&(RemoteDataPortTemp.ChassisSpeedX),&(RemoteDataPortTemp.ChassisSpeedY));
 	
 	return RemoteDataPortTemp;
 }
@@ -263,8 +75,16 @@ RemoteDataPortStruct KeyboardModeProcessData(RemoteDataProcessedStruct	RemoteDat
 RemoteDataPortStruct AutoModeProcessData(RemoteDataProcessedStruct	RemoteDataReceive)
 {
 	RemoteDataPortStruct	RemoteDataPortTemp={0};
-	
-	
+	RemoteDataPortTemp.ChassisSpeedX	=	-	RemoteDataReceive.Channel_2;
+	RemoteDataPortTemp.ChassisSpeedY	=	-	RemoteDataReceive.Channel_3;
+	RemoteDataPortTemp.Grasp=1;//虚拟开关判断
+	RemoteDataPortTemp.SinkSpeedZ	=		RemoteDataReceive.Channel_1;
+	RemoteDataPortTemp.YawIncrement		=	-	RemoteDataReceive.Channel_0;
+	RemoteDataPortTemp.PitchIncrement = RemoteDataReceive.Wh;
+	RockerDataConvert(&(RemoteDataPortTemp.ChassisSpeedX),&(RemoteDataPortTemp.ChassisSpeedY));
+	RemoteDataPortTemp.Duoji_1=RemoteDataReceive.Channel_1;
+	RemoteDataPortTemp.Duoji_2=RemoteDataReceive.Channel_0;
+	RemoteDataPortTemp.Duoji_3=RemoteDataReceive.Channel_3;
 	return RemoteDataPortTemp;
 }
 

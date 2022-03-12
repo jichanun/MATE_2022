@@ -4,24 +4,30 @@
 
 /*虚拟开关Dummyswitch的判断*/
 /**
-	*注意：这里应当采用将DTGL_Data结构体指针作为函数参数的方法来做，
-	*				但由于这个函数尚未定型，所以在本.c文件的.h文件中包含了Variables.h，
-	*				并且将DTGL_Data直接作为变量放在了函数中。
-	*				应当指出的是，这种用法破坏了“分层封装”的设计理念，不应当作为最终版本使用。
-	*				后期函数定型后，应当修改这种方式。
+	*注意：
+	*				左侧拨杆共有三种模式，上、中时都可以用虚拟手套进行控制
+	*       下模式时用遥控器来进行控制。不管哪种模式都会继续提供反
+	*				馈的速度信息。
 	*/
-void ModeChooseandExcute(void)
+int Dummyswitch =1;
+
+void ModeChooseandExcute(RemoteDataPortStruct	RemoteDataPort)
 {
-		if(Dummyswitch)//选用数据手套方案  500ms读数间隔
+	  Dummyswitch=RemoteDataPort.Grasp;
+		if(Dummyswitch==0)//选用数据手套方案  100ms读数间隔
 		{
-				angle_DG.S_1=DTGL_Data.Angle_x2*11.11f;
-			  angle_DG.S_2=DTGL_Data.Angle_y1*11.11f;
+				angle_DG.S_1=DTGL_Data.hand_x*11.11f;
+			  angle_DG.S_2=DTGL_Data.hand_y*11.11f;
 			  angle_DG.S_3=-1.33f*(DTGL_Data.finger1+DTGL_Data.finger2+DTGL_Data.finger3+DTGL_Data.finger4+DTGL_Data.finger5-250);
+				if((angle_DG.S_1>=550&&angle_DG.S_1<=2450)&&(angle_DG.S_1>=550&&angle_DG.S_1<=2450)&&(angle_DG.S_1>=550&&angle_DG.S_1<=2450))//舵机保护
 				SEVO_AngleSet(&angle_DG) ;
 		}
-		else//选用备用方案
+		else if(Dummyswitch==1)//遥控器备用方案
 		{
-				/*读取方式待定*/
-				SEVO_AngleSet(&angle_) ;
+				angle_DG.S_1=(RemoteDataPort.Duoji_1-1024)*1.54f;
+			  angle_DG.S_2=(RemoteDataPort.Duoji_2-1024)*1.54f;
+			  angle_DG.S_3=(RemoteDataPort.Duoji_3-1024)*1.54f;
+			  if((angle_DG.S_1>=550&&angle_DG.S_1<=2450)&&(angle_DG.S_1>=550&&angle_DG.S_1<=2450)&&(angle_DG.S_1>=550&&angle_DG.S_1<=2450))//舵机保护
+				SEVO_AngleSet(&angle_DG) ;
 		}
 }
