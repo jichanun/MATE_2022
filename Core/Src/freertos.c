@@ -29,6 +29,8 @@
 #include "Variables.h"
 #include "i2c.h"
 #include "Depth.h"
+#include "task_chassis.h"
+#include "driver_chassis.h"
 
 /* USER CODE END Includes */
 
@@ -406,9 +408,11 @@ void Thread_Depth_ISR(void *argument)
 void Thread_Chassis(void *argument)
 {
   /* USER CODE BEGIN Thread_Chassis */
+	ChassisInit();
   /* Infinite loop */
   for(;;)
   {
+		ChassisControlTask();
     osDelay(1);
   }
   /* USER CODE END Thread_Chassis */
