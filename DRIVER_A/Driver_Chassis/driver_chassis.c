@@ -1,8 +1,11 @@
 #include "driver_chassis.h"
+#include "Driver_Propellor.h"
+#include "main.h"
+#include "Variables.h"
 
-#define CHASSIS_SPEED_KP    (0)
-#define CHASSIS_SPEED_KI    (0)
-#define CHASSIS_SPEED_KD    (0)
+#define ATTITUDE_SPEED_KP    (0)
+#define ATTITUDE_SPEED_KI    (0)
+#define ATTITUDE_SPEED_KD    (0)
 
 
 RobotSpeedStruct RobotSpeed;
@@ -13,9 +16,9 @@ void ChassisInit()
 	for (int i=0;i<4;i++)
 	{
 		ChassisMotor[i].Speed.SetSpeed=0;
-		ChassisMotor[i].PidSpeed.kp=  CHASSIS_SPEED_KP;
-		ChassisMotor[i].PidSpeed.ki=  CHASSIS_SPEED_KI;
-		ChassisMotor[i].PidSpeed.kd=  CHASSIS_SPEED_KD;
+		ChassisMotor[i].PidSpeed.kp=  ATTITUDE_SPEED_KP;
+		ChassisMotor[i].PidSpeed.ki=  ATTITUDE_SPEED_KI;
+		ChassisMotor[i].PidSpeed.kd=  ATTITUDE_SPEED_KP;
 		ChassisMotor[i].PidSpeed.maxIntegral=0;
 		ChassisMotor[i].PidSpeed.maxOutput=0.9;
 	}

@@ -495,7 +495,7 @@ void Thread_FunctionVerify(void *argument)
 //		flag=bsp_Uart_Transmit(&UART2_TX) ;
 //		HAL_UART_Transmit_DMA(UART2_TX.huart, UART2_TX.DataBuf, 
 //								UART2_TX.DataLength);
-//		PROP_SpeedSet(&PROP_Speed) ;
+		PROP_SpeedSet(&PROP_Speed) ;
 //		ReadMS5837(&temperaturee,&pressuree,&depthh);
   }
 

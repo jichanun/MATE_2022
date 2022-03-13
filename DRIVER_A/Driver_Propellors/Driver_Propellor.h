@@ -35,14 +35,14 @@ extern "C" {
 	/* 推进器速度参数结构体：可正可负，表示正反向推进 */
 typedef struct _PROP_DutyTypeDef
 {
-	int HFL ;
-	int HFR ;
-	int HBL ;
-	int HBR ;
-	int VFL ;
-	int VFR ;
-	int VBL ;
-	int VBR ;
+	float HFL ;
+	float HFR ;
+	float HBL ;
+	float HBR ;
+	float VFL ;
+	float VFR ;
+	float VBL ;
+	float VBR ;
 } PROP_DutyTypeDef;
 
 /* Exported functions prototypes ---------------------------------------------*/

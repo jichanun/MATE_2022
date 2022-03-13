@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F405xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\BSP_A;..\DRIVER_A\Driver_JY901S;..\DRIVER_A\Driver_Propellors;..\DRIVER_A\Driver_Remote;..\DRIVER_A\Driver_Servo;..\DRIVER_A\Driver_hi229;..\TASK_A\TASKREMOTE;..\TASK_A\TASKSERVO;..\DRIVER_A\Driver_Dataglove;..\DRIVER_A\Driver_ms5837;..\DRIVER_A\Driver_depth;..\DRIVER_A\Driver_pid;..\DRIVER_A\Driver_Chassis;..\TASK_A\TASKCHASSIS;..\DRIVER_A\Driver_Attitude</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\BSP_A;..\DRIVER_A\Driver_JY901S;..\DRIVER_A\Driver_Propellors;..\DRIVER_A\Driver_Remote;..\DRIVER_A\Driver_Servo;..\DRIVER_A\Driver_hi229;..\TASK_A\TASKREMOTE;..\TASK_A\TASKSERVO;..\DRIVER_A\Driver_Dataglove;..\DRIVER_A\Driver_ms5837;..\DRIVER_A\Driver_depth;..\DRIVER_A\Driver_pid;..\DRIVER_A\Driver_Chassis;..\TASK_A\TASKCHASSIS;..\DRIVER_A\Driver_Attitude;..\DRIVER_A\Driver_Attitude</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -689,9 +689,9 @@
               <FilePath>..\DRIVER_A\Driver_Attitude\att_pid.c</FilePath>
             </File>
             <File>
-              <FileName>attitude control.c</FileName>
+              <FileName>attitude_control.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\DRIVER_A\Driver_Attitude\attitude control.c</FilePath>
+              <FilePath>..\DRIVER_A\Driver_Attitude\attitude_control.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -712,6 +712,11 @@
               <FileName>task_chassis.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\TASK_A\TASKCHASSIS\task_chassis.c</FilePath>
+            </File>
+            <File>
+              <FileName>task_attitude.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\task_attitude.c</FilePath>
             </File>
           </Files>
         </Group>

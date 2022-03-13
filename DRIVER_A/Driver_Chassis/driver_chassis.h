@@ -1,5 +1,5 @@
-#ifndef _DRIVER_CHASSIS_H_
-#define _DRIVER_CHASSIS_H_
+#ifndef _DRIVER_ATTITUDE_H_
+#define _DRIVER_ATTITUDE_H_
 
 #include "pid.h"
 #include "Variables.h"
@@ -30,9 +30,6 @@ void ChassisInit(void);
 void ChassisCaculate( void);
 void GetSpeedX_Y(void);
 void GetSpeedW(void);
-
-
-
 
 
 
