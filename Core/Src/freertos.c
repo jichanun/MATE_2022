@@ -482,6 +482,7 @@ void Thread_FunctionVerify(void *argument)
 		}
 		else 
 			osDelay(20);
+		BoardCaculate(UART2_RX.DataBuf);
 //		SEVO_AngleSet(&SEVO_Angle) ;
 //		HAL_I2C_Master_Transmit(&hi2c2,0xEC,&send1,1,1000) ;
 //    osDelay(10);

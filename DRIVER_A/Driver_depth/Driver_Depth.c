@@ -217,3 +217,91 @@ void GetDepth(void)
 		static float air_pressure = 985.0f;		// 默认大气压（正常是990-1010之间），保证算出来的是个正值，初始时刻是不是零深度并不重要
 	NNNDepth =  (DepthData.Pressure - air_pressure) / 0.983615;
 }
+
+
+
+
+////////////深度控制板处理函数
+
+float tempure=0.0;
+float presure=0.0;
+u8 iiiiiiii;
+volatile u8 aa[20];
+int i;
+u8 aaa;
+uint8_t BoardCaculate(uint8_t *a)
+{
+	for ( i=0;i<20;i++)
+		aa[i]=a[i];
+	int j=0;
+	int length=0;
+	tempure=0;presure=0;
+	
+	tempure=(aa[2]-0x30)*10;
+	tempure+=aa[3]-0x30;
+	tempure+=(float)(aa[5]-0x30)*0.1;
+	tempure+=(float)(aa[6]-0x30)*0.01;
+	
+	
+	presure=(aa[9]-0x30)*10;
+	presure+=(float)(aa[11]-0x30)*0.1;
+	presure+=(float)(aa[12]-0x30)*0.01;
+	
+	if (presure<0||presure>10)
+	{
+		presure=-1;
+		return -1;
+	}
+	return 0;
+	
+	
+	
+	
+	
+//	for( i=0;i<20;i++)
+//	{
+//		if(aa[i]=='.')
+//		{
+//			j++;
+//			aaa=aa[i];
+//			tempure+=tempure+0.1*(float)(aa[i+1]-'0')+0.01*(float)(aa[i+2]-'0');
+//			for (int k=2;k<i;i--)
+//				tempure+=tempure*10+(float)(aa[i]-'0');
+//		}
+//		if(j==2)
+//		{
+//			length=i+3;
+//			break;
+//			}	
+//	}
+//	int flag=0;
+//	for( i=0;i<length;i++)
+
+//	{
+//		if((aa[i]|2) == 0x3f)
+//		{
+//			flag=1;
+//			while(aa[i+1]!='.')
+//			{
+//				tempure=tempure*10+(float)(aa[i+1]-'0');
+//				iiiiiiii=aa[i+1];
+//				i++;
+//			}
+//			i+=2;
+//			tempure=tempure+0.1*(float)(aa[i]-'0')+0.01*(float)(aa[i+1]-'0');
+//		}
+//		i+=2;
+//		while(aa[i+1]!='.')
+//		{
+//			presure=presure*10+(aa[i+1]-'0');
+//			i++;
+//		}
+//		i++;
+//		presure=presure+0.1*(aa[i]-'0')+0.01*(aa[i+1]-'0');
+		
+//	}	
+
+}
+
+
+

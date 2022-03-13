@@ -25,5 +25,6 @@ void ReadDepth(float *water_depth);
 void DepthInit(void);
 void DepthReadPressure(void);
 void GetDepth(void);
+uint8_t BoardCaculate(uint8_t *a);
 #endif
 
