@@ -1,0 +1,137 @@
+[33mcommit 1837f2c465956daa4b9366517bf1eefd3c71bcd1[m[33m ([m[1;36mHEAD -> [m[1;32minitial[m[33m)[m
+Author: Wang Xiaoke <1667833362@qq.com>
+Date:   Sat Mar 19 22:29:17 2022 +0800
+
+    姿态解算遥控部分调整
+
+[33mcommit 1948aafbba1a0b26d6d08b113f7caa6ab121f0e4[m[33m ([m[1;31morigin/initial[m[33m)[m
+Author: Wang Xiaoke <1667833362@qq.com>
+Date:   Sun Mar 13 23:05:49 2022 +0800
+
+    姿态解算TASK
+
+[33mcommit 5aec7e7361663a0caa6044f86d7877153cfbb28d[m
+Author: Wang Xiaoke <1667833362@qq.com>
+Date:   Sun Mar 13 18:22:09 2022 +0800
+
+    姿态解算待测试
+
+[33mcommit 2cd1536555a0375e8f00fcba3d3182bc81f1da84[m
+Author: Wang Xiaoke <1667833362@qq.com>
+Date:   Sat Mar 12 21:44:10 2022 +0800
+
+    姿态解算
+
+[33mcommit 7a43b9bd2129e36dcb13a219570e65b9edf1952e[m
+Author: jiangchuan <261399820@qq.com>
+Date:   Sat Mar 12 15:39:54 2022 +0800
+
+    加入数据手套控制
+
+[33mcommit 39ef834f55ec7a3ec01c4799e1da317031845702[m
+Author: yeboshuhuai <98003100+yeboshuhuai@users.noreply.github.com>
+Date:   Sat Mar 12 15:21:01 2022 +0800
+
+    修改推进器输出
+
+[33mcommit f5fcb3565269a6c86a9c305398ea6ab57e635182[m
+Author: yeboshuhuai <98003100+yeboshuhuai@users.noreply.github.com>
+Date:   Sat Mar 12 14:41:53 2022 +0800
+
+    推进器任务完成
+
+[33mcommit c8325a0cae6f4ae030994d29e4888d7efe6ffcc3[m
+Author: jichanun <261399820@qq.com>
+Date:   Thu Mar 10 14:57:21 2022 +0800
+
+    部分解决
+
+[33mcommit 0c8743bebfc61c6d653197ae76e68cdd5d65843e[m
+Author: sista <3024296994@qq.com>
+Date:   Wed Mar 9 21:58:00 2022 +0800
+
+    深度检测bug未修复
+
+[33mcommit 45a5a9d14676ad3b0c4378e5ac61e776764c9e09[m
+Author: jiangchuan <261399820@qq.com>
+Date:   Wed Mar 9 14:20:30 2022 +0800
+
+    遥控器数据解算
+
+[33mcommit abc21ec354cc4ad128baed0598cc5a87c7412379[m
+Author: DogeYellow <doogeyellow@gmail.com>
+Date:   Thu Mar 3 17:27:41 2022 +0800
+
+    修复已知BUG
+
+[33mcommit 407a3439c96e4812d4dae56202bc1137b41426d8[m
+Author: DogeYellow <doogeyellow@gmail.com>
+Date:   Wed Mar 2 17:47:48 2022 +0800
+
+    通讯方式改为DMA类型，封装BSP层通讯方法
+
+[33mcommit fd001f43ad064820acc47ea50202dc940b4b50c8[m
+Author: DogeYellow <doogeyellow@gmail.com>
+Date:   Wed Mar 2 00:38:47 2022 +0800
+
+    新增I2C通讯功能，重写BSP层通讯方式
+
+[33mcommit fca4c33029bc6c6bf42ad0f62e15d6959e291eed[m
+Author: DogeYellow <doogeyellow@gmail.com>
+Date:   Mon Feb 7 23:13:07 2022 +0800
+
+    修改数据手套相关代码风格
+
+[33mcommit 5092a27f76223acc435af2527119f0adb9f88cb3[m
+Author: cuizer <2480727939@qq.com>
+Date:   Mon Feb 7 09:51:24 2022 +0800
+
+    对diver servo的改动
+
+[33mcommit 615938bed9b314949fe3915db182a5da5a77f9b4[m
+Author: cuizer <2480727939@qq.com>
+Date:   Mon Feb 7 00:44:17 2022 +0800
+
+    补充修改，加入对串口缓冲flag的判别
+
+[33mcommit 5a1e973bf98595ad5b0cc20d2ddf4de0944c108e[m
+Author: cuizer <2480727939@qq.com>
+Date:   Mon Feb 7 00:39:01 2022 +0800
+
+    解析数据手套所有数据，修复第一次error
+
+[33mcommit 7f16c3cc4e320f0caf68e0f214c496ee89af0ae9[m
+Author: cuizer <2480727939@qq.com>
+Date:   Sun Feb 6 17:43:54 2022 +0800
+
+    新建了servo的task
+
+[33mcommit 4fc5d659f8b84785f1b6399bcbab6814fe723dec[m
+Author: cuizer <2480727939@qq.com>
+Date:   Sun Feb 6 17:42:35 2022 +0800
+
+    对于Servo的driver新加入数据手套内容
+
+[33mcommit ca09ea841323e11b0afa775e01fed7fe6f43dcfd[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: jichanun <261399820@qq.com>
+Date:   Sun Jan 23 20:42:38 2022 +0800
+
+    底层代码V1.0
+
+[33mcommit d19767bd52be39dc813e62b24c8e7c4a5b59986e[m[33m ([m[1;32mmaster[m[33m)[m
+Author: jichanun <261399820@qq.com>
+Date:   Sun Jan 9 15:51:20 2022 +0800
+
+    底层代码V0.0
+
+[33mcommit 4c1449381ede30b0bc61cd06801fd1e94beb4847[m
+Author: jiangchuan <261399820@qq.com>
+Date:   Mon Jan 3 13:53:50 2022 +0800
+
+    提交2
+
+[33mcommit 35d09cdc23667a4c7db8bee91d3d867f5810fd0b[m
+Author: jichanun <261399820@qq.com>
+Date:   Mon Jan 3 13:37:46 2022 +0800
+
+    新建工程
