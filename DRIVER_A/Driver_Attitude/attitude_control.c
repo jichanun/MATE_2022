@@ -1,6 +1,8 @@
 #include "attitude_control.h" 
 #include "Driver_Gyroscope.h"
 #include "Variables.h"
+#include "task_remote.h"
+
 
 #define Attitude_PSPEED_KP    (0)
 #define Attitude_RSPEED_KP    (0)
@@ -12,7 +14,10 @@
 #define Attitude_YANGLE_KP    (0)
 #define Attitude_ANGLE_KI    (0)
 #define Attitude_ANGLE_KD    (0)
-#define Attitude_SETANGLE    (0)
+
+float  Attitude_SETANGLE_P;    
+float Attitude_SETANGLE_R;    
+float Attitude_SETANGLE_Y;    
 
 double limitation=1;
 
@@ -73,20 +78,23 @@ void GetrateP_R(void)
 
 void GetangleP(void)
 {
+	Attitude_SETANGLE_P=RemoteDataPort.PitchIncrement;
 	RobotAngleP.Angle=GYRO.Angle.z_Pitch;
-	RobotAngleP.SetAngle=Attitude_SETANGLE;
+	RobotAngleP.SetAngle=Attitude_SETANGLE_P;
 }
 
 void GetangleR(void)
 {
+	Attitude_SETANGLE_R=0;
 	RobotAngleR.Angle=GYRO.Angle.x_Roll;
-	RobotAngleR.SetAngle=Attitude_SETANGLE;
+	RobotAngleR.SetAngle=Attitude_SETANGLE_R;
 }
 
 void GetangleY(void)
 {
+	Attitude_SETANGLE_Y=RemoteDataPort.YawIncrement;
 	RobotAngleY.Angle=GYRO.Angle.y_Yaw;
-	RobotAngleY.SetAngle=Attitude_SETANGLE;
+	RobotAngleY.SetAngle=Attitude_SETANGLE_Y;
 }
 
 
