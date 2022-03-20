@@ -713,14 +713,11 @@
               <FileType>1</FileType>
               <FilePath>..\TASK_A\TASKCHASSIS\task_chassis.c</FilePath>
             </File>
-<<<<<<< HEAD
             <File>
               <FileName>task_attitude.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\TASK_A\TASKATTITUDE\task_attitude.c</FilePath>
             </File>
-=======
->>>>>>> 1837f2c (姿态解算遥控部分调整)
           </Files>
         </Group>
         <Group>
