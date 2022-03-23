@@ -1,5 +1,5 @@
-#ifndef _DRIVER_CHASSIS_H_
-#define _DRIVER_CHASSIS_H_
+#ifndef _TASK_ATTITUDE_H_
+#define _TASK_ATTITUDE_H_
 
 #include "pid.h"
 #include "Driver_Propellor.h"
@@ -18,9 +18,12 @@ typedef struct
 
 void AttitudeControlTask(void);
 void AttitudeCaculate(void);
-
-
-
+void GetangleP(void);
+void GetangleR(void);
+void GetangleY(void);
+void AttitudeMotorCaculate(void);
+void GetrateP_R(void);
+	
 #endif
 
 

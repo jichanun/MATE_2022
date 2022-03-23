@@ -32,6 +32,8 @@
 #include "task_chassis.h"
 #include "driver_chassis.h"
 #include "task_servo.h"
+#include "task_attitude.h"
+#include "attitude_control.h" 
 
 /* USER CODE END Includes */
 
@@ -429,9 +431,12 @@ void Thread_Chassis(void *argument)
 void Thread_Attitude(void *argument)
 {
   /* USER CODE BEGIN Thread_Attitude */
+	AttitudeInit();
   /* Infinite loop */
   for(;;)
   {
+		
+		AttitudeControlTask();
     osDelay(1);
   }
   /* USER CODE END Thread_Attitude */
