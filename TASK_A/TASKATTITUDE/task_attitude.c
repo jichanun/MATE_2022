@@ -10,7 +10,7 @@ void AttitudeControlTask(void)
 	if (RemoteDataPort.Grasp!=1)
 	{
 			GetangleP();
-//		GetangleY();
+			GetangleY();
 			GetangleR();
 			//STEP2:从陀螺仪得到解算角速度
 			GetrateP_R();

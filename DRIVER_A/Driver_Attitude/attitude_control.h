@@ -31,6 +31,7 @@ void AngleCaculate( void);
 void GetrateP_R(void);
 void GetangleP(void);
 void GetangleR(void);
+void GetangleY(void);
 void AttitudeMotorCaculate(void);
 void AttitudeInit(void);
 
