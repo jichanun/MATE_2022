@@ -3,6 +3,7 @@
 #include "Driver_Gyroscope.h"
 #include "stdint.h"
 
+
 typedef struct 
 {
 	float SetAngle;
@@ -18,11 +19,15 @@ typedef struct
 
 }RobotRateStruct;
 
+//extern RobotRateStruct RobotRate;
+
 typedef struct
 {
 	PID PidSpeed;
 	PID PIDAngle;
 }AttitudeMotorStruct;
+
+extern AttitudeMotorStruct YawMotor;
 
 void GetSpeedP(void);
 void GetSpeedR(void);
@@ -34,4 +39,7 @@ void GetangleR(void);
 void GetangleY(void);
 void AttitudeMotorCaculate(void);
 void AttitudeInit(void);
+
+float YawSingularity(float YawData);
+	
 

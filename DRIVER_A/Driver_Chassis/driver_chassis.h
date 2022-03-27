@@ -4,8 +4,6 @@
 #include "pid.h"
 #include "Variables.h"
 
-
-
 typedef struct _SPEED
 {
 	float speedX,speedY,speedW;  //目标速度

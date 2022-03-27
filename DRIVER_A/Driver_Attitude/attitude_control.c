@@ -6,12 +6,12 @@
 
 #define Attitude_PSPEED_KP    (0)
 #define Attitude_RSPEED_KP    (0)
-#define Attitude_YSPEED_KP    (0)
+#define Attitude_YSPEED_KP    (-0.05)
 #define Attitude_SPEED_KI    (0)
 #define Attitude_SPEED_KD    (0)
 #define Attitude_PANGLE_KP    (0)
 #define Attitude_RANGLE_KP    (0)
-#define Attitude_YANGLE_KP    (0)
+#define Attitude_YANGLE_KP    (-50)
 #define Attitude_ANGLE_KI    (0)
 #define Attitude_ANGLE_KD    (0)
 
@@ -19,7 +19,7 @@ float  Attitude_SETANGLE_P;
 float Attitude_SETANGLE_R;    
 float Attitude_SETANGLE_Y;    
 
-double limitation=0.2;
+double limitation=0.5;
 
 #if 1    //使用板载陀螺仪
 #define GYRO 	GYRO1_DATA
@@ -67,6 +67,8 @@ void AttitudeInit(void)
 		YawMotor.PidSpeed.kd=  Attitude_SPEED_KD;
 		YawMotor.PidSpeed.maxIntegral=0;
 		YawMotor.PidSpeed.maxOutput=0.9;
+		YawMotor.PIDAngle.maxIntegral=0;
+		YawMotor.PIDAngle.maxOutput=0.9;
 ////	}
 }
 
@@ -107,7 +109,31 @@ void GetangleY(void)
 	RobotAngleY.SetAngle=Attitude_SETANGLE_Y;
 }
 
-
+//断点解算
+float YawSingularity(float YawData)
+{
+//	GYRO_FloatDataTypeDef Gyrodata;
+	float Yawdatatemp;
+	static float Yawdatalast=0;
+	static int Yawcount=0;
+//	if(GimbalInitFlag)
+//		Yawcount=0;
+	Yawdatatemp=YawData;
+	Yawdatatemp=Yawdatatemp/180.0f;
+	if(Yawdatatemp-Yawdatalast>0.8f)
+	{
+		Yawcount--;
+		Yawdatalast++;
+	}
+	else if(Yawdatatemp-Yawdatalast<-0.8f)
+	{
+		Yawcount++;
+		Yawdatalast--;
+	}
+	YawData=Yawdatatemp+Yawcount;
+	Yawdatalast=Yawdatatemp;
+	return YawData;
+}
 
 
 void AttitudeCaculate(void)
@@ -123,8 +149,10 @@ void AttitudeCaculate(void)
 	PID_SingleCalc(&RollMotor.PidSpeed,RollMotor.PIDAngle.output,RobotRate.speedR);
 	
 	//Yaw 位置、角速度解算
-	PID_SingleCalc(&YawMotor.PIDAngle,RobotAngleR.SetAngle,RobotAngleY.Angle);
-//	PID_SingleCalc(&YawMotor.PidSpeed,YawMotor.PIDAngle.output,RobotRate.speedY);
+	RobotAngleY.Angle=YawSingularity(RobotAngleY.Angle);
+	RobotRate.speedY = RobotRate.speedY/450;
+	PID_SingleCalc(&YawMotor.PIDAngle,RobotAngleY.SetAngle,RobotAngleY.Angle);
+	PID_SingleCalc(&YawMotor.PidSpeed,YawMotor.PIDAngle.output,RobotRate.speedY);
 	
 }
 
@@ -132,10 +160,10 @@ void AttitudeCaculate(void)
 //速度分配到4+4个电机
 void AttitudeMotorCaculate(void)
 {
-	PROP_Speed.VFL=-PitchMotor.PidSpeed.output/2+RollMotor.PidSpeed.output/2+RemoteDataPort.SinkSpeedZ/5;
-	PROP_Speed.VFR=PitchMotor.PidSpeed.output/2+RollMotor.PidSpeed.output/2+RemoteDataPort.SinkSpeedZ/5;
-	PROP_Speed.VBR=PitchMotor.PidSpeed.output/2-RollMotor.PidSpeed.output/2+RemoteDataPort.SinkSpeedZ/5;
-	PROP_Speed.VBL=-PitchMotor.PidSpeed.output/2-RollMotor.PidSpeed.output/2+RemoteDataPort.SinkSpeedZ/5;
+	PROP_Speed.VFL=PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output/2+RemoteDataPort.SinkSpeedZ/5;
+	PROP_Speed.VFR=PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output/2+RemoteDataPort.SinkSpeedZ/5;
+	PROP_Speed.VBR=-PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output/2+RemoteDataPort.SinkSpeedZ/5;
+	PROP_Speed.VBL=-PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output/2+RemoteDataPort.SinkSpeedZ/5;
 //	PROP_Speed.HFL=-YawMotor.PidSpeed.output;
 //	PROP_Speed.HFR=YawMotor.PidSpeed.output;
 //	PROP_Speed.HBL=-YawMotor.PidSpeed.output;

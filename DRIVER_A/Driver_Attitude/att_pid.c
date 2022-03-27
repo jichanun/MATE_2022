@@ -1,4 +1,4 @@
-#include "attitude_control.h"
+
 //void PID_Postion_Cal(PID_TYPE*PID,float target,float measure)
 //{
 //	PID->Error  = target - measure;              //Îó²î
