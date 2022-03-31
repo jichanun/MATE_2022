@@ -14,15 +14,15 @@ int Dummyswitch =1;
 void ModeChooseandExcute(RemoteDataPortStruct	RemoteDataPort)
 {
 	  Dummyswitch=RemoteDataPort.Grasp;
-		if(Dummyswitch==0)//选用数据手套方案  100ms读数间隔
+		/*if(Dummyswitch==0)//选用数据手套方案  100ms读数间隔
 		{
 				angle_DG.S_1=DTGL_Data.hand_x*11.11f;
 			  angle_DG.S_2=DTGL_Data.hand_y*11.11f;
 			  angle_DG.S_3=-1.33f*(DTGL_Data.finger1+DTGL_Data.finger2+DTGL_Data.finger3+DTGL_Data.finger4+DTGL_Data.finger5-250);
 				 if((angle_DG.S_1>=-800&&angle_DG.S_1<=800)&&(angle_DG.S_1>=-800&&angle_DG.S_1<=800)&&(angle_DG.S_1>=-200&&angle_DG.S_1<=200))//舵机保护
 				SEVO_AngleSet(&angle_DG) ;
-		}
-		else if(Dummyswitch==1)//遥控器备用方案
+		}*/
+		 if(Dummyswitch==1)//遥控器备用方案
 		{
 			if(angle_DG.S_1>=900)
       	angle_DG.S_1=899;
