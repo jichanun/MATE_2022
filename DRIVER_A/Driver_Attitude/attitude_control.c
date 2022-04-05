@@ -5,17 +5,17 @@
 
 
 #define Attitude_PSPEED_KP    (0)
-#define Attitude_RSPEED_KP    (0)
+#define Attitude_RSPEED_KP    (0.5)
 #define Attitude_YSPEED_KP    (-0.05)
 #define Attitude_SPEED_KI    (0)
 #define Attitude_SPEED_KD    (0)
 #define Attitude_PANGLE_KP    (0)
-#define Attitude_RANGLE_KP    (0)
+#define Attitude_RANGLE_KP    (10)
 #define Attitude_YANGLE_KP    (-50)
 #define Attitude_ANGLE_KI    (0)
 #define Attitude_ANGLE_KD    (0)
 
-//int attitude_flag=0;
+int attitude_flag=0;
 
 float  Attitude_SETANGLE_P;    
 float Attitude_SETANGLE_R;    
@@ -72,15 +72,6 @@ void AttitudeInit(void)
 		YawMotor.PIDAngle.maxIntegral=0;
 		YawMotor.PIDAngle.maxOutput=0.9;
 ////	}
-//	if(attitude_flag==1)
-//	{
-//		PitchMotor.PidSpeed.kp=0;
-//		PitchMotor.PIDAngle.kp=0;
-//		YawMotor.PidSpeed.kp=0;
-//		YawMotor.PIDAngle.kp=0;
-//		RollMotor.PidSpeed.kp=0;
-//		RollMotor.PIDAngle.kp=0;
-//	}
 }
 
 void GetrateP_R(void)
@@ -149,6 +140,15 @@ float YawSingularity(float YawData)
 
 void AttitudeCaculate(void)
 {
+		if(attitude_flag==1)
+	{
+		PitchMotor.PidSpeed.kp=0;
+		PitchMotor.PIDAngle.kp=0;
+		YawMotor.PidSpeed.kp=0;
+		YawMotor.PIDAngle.kp=0;
+		RollMotor.PidSpeed.kp=0;
+		RollMotor.PIDAngle.kp=0;
+	}
 	//Pitch 位置、角速度解算
 	RobotRate.speedP = RobotRate.speedP/450;
 	PID_SingleCalc(&PitchMotor.PIDAngle,RobotAngleP.SetAngle,RobotAngleP.Angle);
@@ -160,7 +160,7 @@ void AttitudeCaculate(void)
 	PID_SingleCalc(&RollMotor.PidSpeed,RollMotor.PIDAngle.output,RobotRate.speedR);
 	
 	//Yaw 位置、角速度解算
-	RobotAngleY.Angle=YawSingularity(RobotAngleY.Angle);
+	  RobotAngleY.Angle=YawSingularity(RobotAngleY.Angle);
 	RobotRate.speedY = RobotRate.speedY/450;
 	PID_SingleCalc(&YawMotor.PIDAngle,RobotAngleY.SetAngle,RobotAngleY.Angle);
 	PID_SingleCalc(&YawMotor.PidSpeed,YawMotor.PIDAngle.output,RobotRate.speedY);
