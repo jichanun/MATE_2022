@@ -15,9 +15,11 @@
 #define Attitude_ANGLE_KI    (0)
 #define Attitude_ANGLE_KD    (0)
 
+//int attitude_flag=0;
+
 float  Attitude_SETANGLE_P;    
 float Attitude_SETANGLE_R;    
-float Attitude_SETANGLE_Y;    
+float Attitude_SETANGLE_Y;  
 
 double limitation=0.5;
 
@@ -70,6 +72,15 @@ void AttitudeInit(void)
 		YawMotor.PIDAngle.maxIntegral=0;
 		YawMotor.PIDAngle.maxOutput=0.9;
 ////	}
+//	if(attitude_flag==1)
+//	{
+//		PitchMotor.PidSpeed.kp=0;
+//		PitchMotor.PIDAngle.kp=0;
+//		YawMotor.PidSpeed.kp=0;
+//		YawMotor.PIDAngle.kp=0;
+//		RollMotor.PidSpeed.kp=0;
+//		RollMotor.PIDAngle.kp=0;
+//	}
 }
 
 void GetrateP_R(void)
