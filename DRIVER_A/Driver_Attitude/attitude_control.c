@@ -4,13 +4,13 @@
 #include "task_remote.h"
 
 
-#define Attitude_PSPEED_KP    (0)
-#define Attitude_RSPEED_KP    (0.5)
+#define Attitude_PSPEED_KP    (-0.5)
+#define Attitude_RSPEED_KP    (1)
 #define Attitude_YSPEED_KP    (-0.05)
 #define Attitude_SPEED_KI    (0)
 #define Attitude_SPEED_KD    (0)
-#define Attitude_PANGLE_KP    (0)
-#define Attitude_RANGLE_KP    (10)
+#define Attitude_PANGLE_KP    (-500)
+#define Attitude_RANGLE_KP    (500)
 #define Attitude_YANGLE_KP    (-50)
 #define Attitude_ANGLE_KI    (0)
 #define Attitude_ANGLE_KD    (0)
@@ -21,7 +21,7 @@ float  Attitude_SETANGLE_P;
 float Attitude_SETANGLE_R;    
 float Attitude_SETANGLE_Y;  
 
-double limitation=0.5;
+double limitation=0.5; 
 
 #if 1    // π”√∞Â‘ÿÕ”¬›“«
 #define GYRO 	GYRO1_DATA
