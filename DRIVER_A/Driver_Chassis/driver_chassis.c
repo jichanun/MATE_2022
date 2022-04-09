@@ -33,10 +33,10 @@ void ChassisInit()
 
 void ChassisCaculate( void)
 {
-	ChassisMotor[0].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY+RobotSpeed.speedW;
-	ChassisMotor[1].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY-RobotSpeed.speedW;
-	ChassisMotor[2].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY-RobotSpeed.speedW;
-	ChassisMotor[3].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY+RobotSpeed.speedW;
+	ChassisMotor[0].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY+5*RobotSpeed.speedW;
+	ChassisMotor[1].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY-5*RobotSpeed.speedW;
+	ChassisMotor[2].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY-5*RobotSpeed.speedW;
+	ChassisMotor[3].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY+5*RobotSpeed.speedW;
 	
 	
 	/////////////////PID
