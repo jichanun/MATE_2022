@@ -4,13 +4,13 @@
 #include "task_remote.h"
 
 
-#define Attitude_PSPEED_KP    (-0.5)
-#define Attitude_RSPEED_KP    (1)
+#define Attitude_PSPEED_KP    (0.15)
+#define Attitude_RSPEED_KP    (0.38)
 #define Attitude_YSPEED_KP    (-0.05)
 #define Attitude_SPEED_KI    (0)
 #define Attitude_SPEED_KD    (0)
-#define Attitude_PANGLE_KP    (-500)
-#define Attitude_RANGLE_KP    (500)
+#define Attitude_PANGLE_KP    (50)
+#define Attitude_RANGLE_KP    (20)
 #define Attitude_YANGLE_KP    (-50)
 #define Attitude_ANGLE_KI    (0)
 #define Attitude_ANGLE_KD    (0)
@@ -100,7 +100,15 @@ void GetangleR(void)
 {
 	Attitude_SETANGLE_R=0;
 	RobotAngleR.Angle=GYRO.Angle.x_Roll/180;
-	RobotAngleR.SetAngle=Attitude_SETANGLE_R;
+	if(RobotAngleR.Angle<-0.8)
+	{
+		RobotAngleR.Angle=RobotAngleR.Angle+1;
+	}
+	else if(RobotAngleR.Angle>0.8)
+	{
+		RobotAngleR.Angle=RobotAngleR.Angle-1;
+	}
+		RobotAngleR.SetAngle=Attitude_SETANGLE_R;
 }
 
 
