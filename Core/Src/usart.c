@@ -63,7 +63,8 @@ void MX_UART5_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN UART5_Init 2 */
-
+	__HAL_UART_ENABLE_IT(&huart5, UART_IT_IDLE); //使能IDLE中断
+	HAL_UART_Receive_DMA(&huart5, UART5_RX.DataBuf, UART_BUF_LENGTH); //启动DMA传输
   /* USER CODE END UART5_Init 2 */
 
 }
@@ -93,7 +94,7 @@ void MX_USART1_UART_Init(void)
   }
   /* USER CODE BEGIN USART1_Init 2 */
 	__HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE); //使能IDLE中断
-	HAL_UART_Receive_DMA(&huart1, UART2_RX.DataBuf, UART_BUF_LENGTH); //启动DMA传输
+	HAL_UART_Receive_DMA(&huart1, UART1_RX.DataBuf, UART_BUF_LENGTH); //启动DMA传输
   /* USER CODE END USART1_Init 2 */
 
 }

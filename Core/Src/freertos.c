@@ -479,16 +479,16 @@ void Thread_FunctionVerify(void *argument)
 	
 	send1 = 0x48 ;
 	send2 = 0x00;//0xA0+3*2 ;
-	DepthInit();
+//	DepthInit();
   /* Infinite loop */
   for(;;)
   {
-		if (Send){
-			GetDepth();
-		}
-		else 
-			osDelay(20);
-		BoardCaculate(UART2_RX.DataBuf);
+//		if (Send){
+//			GetDepth();
+//		}
+//		else 
+//			osDelay(20);
+//		BoardCaculate(UART2_RX.DataBuf);
 //		SEVO_AngleSet(&SEVO_Angle) ;
 //		HAL_I2C_Master_Transmit(&hi2c2,0xEC,&send1,1,1000) ;
 //    osDelay(10);
@@ -502,8 +502,15 @@ void Thread_FunctionVerify(void *argument)
 //		flag=bsp_Uart_Transmit(&UART2_TX) ;
 //		HAL_UART_Transmit_DMA(UART2_TX.huart, UART2_TX.DataBuf, 
 //								UART2_TX.DataLength);
-		PROP_SpeedSet(&PROP_Speed) ;
+//		PROP_SpeedSet(&PROP_Speed) ;
 //		ReadMS5837(&temperaturee,&pressuree,&depthh);
+
+
+//	UART2_TX.DataBuf[0] = '1' ;
+//	UART2_TX.DataLength =2 ;
+//	UART2_TX.Flag = 1;
+//	bsp_Uart_Transmit(&UART2_TX) ;
+	osDelay(1000) ;
   }
 
   /* USER CODE END Thread_FunctionVerify */

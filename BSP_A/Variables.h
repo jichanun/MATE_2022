@@ -40,6 +40,7 @@ extern I2C_DataTypeDef I2C2_RX_Data ;
 extern I2C_DataTypeDef I2C2_TX_Data ;
 extern UART_DataTypeDef UART2_TX ;
 extern UART_DataTypeDef UART3_TX ;
+extern UART_DataTypeDef UART5_TX ;
 extern UART_DataTypeDef UART6_TX ;
 extern PROP_DutyTypeDef PROP_Speed ;
 extern SEVO_DutyTypeDef SEVO_Angle ;

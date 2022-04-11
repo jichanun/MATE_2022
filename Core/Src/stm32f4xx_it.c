@@ -354,7 +354,7 @@ void DMA1_Stream7_IRQHandler(void)
 void UART5_IRQHandler(void)
 {
   /* USER CODE BEGIN UART5_IRQn 0 */
-
+	UartIDLE_Callback(&huart5, &UART5_RX) ;
   /* USER CODE END UART5_IRQn 0 */
   HAL_UART_IRQHandler(&huart5);
   /* USER CODE BEGIN UART5_IRQn 1 */

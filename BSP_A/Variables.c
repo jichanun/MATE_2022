@@ -18,6 +18,7 @@ I2C_DataTypeDef I2C2_RX_Data ;
 I2C_DataTypeDef I2C2_TX_Data ;
 UART_DataTypeDef UART2_TX ;
 UART_DataTypeDef UART3_TX ;
+UART_DataTypeDef UART5_TX ;
 UART_DataTypeDef UART6_TX ;
 
 							/* -------- Driver variables ---------*/

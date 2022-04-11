@@ -74,6 +74,10 @@ extern "C" {
 #define DTGL_UART 		huart3 
 #define DTGL_RAW_Data UART3_RX 
 #define DTGL_TX 			UART3_TX 
+	/* 树莓派串口句柄与缓存定义 */
+#define RASP_UART 		huart5 
+#define RASP_RAW_Data UART5_RX 
+#define RASP_TX 			UART5_TX 
 	/* 板载陀螺仪串口句柄与缓存定义 */
 #define GYRO1_UART 			huart6 
 #define GYRO1_RAW_Data 	UART6_RX 
