@@ -38,6 +38,7 @@ extern "C" {
 extern UART_DataTypeDef UART1_RX ;
 extern UART_DataTypeDef UART2_RX ;
 extern UART_DataTypeDef UART3_RX ;
+extern UART_DataTypeDef UART5_RX ;
 extern UART_DataTypeDef UART6_RX ;
 
 /* Exported macro ------------------------------------------------------------*/

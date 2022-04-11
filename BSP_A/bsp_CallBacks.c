@@ -26,6 +26,7 @@
 UART_DataTypeDef UART1_RX ;
 UART_DataTypeDef UART2_RX ;
 UART_DataTypeDef UART3_RX ;
+UART_DataTypeDef UART5_RX ;
 UART_DataTypeDef UART6_RX ;
 
 /* Private function prototypes -----------------------------------------------*/
@@ -84,6 +85,20 @@ void UartIDLE_Callback(UART_HandleTypeDef* huart, UART_DataTypeDef* Data)
 		HAL_UART_Receive_DMA(&huart3, Data->DataBuf, UART_BUF_LENGTH); //启动DMA传输
 		
 		osSemaphoreRelease(sem_USART3_ISR_Handle) ;
+	}
+	}
+	if(huart == &huart5)
+	{
+		if(__HAL_UART_GET_FLAG(&huart5,UART_FLAG_IDLE)!=RESET)//idle标志被置位
+	{
+		__HAL_UART_CLEAR_IDLEFLAG(&huart5);//清除标志位
+		HAL_UART_DMAStop(&huart5); //  停止DMA传输，防止影响传输
+		temp = __HAL_DMA_GET_COUNTER(&hdma_uart5_rx);// 获取DMA中未传输的数据个数   
+		Data->DataLength =  UART_BUF_LENGTH - temp; //总计数减去未传输的数据个数，得到已经接收的数据个数
+		Data->Flag = 0x01;	// 接受完成标志位置1	
+		HAL_UART_Receive_DMA(&huart5, Data->DataBuf, UART_BUF_LENGTH); //启动DMA传输
+		
+//		osSemaphoreRelease(sem_USART5_ISR_Handle) ;
 	}
 	}
 	if(huart == &huart6)

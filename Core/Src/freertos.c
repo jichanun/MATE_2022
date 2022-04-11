@@ -35,6 +35,7 @@
 #include "task_servo.h"
 #include "task_attitude.h"
 #include "attitude_control.h" 
+#include "bsp_comm.h"
 
 /* USER CODE END Includes */
 
@@ -314,18 +315,20 @@ void Thread_Gyro_ISR(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    val = osSemaphoreAcquire(sem_USART2_ISR_Handle, 1000) ;	
+    val = osSemaphoreAcquire(sem_USART2_ISR_Handle, osWaitForever) ;	
+		uint8_t id ;
 		switch(val)
 		{
 			case osOK :
 			{
-				/* 陀螺仪 JY901S 正常接收处理 */
+				/* 虚拟串口正常接收处理 */
+				id = COMM_Receive(&COMM_RX) ;
 //				GYRO_GetData(&GYRO_Data) ;
 				break ;
 			}
 			default :
 			{
-				/* 陀螺仪 JY901S 接收超时处理 */
+				/* 虚拟串口接收错误处理 */
 				break ;
 			}
 		}
@@ -479,15 +482,15 @@ void Thread_FunctionVerify(void *argument)
 	
 	send1 = 0x48 ;
 	send2 = 0x00;//0xA0+3*2 ;
-	DepthInit();
+//	DepthInit();
   /* Infinite loop */
   for(;;)
   {
-		if (Send){
-			GetDepth();
-		}
-		else 
-			osDelay(20);
+//		if (Send){
+//			GetDepth();
+//		}
+//		else 
+//			osDelay(20);
 //		BoardCaculate(UART2_RX.DataBuf);
 //		SEVO_AngleSet(&SEVO_Angle) ;
 //		HAL_I2C_Master_Transmit(&hi2c2,0xEC,&send1,1,1000) ;
@@ -504,6 +507,18 @@ void Thread_FunctionVerify(void *argument)
 //								UART2_TX.DataLength);
 //		PROP_SpeedSet(&PROP_Speed) ;
 //		ReadMS5837(&temperaturee,&pressuree,&depthh);
+//	UART5_TX.DataBuf[0] = '1' ;
+//	UART5_TX.DataLength = 2 ;
+//	UART5_TX.Flag = 1 ;
+//	bsp_Uart_Transmit(&UART5_TX) ;
+	UART11_TX.DataBuf[0] = '1' ;
+	UART11_TX.DataBuf[1] = '2' ;
+	UART11_TX.DataBuf[2] = '3' ;
+	UART11_TX.DataLength = 4 ;
+	UART11_TX.Flag = 1 ;
+	bsp_Uart_Transmit(&UART11_TX) ;
+	osDelay(1000) ;
+	
   }
 
   /* USER CODE END Thread_FunctionVerify */

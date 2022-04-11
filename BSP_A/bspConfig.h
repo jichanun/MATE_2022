@@ -83,20 +83,27 @@ extern "C" {
 #define DEPT_TX 	I2C2_TX_Data  
 #define DEPT_RX 	I2C2_RX_Data 
 
-	/* 陀螺仪串口句柄与缓存定义 */
+	/* 虚拟串口句柄与缓存定义 */
 #define COMM_UART 		huart2 
 #define COMM_RX 			UART2_RX 
 #define COMM_TX 			UART2_TX 
+
+#define COMM_remodata_TX UART11_RX
+#define COMM_testdata_RX UART12_RX
+#define COMM_testdata_TX UART12_TX 
+
+
 
 /* Exported types ------------------------------------------------------------*/
 	/* UART缓存结构体定义 */
 typedef struct _UART_DataTypeDef
 {
 	UART_HandleTypeDef* huart ;
+	uint8_t ID ; //串口ID，虚拟串口使用大于10的数字表示ID 
 	uint8_t DataBuf[UART_BUF_LENGTH] ;
 	volatile uint16_t DataLength ;
 	volatile uint8_t Flag ;
-} UART_DataTypeDef;
+} UART_DataTypeDef; 
 
 	/* IIC缓存结构体定义 */
 typedef struct _I2C_DataTypeDef
@@ -121,6 +128,7 @@ typedef enum _bsp_StatusTypeDef
 extern UART_DataTypeDef UART1_RX ;
 extern UART_DataTypeDef UART2_RX ;
 extern UART_DataTypeDef UART3_RX ;
+extern UART_DataTypeDef UART5_RX ;
 extern UART_DataTypeDef UART6_RX ;
 
 /* Exported functions prototypes ---------------------------------------------*/

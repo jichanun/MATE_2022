@@ -12,6 +12,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "bspConfig.h"
 #include "Variables.h"
+#include "bsp_comm.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -93,14 +94,27 @@ bsp_StatusTypeDef bsp_I2C_Transmit(I2C_DataTypeDef* I2C_Data)
   */
 bsp_StatusTypeDef bsp_Uart_Transmit(UART_DataTypeDef* UART_Data) 
 {
+	UART_DataTypeDef* tx_ptr ;
 	if(UART_Data->Flag != 1)
 	{
 		return bsp_ERROR ;
 	}
-	else if(HAL_UART_Transmit_DMA(UART_Data->huart, UART_Data->DataBuf, 
-								UART_Data->DataLength) != HAL_OK) 
+	if(UART_Data->huart)
 	{
-		return bsp_ERROR ;
+		if(HAL_UART_Transmit_DMA(UART_Data->huart, UART_Data->DataBuf, 
+								UART_Data->DataLength) != HAL_OK) 
+		{
+			return bsp_ERROR ;
+		}
+	}
+	else 
+	{
+		tx_ptr = COMM_Transmit(UART_Data) ;
+		if(HAL_UART_Transmit_DMA(tx_ptr->huart, tx_ptr->DataBuf, 
+								tx_ptr->DataLength) != HAL_OK) 
+		{
+			return bsp_ERROR ;
+		}
 	}
 	UART_Data->Flag = 0 ;
 	return bsp_OK ;

@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
-  * @file           : Driver_comm.h
-  * @brief          : Driver_comm.c 头文件
+  * @file           : bsp_comm.h
+  * @brief          : bsp_comm.c 头文件
   *                   本文件用于串口数据转发，不再单独设置task层.
   ******************************************************************************
   * @revision				:
@@ -11,8 +11,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef DRIVER_COMM_H
-#define DRIVER_COMM_H
+#ifndef BSP_COMM_H
+#define BSP_COMM_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,20 +32,11 @@ extern "C" {
 
 
 /* Exported types ------------------------------------------------------------*/
-typedef struct _REMO_DataTypeDef 
-{
-	uint16_t Ch_RH ; //!< Channel 0 
-	uint16_t Ch_RV ; //!< Channel 1 
-	uint16_t Ch_LH ;  //!< Channel 2 
-	uint16_t Ch_LV ; //!< Channel 3 
-	uint8_t S_L ; //!< Switch left 
-	uint8_t S_R ; //!< Switch right
-	uint16_t Wh ; //!< Wheel in the left
-	uint8_t Flag ;
-} REMO_DataTypeDef ;
+
 
 /* Exported functions prototypes ---------------------------------------------*/
-void REMO_GetData(REMO_DataTypeDef* REMO_Data) ;
+UART_DataTypeDef* COMM_Transmit(UART_DataTypeDef* vuart) ;
+uint8_t COMM_Receive(UART_DataTypeDef* ruart) ;
 
 
 
@@ -53,4 +44,4 @@ void REMO_GetData(REMO_DataTypeDef* REMO_Data) ;
 }
 #endif
 
-#endif /* DRIVER_COMM_H */
+#endif /* BSP_COMM_H */
