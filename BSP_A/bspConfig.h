@@ -93,6 +93,10 @@ extern "C" {
 #define DEPT_I2C 			hi2c2 
 #define DEPT_TX 	I2C2_TX_Data  
 #define DEPT_RX 	I2C2_RX_Data 
+	/* 树莓派串口句柄与缓存定义 */
+#define RASP_UART 			huart5 
+#define RASP_RAW_Data 	UART5_RX 
+#define RASP_TX 				UART5_TX 
 
 	/* 虚拟串口句柄与缓存定义 */
 #if useVirtualCOMM == 1
