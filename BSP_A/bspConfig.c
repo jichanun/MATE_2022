@@ -107,6 +107,7 @@ bsp_StatusTypeDef bsp_Uart_Transmit(UART_DataTypeDef* UART_Data)
 			return bsp_ERROR ;
 		}
 	}
+	#if useVirtualCOMM==1
 	else 
 	{
 		tx_ptr = COMM_Transmit(UART_Data) ;
@@ -116,6 +117,7 @@ bsp_StatusTypeDef bsp_Uart_Transmit(UART_DataTypeDef* UART_Data)
 			return bsp_ERROR ;
 		}
 	}
+	#endif
 	UART_Data->Flag = 0 ;
 	return bsp_OK ;
 }

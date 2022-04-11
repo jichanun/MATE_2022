@@ -39,10 +39,12 @@ DTGL_DataTypeDef DTGL_Data;
 RemoteDataPortStruct	RemoteDataPort;
 
 	/* ÐéÄâ´®¿Ú */
-UART_DataTypeDef UART11_RX ;
-UART_DataTypeDef UART11_TX ;
-UART_DataTypeDef UART12_RX ;
-UART_DataTypeDef UART12_TX ;
+#if useVirtualCOMM==1
+	UART_DataTypeDef UART11_RX ;
+	UART_DataTypeDef UART11_TX ;
+	UART_DataTypeDef UART12_RX ;
+	UART_DataTypeDef UART12_TX ;
+#endif
 
 
 							/* -------- Task variables ---------*/
@@ -77,6 +79,7 @@ void bsp_variables_init(void)
 	UART6_RX.ID = 6 ;
 	
 	/* ÐéÄâ´®¿Ú */
+#if useVirtualCOMM==1
 	UART11_RX.huart = NULL ;
 	UART11_RX.ID = 11 ;
 	UART12_RX.huart = NULL ;
@@ -85,5 +88,6 @@ void bsp_variables_init(void)
 	UART11_TX.ID = 11 ;
 	UART12_TX.huart = NULL ;
 	UART12_TX.ID = 12 ;
+#endif
 }
 /* VARIABLES_C */

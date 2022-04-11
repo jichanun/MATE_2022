@@ -37,6 +37,7 @@
 	*						暂时通过直接使用BSP层全局变量解决
 	*						Driver层的函数应当在设立的Task层中解决，可以定期解算，也可以使用Semaphore通知解算
   */
+#if useVirtualCOMM==1
 UART_DataTypeDef* COMM_Transmit(UART_DataTypeDef* vuart) //, UART_DataTypeDef* ruart)
 {
 	UART_DataTypeDef* ruart = &COMM_TX ;
@@ -107,5 +108,6 @@ uint8_t COMM_Receive(UART_DataTypeDef* ruart)
 	}
 			
 }
+#endif
 
 

@@ -36,6 +36,7 @@
 #include "task_attitude.h"
 #include "attitude_control.h" 
 #include "bsp_comm.h"
+#include <string.h>
 
 /* USER CODE END Includes */
 
@@ -287,6 +288,11 @@ void Thread_Remote_ISR(void *argument)
 			case osOK :
 			{
 				/* 遥控器正常接收处理 */
+				memcpy(UART11_TX.DataBuf, (const void*) UART1_RX.DataBuf, UART1_RX.DataLength) ;
+				UART11_TX.DataLength = UART1_RX.DataLength ;
+				UART11_TX.Flag = 1 ;
+				UART1_RX.Flag = 0 ;
+				COMM_Transmit(&UART11_TX) ;
 //				REMO_GetData(&REMO_Data) ;
 //				RemoteTaskControl(&RemoteDataPort);
 				break ;
@@ -511,12 +517,12 @@ void Thread_FunctionVerify(void *argument)
 //	UART5_TX.DataLength = 2 ;
 //	UART5_TX.Flag = 1 ;
 //	bsp_Uart_Transmit(&UART5_TX) ;
-	UART11_TX.DataBuf[0] = '1' ;
-	UART11_TX.DataBuf[1] = '2' ;
-	UART11_TX.DataBuf[2] = '3' ;
-	UART11_TX.DataLength = 4 ;
-	UART11_TX.Flag = 1 ;
-	bsp_Uart_Transmit(&UART11_TX) ;
+//	UART11_TX.DataBuf[0] = '1' ;
+//	UART11_TX.DataBuf[1] = '2' ;
+//	UART11_TX.DataBuf[2] = '3' ;
+//	UART11_TX.DataLength = 4 ;
+//	UART11_TX.Flag = 1 ;
+//	bsp_Uart_Transmit(&UART11_TX) ;
 	osDelay(1000) ;
 	
   }
