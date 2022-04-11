@@ -37,6 +37,10 @@ DTGL_DataTypeDef DTGL_Data;
 
 RemoteDataPortStruct	RemoteDataPort;
 
+	/* 转发数据 */
+	
+
+
 							/* -------- Task variables ---------*/
 							
 							

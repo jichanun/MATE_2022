@@ -285,8 +285,8 @@ void Thread_Remote_ISR(void *argument)
 			case osOK :
 			{
 				/* 遥控器正常接收处理 */
-				REMO_GetData(&REMO_Data) ;
-				RemoteTaskControl(&RemoteDataPort);
+//				REMO_GetData(&REMO_Data) ;
+//				RemoteTaskControl(&RemoteDataPort);
 				break ;
 			}
 			default :
@@ -308,6 +308,8 @@ void Thread_Remote_ISR(void *argument)
 /* USER CODE END Header_Thread_Gyro_ISR */
 void Thread_Gyro_ISR(void *argument)
 {
+	//注：这里暂定借用了Gyro的ISR去做通讯接受的工作，反正
+	//串口2也已经被占掉了（摊手）
   /* USER CODE BEGIN Thread_Gyro_ISR */
 	osStatus_t val ;
   /* Infinite loop */
@@ -319,7 +321,7 @@ void Thread_Gyro_ISR(void *argument)
 			case osOK :
 			{
 				/* 陀螺仪 JY901S 正常接收处理 */
-				GYRO_GetData(&GYRO_Data) ;
+//				GYRO_GetData(&GYRO_Data) ;
 				break ;
 			}
 			default :
@@ -487,7 +489,7 @@ void Thread_FunctionVerify(void *argument)
 		}
 		else 
 			osDelay(20);
-		BoardCaculate(UART2_RX.DataBuf);
+//		BoardCaculate(UART2_RX.DataBuf);
 //		SEVO_AngleSet(&SEVO_Angle) ;
 //		HAL_I2C_Master_Transmit(&hi2c2,0xEC,&send1,1,1000) ;
 //    osDelay(10);
@@ -501,7 +503,7 @@ void Thread_FunctionVerify(void *argument)
 //		flag=bsp_Uart_Transmit(&UART2_TX) ;
 //		HAL_UART_Transmit_DMA(UART2_TX.huart, UART2_TX.DataBuf, 
 //								UART2_TX.DataLength);
-		PROP_SpeedSet(&PROP_Speed) ;
+//		PROP_SpeedSet(&PROP_Speed) ;
 //		ReadMS5837(&temperaturee,&pressuree,&depthh);
   }
 

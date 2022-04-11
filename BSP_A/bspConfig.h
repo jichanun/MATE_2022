@@ -66,10 +66,10 @@ extern "C" {
 	/* 遥控器串口句柄与缓存定义 */
 #define REMOTE_UART 	huart1 
 #define REMO_RAW_Data UART1_RX 
-	/* 陀螺仪串口句柄与缓存定义 */
-#define GYRO_UART 		huart2 
-#define GYRO_RAW_Data UART2_RX 
-#define GYRO_TX 			UART2_TX 
+//	/* 陀螺仪串口句柄与缓存定义 */
+//#define GYRO_UART 		huart2 
+//#define GYRO_RAW_Data UART2_RX 
+//#define GYRO_TX 			UART2_TX 
 	/* 数据手套串口句柄与缓存定义 */
 #define DTGL_UART 		huart3 
 #define DTGL_RAW_Data UART3_RX 
@@ -82,6 +82,11 @@ extern "C" {
 #define DEPT_I2C 			hi2c2 
 #define DEPT_TX 	I2C2_TX_Data  
 #define DEPT_RX 	I2C2_RX_Data 
+
+	/* 陀螺仪串口句柄与缓存定义 */
+#define COMM_UART 		huart2 
+#define COMM_RX 			UART2_RX 
+#define COMM_TX 			UART2_TX 
 
 /* Exported types ------------------------------------------------------------*/
 	/* UART缓存结构体定义 */
