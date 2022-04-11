@@ -42,10 +42,12 @@ extern UART_DataTypeDef UART2_TX ;
 extern UART_DataTypeDef UART3_TX ;
 extern UART_DataTypeDef UART5_TX ;
 extern UART_DataTypeDef UART6_TX ;
+#if useVirtualCOMM == 1
 extern UART_DataTypeDef UART11_RX ;
 extern UART_DataTypeDef UART11_TX ;
 extern UART_DataTypeDef UART12_RX ;
 extern UART_DataTypeDef UART12_TX ;
+#endif
 extern PROP_DutyTypeDef PROP_Speed ;
 extern SEVO_DutyTypeDef SEVO_Angle ;
 extern REMO_DataTypeDef REMO_Data ;

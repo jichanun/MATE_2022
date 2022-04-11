@@ -6,6 +6,7 @@
 	*										1.定义BSP层对外各类接口，宏定义各个外设的句柄、相关参数
 	*											供更高层使用
 	*										2.实现BSP层工作模式配置、裁剪，供BSP层内使用.
+	*										3.水下用
   ******************************************************************************
   * @revision				:
 	*										v1.0	:	2022.1首次发布
@@ -31,6 +32,11 @@ extern "C" {
 #include "usart.h"
   /* i2c句柄 */
 #include "i2c.h"
+
+/* Configuration -------------------------------------------------------------*/
+
+#define useVirtualCOMM 1
+//useVirtualCOMM==1：使用虚拟串口（岸上通讯）。
 
 
 /* Exported constants --------------------------------------------------------*/
@@ -64,8 +70,13 @@ extern "C" {
 #define SERVO2_Channel 	TIM_CHANNEL_1
 #define SERVO3_Channel 	TIM_CHANNEL_1
 	/* 遥控器串口句柄与缓存定义 */
-#define REMOTE_UART 	huart1 
-#define REMO_RAW_Data UART1_RX 
+#if useVirtualCOMM == 0
+	#define REMOTE_UART 	huart1 
+	#define REMO_RAW_Data UART1_RX 
+#else
+	#define REMO_RAW_Data UART11_RX
+#endif
+
 //	/* 陀螺仪串口句柄与缓存定义 */
 //#define GYRO_UART 		huart2 
 //#define GYRO_RAW_Data UART2_RX 
@@ -84,13 +95,14 @@ extern "C" {
 #define DEPT_RX 	I2C2_RX_Data 
 
 	/* 虚拟串口句柄与缓存定义 */
-#define COMM_UART 		huart2 
-#define COMM_RX 			UART2_RX 
-#define COMM_TX 			UART2_TX 
+#if useVirtualCOMM == 1
+	#define COMM_UART 		huart2 
+	#define COMM_RX 			UART2_RX 
+	#define COMM_TX 			UART2_TX 
 
-#define COMM_remodata_TX UART11_RX
-#define COMM_testdata_RX UART12_RX
-#define COMM_testdata_TX UART12_TX 
+	#define COMM_testdata_RX UART12_RX
+	#define COMM_testdata_TX UART12_TX 
+#endif
 
 
 
@@ -130,6 +142,7 @@ extern UART_DataTypeDef UART2_RX ;
 extern UART_DataTypeDef UART3_RX ;
 extern UART_DataTypeDef UART5_RX ;
 extern UART_DataTypeDef UART6_RX ;
+extern UART_DataTypeDef UART11_RX ;
 
 /* Exported functions prototypes ---------------------------------------------*/
 void bsp_init(void) ;

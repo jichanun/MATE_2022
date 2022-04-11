@@ -287,8 +287,8 @@ void Thread_Remote_ISR(void *argument)
 			case osOK :
 			{
 				/* 遥控器正常接收处理 */
-//				REMO_GetData(&REMO_Data) ;
-//				RemoteTaskControl(&RemoteDataPort);
+				REMO_GetData(&REMO_Data) ;
+				RemoteTaskControl(&RemoteDataPort);
 				break ;
 			}
 			default :
@@ -323,11 +323,25 @@ void Thread_Gyro_ISR(void *argument)
 			{
 				/* 虚拟串口正常接收处理 */
 				id = COMM_Receive(&COMM_RX) ;
-//				GYRO_GetData(&GYRO_Data) ;
+				switch(id)
+				{
+					//11号虚拟串口处理（REMOTE）
+					case 11:{
+						REMO_GetData(&REMO_Data) ;
+						RemoteTaskControl(&RemoteDataPort);
+						break ;
+					}
+					//12号虚拟串口处理
+					case 12:{
+						break ;
+					}
+					default:{
+						break ;
+					}
 				break ;
+				}
 			}
-			default :
-			{
+			default :{
 				/* 虚拟串口接收错误处理 */
 				break ;
 			}
@@ -515,9 +529,9 @@ void Thread_FunctionVerify(void *argument)
 //	UART11_TX.DataBuf[0] = '1' ;
 //	UART11_TX.DataBuf[1] = '2' ;
 //	UART11_TX.DataBuf[2] = '3' ;
-	UART11_TX.DataLength = 4 ;
-	UART11_TX.Flag = 1 ;
-	bsp_Uart_Transmit(&UART11_TX) ;
+//	UART11_TX.DataLength = 4 ;
+//	UART11_TX.Flag = 1 ;
+//	bsp_Uart_Transmit(&UART11_TX) ;
 	osDelay(1) ;
 	
   }
