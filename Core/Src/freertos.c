@@ -35,6 +35,7 @@
 #include "task_servo.h"
 #include "task_attitude.h"
 #include "attitude_control.h" 
+#include "bsp_comm.h"
 
 /* USER CODE END Includes */
 
@@ -286,8 +287,8 @@ void Thread_Remote_ISR(void *argument)
 			case osOK :
 			{
 				/* 遥控器正常接收处理 */
-				REMO_GetData(&REMO_Data) ;
-				RemoteTaskControl(&RemoteDataPort);
+//				REMO_GetData(&REMO_Data) ;
+//				RemoteTaskControl(&RemoteDataPort);
 				break ;
 			}
 			default :
@@ -314,18 +315,20 @@ void Thread_Gyro_ISR(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    val = osSemaphoreAcquire(sem_USART2_ISR_Handle, 1000) ;	
+    val = osSemaphoreAcquire(sem_USART2_ISR_Handle, osWaitForever) ;	
+		uint8_t id ;
 		switch(val)
 		{
 			case osOK :
 			{
-				/* 陀螺仪 JY901S 正常接收处理 */
-				GYRO_GetData(&GYRO_Data) ;
+				/* 虚拟串口正常接收处理 */
+				id = COMM_Receive(&COMM_RX) ;
+//				GYRO_GetData(&GYRO_Data) ;
 				break ;
 			}
 			default :
 			{
-				/* 陀螺仪 JY901S 接收超时处理 */
+				/* 虚拟串口接收错误处理 */
 				break ;
 			}
 		}
@@ -504,13 +507,19 @@ void Thread_FunctionVerify(void *argument)
 //								UART2_TX.DataLength);
 //		PROP_SpeedSet(&PROP_Speed) ;
 //		ReadMS5837(&temperaturee,&pressuree,&depthh);
-
-
-//	UART2_TX.DataBuf[0] = '1' ;
-//	UART2_TX.DataLength =2 ;
-//	UART2_TX.Flag = 1;
-//	bsp_Uart_Transmit(&UART2_TX) ;
-	osDelay(1000) ;
+//	UART5_TX.DataBuf[0] = '1' ;
+//	UART5_TX.DataLength = 2 ;
+//	UART5_TX.Flag = 1 ;
+//	bsp_Uart_Transmit(&UART5_TX) ;
+	
+//	UART11_TX.DataBuf[0] = '1' ;
+//	UART11_TX.DataBuf[1] = '2' ;
+//	UART11_TX.DataBuf[2] = '3' ;
+	UART11_TX.DataLength = 4 ;
+	UART11_TX.Flag = 1 ;
+	bsp_Uart_Transmit(&UART11_TX) ;
+	osDelay(1) ;
+	
   }
 
   /* USER CODE END Thread_FunctionVerify */

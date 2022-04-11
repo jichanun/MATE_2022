@@ -98,7 +98,7 @@ void UartIDLE_Callback(UART_HandleTypeDef* huart, UART_DataTypeDef* Data)
 		Data->Flag = 0x01;	// 接受完成标志位置1	
 		HAL_UART_Receive_DMA(&huart5, Data->DataBuf, UART_BUF_LENGTH); //启动DMA传输
 		
-//		osSemaphoreRelease(sem_USART5_ISR_Handle);
+//		osSemaphoreRelease(sem_USART5_ISR_Handle) ;
 	}
 	}
 	if(huart == &huart6)
