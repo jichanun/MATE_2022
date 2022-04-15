@@ -322,7 +322,8 @@ void Thread_Gyro_ISR(void *argument)
 			case osOK :
 			{
 				/* 虚拟串口正常接收处理 */
-				id = COMM_Receive(&COMM_RX) ;
+				//id = COMM_Receive(&COMM_RX) ;
+				id = 11 ;
 				switch(id)
 				{
 					//11号虚拟串口处理（REMOTE）
