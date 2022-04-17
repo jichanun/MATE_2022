@@ -15,8 +15,11 @@
 #define Attitude_ANGLE_KI    (0)
 #define Attitude_ANGLE_KD    (0)
 
+
 int attitude_flag=0;
 
+float Sink_Stable =1;
+float Sink_Speed =0;
 float  Attitude_SETANGLE_P;    
 float Attitude_SETANGLE_R;    
 float Attitude_SETANGLE_Y;  
@@ -179,10 +182,10 @@ void AttitudeCaculate(void)
 //速度分配到4+4个电机
 void AttitudeMotorCaculate(void)
 {
-	PROP_Speed.VFL=PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output/2+RemoteDataPort.SinkSpeedZ/5;
-	PROP_Speed.VFR=PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output/2+RemoteDataPort.SinkSpeedZ/5;
-	PROP_Speed.VBR=-PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output/2+RemoteDataPort.SinkSpeedZ/5;
-	PROP_Speed.VBL=-PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output/2+RemoteDataPort.SinkSpeedZ/5;
+	PROP_Speed.VFL=PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output/2+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed/5;
+	PROP_Speed.VFR=PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output/2+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed/5;
+	PROP_Speed.VBR=-PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output/2+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed/5;
+	PROP_Speed.VBL=-PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output/2+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed/5;
 //	PROP_Speed.HFL=-YawMotor.PidSpeed.output;
 //	PROP_Speed.HFR=YawMotor.PidSpeed.output;
 //	PROP_Speed.HBL=-YawMotor.PidSpeed.output;
