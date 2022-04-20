@@ -4,12 +4,12 @@
 #include "task_remote.h"
 
 
-#define Attitude_PSPEED_KP    (0.15)
-#define Attitude_RSPEED_KP    (0.38)
-#define Attitude_YSPEED_KP    (-0.05)
+#define Attitude_PSPEED_KP    (0.2)
+#define Attitude_RSPEED_KP    (0.3)
+#define Attitude_YSPEED_KP    (-0.1)
 #define Attitude_SPEED_KI    (0)
 #define Attitude_SPEED_KD    (0)
-#define Attitude_PANGLE_KP    (50)
+#define Attitude_PANGLE_KP    (20)
 #define Attitude_RANGLE_KP    (20)
 #define Attitude_YANGLE_KP    (-50)
 #define Attitude_ANGLE_KI    (0)
@@ -19,12 +19,12 @@
 int attitude_flag=0;
 
 float Sink_Stable =1;
-float Sink_Speed =0;
+float Sink_Speed =0.1;
 float  Attitude_SETANGLE_P;    
 float Attitude_SETANGLE_R;    
 float Attitude_SETANGLE_Y;  
 
-double limitation=0.5; 
+double limitation=0.8; 
 
 #if 1    //使用板载陀螺仪
 #define GYRO 	GYRO1_DATA
@@ -132,7 +132,7 @@ float YawSingularity(float YawData)
 //	if(GimbalInitFlag)
 //		Yawcount=0;
 	Yawdatatemp=YawData;
-	Yawdatatemp=Yawdatatemp/180.0f;
+	Yawdatatemp=Yawdatatemp;
 	if(Yawdatatemp-Yawdatalast>0.8f)
 	{
 		Yawcount--;
@@ -182,10 +182,10 @@ void AttitudeCaculate(void)
 //速度分配到4+4个电机
 void AttitudeMotorCaculate(void)
 {
-	PROP_Speed.VFL=PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output/2+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed/5;
-	PROP_Speed.VFR=PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output/2+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed/5;
-	PROP_Speed.VBR=-PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output/2+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed/5;
-	PROP_Speed.VBL=-PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output/2+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed/5;
+	PROP_Speed.VFL=PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ+(1-Sink_Stable)*Sink_Speed;
+	PROP_Speed.VFR=PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ+(1-Sink_Stable)*Sink_Speed;
+	PROP_Speed.VBR=-PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ+(1-Sink_Stable)*Sink_Speed;
+	PROP_Speed.VBL=-PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ+(1-Sink_Stable)*Sink_Speed;
 //	PROP_Speed.HFL=-YawMotor.PidSpeed.output;
 //	PROP_Speed.HFR=YawMotor.PidSpeed.output;
 //	PROP_Speed.HBL=-YawMotor.PidSpeed.output;

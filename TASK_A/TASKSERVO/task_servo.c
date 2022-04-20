@@ -29,15 +29,15 @@ void ModeChooseandExcute(RemoteDataPortStruct	RemoteDataPort)
 			if(angle_DG.S_1<=110)
       	angle_DG.S_1=111;
 			
-			if(angle_DG.S_2>=-100)
-      	angle_DG.S_2=-99;
-			if(angle_DG.S_2<=-400)
-      	angle_DG.S_2=-399;
+			if(angle_DG.S_2>=600)
+      	angle_DG.S_2=599;
+			if(angle_DG.S_2<=100)
+      	angle_DG.S_2=101;
 			
-			if(angle_DG.S_3>=600)
-      	angle_DG.S_3=599;
-			if(angle_DG.S_3<=280)
-      	angle_DG.S_3=281;
+			if(angle_DG.S_3>=400)
+      	angle_DG.S_3=399;
+			if(angle_DG.S_3<=100)
+      	angle_DG.S_3=101;
 			
 			
 				angle_DG.S_1+=RemoteDataPort.Duoji_1*1.2f;
@@ -45,7 +45,7 @@ void ModeChooseandExcute(RemoteDataPortStruct	RemoteDataPort)
 			  angle_DG.S_3+=RemoteDataPort.Duoji_3*1.2f;
 			
 			
-		  if((angle_DG.S_1>=110&&angle_DG.S_1<=900)&&(angle_DG.S_2>=-400&&angle_DG.S_2<=-100)&&(angle_DG.S_3>=280&&angle_DG.S_3<=600))//舵机保护
+		  if((angle_DG.S_1>=110&&angle_DG.S_1<=900)&&(angle_DG.S_2>=100&&angle_DG.S_2<=600)&&(angle_DG.S_3>=100&&angle_DG.S_3<=400))//舵机保护
 				SEVO_AngleSet(&angle_DG) ;
 		}
 }
