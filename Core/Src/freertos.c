@@ -27,6 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "RTOS.h"
+#include "bspConfig.h"
 #include "Variables.h"
 #include "i2c.h"
 #include "Depth.h"
@@ -286,9 +287,11 @@ void Thread_Remote_ISR(void *argument)
 		{
 			case osOK :
 			{
-				/* 遥控器正常接收处理 */
-				REMO_GetData(&REMO_Data) ;
-				RemoteTaskControl(&RemoteDataPort);
+				#if useVirtualCOMM == 0 //不使用虚拟串口
+					/* 遥控器正常接收处理 */
+					REMO_GetData(&REMO_Data) ;
+					RemoteTaskControl(&RemoteDataPort);
+				#endif
 				break ;
 			}
 			default :
@@ -321,26 +324,28 @@ void Thread_Gyro_ISR(void *argument)
 		{
 			case osOK :
 			{
-				/* 虚拟串口正常接收处理 */
-				//id = COMM_Receive(&COMM_RX) ;
-				id = 11 ;
-				switch(id)
-				{
-					//11号虚拟串口处理（REMOTE）
-					case 11:{
-						REMO_GetData(&REMO_Data) ;
-						RemoteTaskControl(&RemoteDataPort);
-						break ;
+				#if useVirtualCOMM == 1 //使用虚拟串口
+					/* 虚拟串口正常接收处理 */
+					id = COMM_Receive(&COMM_RX) ;
+					id = 11 ;
+					switch(id)
+					{
+						//11号虚拟串口处理（REMOTE）
+						case 11:{
+							REMO_GetData(&REMO_Data) ;
+							RemoteTaskControl(&RemoteDataPort);
+							break ;
+						}
+						//12号虚拟串口处理
+						case 12:{
+							break ;
+						}
+						default:{
+							break ;
+						}
+					break ;
 					}
-					//12号虚拟串口处理
-					case 12:{
-						break ;
-					}
-					default:{
-						break ;
-					}
-				break ;
-				}
+				#endif
 			}
 			default :{
 				/* 虚拟串口接收错误处理 */
