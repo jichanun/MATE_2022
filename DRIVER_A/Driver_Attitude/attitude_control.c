@@ -24,7 +24,7 @@ float  Attitude_SETANGLE_P;
 float Attitude_SETANGLE_R;    
 float Attitude_SETANGLE_Y;  
 
-double limitation=0.8; 
+double limitation=1; 
 
 #if 1    //使用板载陀螺仪
 #define GYRO 	GYRO1_DATA
@@ -182,10 +182,10 @@ void AttitudeCaculate(void)
 //速度分配到4+4个电机
 void AttitudeMotorCaculate(void)
 {
-	PROP_Speed.VFL=PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ+(1-Sink_Stable)*Sink_Speed;
-	PROP_Speed.VFR=PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ+(1-Sink_Stable)*Sink_Speed;
-	PROP_Speed.VBR=-PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ+(1-Sink_Stable)*Sink_Speed;
-	PROP_Speed.VBL=-PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ+(1-Sink_Stable)*Sink_Speed;
+	PROP_Speed.VFL=PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
+	PROP_Speed.VFR=PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
+	PROP_Speed.VBR=-PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
+	PROP_Speed.VBL=-PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
 //	PROP_Speed.HFL=-YawMotor.PidSpeed.output;
 //	PROP_Speed.HFR=YawMotor.PidSpeed.output;
 //	PROP_Speed.HBL=-YawMotor.PidSpeed.output;
