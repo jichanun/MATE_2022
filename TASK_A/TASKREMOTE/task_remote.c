@@ -63,7 +63,7 @@ RemoteDataPortStruct KeyboardModeProcessData(RemoteDataProcessedStruct	RemoteDat
 	RemoteDataPortStruct	RemoteDataPortTemp={0};
 	RemoteDataPortTemp.ChassisSpeedX	=	-	RemoteDataReceive.Channel_2;
 	RemoteDataPortTemp.ChassisSpeedY	=	-	RemoteDataReceive.Channel_3;
-	RemoteDataPortTemp.Grasp=0;//ÐéÄâ¿ª¹ØÅÐ¶Ï
+	RemoteDataPortTemp.Grasp=2;//ÐéÄâ¿ª¹ØÅÐ¶Ï
 	RemoteDataPortTemp.SinkSpeedZ	=		RemoteDataReceive.Channel_1;
 	RemoteDataPortTemp.YawIncrement		=	-	RemoteDataReceive.Channel_0;
 	RemoteDataPortTemp.PitchIncrement = RemoteDataReceive.Wh;
