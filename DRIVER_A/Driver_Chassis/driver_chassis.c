@@ -3,14 +3,11 @@
 #include "main.h"
 #include "Variables.h"
 #include "attitude_control.h"
+#include "usart.h"
 
 #define ATTITUDE_SPEED_KP    (0.5)
 #define ATTITUDE_SPEED_KI    (0)
 #define ATTITUDE_SPEED_KD    (0)
-//#define Attitude_YSPEED_KP    (0)
-//#define Attitude_YANGLE_KP    (0)
-//#define AttitudeY_SPEED_KI    (0)
-//#define AttitudeY_SPEED_KD    (0)
 
 RobotSpeedStruct RobotSpeed;
 ChassisMotorStruct ChassisMotor[4]={0};
@@ -33,10 +30,25 @@ void ChassisInit()
 
 void ChassisCaculate( void)
 {
-	ChassisMotor[0].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY+10*RobotSpeed.speedW;
-	ChassisMotor[1].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY-10*RobotSpeed.speedW;
-	ChassisMotor[2].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY-10*RobotSpeed.speedW;
-	ChassisMotor[3].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY+10*RobotSpeed.speedW;
+	if (RemoteDataPort.Grasp!=2)
+	{
+		RobotSpeed.AutospeedX=0;
+	}
+	else if (RemoteDataPort.Grasp==2)
+	{
+       if (HAL_DMA_Init(&hdma_uart5_rx)=='g')
+			 {
+				 RobotSpeed.AutospeedX=0.5;
+			 }
+			 if (HAL_DMA_Init(&hdma_uart5_rx)=='s')
+			 {
+				 RobotSpeed.AutospeedX=0;
+			 }
+	}
+	ChassisMotor[0].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY+10*RobotSpeed.speedW+RobotSpeed.AutospeedX;
+	ChassisMotor[1].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY-10*RobotSpeed.speedW-RobotSpeed.AutospeedX;
+	ChassisMotor[2].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY-10*RobotSpeed.speedW+RobotSpeed.AutospeedX;
+	ChassisMotor[3].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY+10*RobotSpeed.speedW-RobotSpeed.AutospeedX;
 	
 	
 	/////////////////PID
@@ -61,26 +73,11 @@ void GetSpeedX_Y(void)
 
 }
 
-//void RateYawInit(void)
-//{
-//		YawMotor.PidSpeed.kp=0;
-//		YawMotor.PidSpeed.kp=  Attitude_YSPEED_KP;
-//		YawMotor.PIDAngle.kp=  Attitude_YANGLE_KP;
-//		YawMotor.PidSpeed.ki=  AttitudeY_SPEED_KI;
-//		YawMotor.PidSpeed.kd=  AttitudeY_SPEED_KD;
-//		YawMotor.PidSpeed.maxIntegral=0;
-//		YawMotor.PidSpeed.maxOutput=0.9;
-//	
-//}
 
-//void GetrateY(void)
-//{
-//	RobotRate.speedY=GYRO.AngularVelocity.y_Yaw;
-//}
 
 void GetSpeedW(void)
 {
-	RobotSpeed.speedW = YawMotor.PidSpeed.output;//后续从云台处输入角速度
+	RobotSpeed.speedW = YawMotor.PidSpeed.output;
 }
 
 
