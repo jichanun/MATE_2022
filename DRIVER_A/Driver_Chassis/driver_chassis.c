@@ -32,23 +32,27 @@ void ChassisCaculate( void)
 {
 	if (RemoteDataPort.Grasp!=2)
 	{
-		RobotSpeed.AutospeedX=0;
+		RobotSpeed.AutospeedY=0;
+	ChassisMotor[0].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY+10*RobotSpeed.speedW;
+	ChassisMotor[1].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY-10*RobotSpeed.speedW;
+	ChassisMotor[2].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY-10*RobotSpeed.speedW;
+	ChassisMotor[3].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY+10*RobotSpeed.speedW;
 	}
 	else if (RemoteDataPort.Grasp==2)
 	{
-       if (UART5_RX.DataBuf[1]=='g')
+       if (UART5_RX.DataBuf[0]==0x01)
 			 {
-				 RobotSpeed.AutospeedX=0.5;
+				 RobotSpeed.AutospeedY=0.05;
 			 }
-			 if (UART5_RX.DataBuf[1]=='s')
+			 if (UART5_RX.DataBuf[0]==0x02)
 			 {
-				 RobotSpeed.AutospeedX=0;
+				 RobotSpeed.AutospeedY=0;
 			 }
+	ChassisMotor[0].Speed.SetSpeed=RobotSpeed.AutospeedY;
+	ChassisMotor[1].Speed.SetSpeed=RobotSpeed.AutospeedY;
+	ChassisMotor[2].Speed.SetSpeed=RobotSpeed.AutospeedY;
+	ChassisMotor[3].Speed.SetSpeed=RobotSpeed.AutospeedY;
 	}
-	ChassisMotor[0].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY+10*RobotSpeed.speedW+RobotSpeed.AutospeedX;
-	ChassisMotor[1].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY-10*RobotSpeed.speedW-RobotSpeed.AutospeedX;
-	ChassisMotor[2].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY-10*RobotSpeed.speedW+RobotSpeed.AutospeedX;
-	ChassisMotor[3].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY+10*RobotSpeed.speedW-RobotSpeed.AutospeedX;
 	
 	
 	/////////////////PID
