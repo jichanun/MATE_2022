@@ -36,11 +36,11 @@ void ChassisCaculate( void)
 	}
 	else if (RemoteDataPort.Grasp==2)
 	{
-       if (HAL_DMA_Init(&hdma_uart5_rx)=='g')
+       if (UART5_RX.DataBuf[1]=='g')
 			 {
 				 RobotSpeed.AutospeedX=0.5;
 			 }
-			 if (HAL_DMA_Init(&hdma_uart5_rx)=='s')
+			 if (UART5_RX.DataBuf[1]=='s')
 			 {
 				 RobotSpeed.AutospeedX=0;
 			 }
