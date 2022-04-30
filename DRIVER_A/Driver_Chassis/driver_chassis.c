@@ -40,11 +40,11 @@ void ChassisCaculate( void)
 	}
 	else if (RemoteDataPort.Grasp==2)
 	{
-       if (UART5_RX.DataBuf[0]==0x01)
+       if (UART5_RX.DataBuf[0]=='g')
 			 {
 				 RobotSpeed.AutospeedY=0.05;
 			 }
-			 if (UART5_RX.DataBuf[0]==0x02)
+			 if (UART5_RX.DataBuf[0]=='s')
 			 {
 				 RobotSpeed.AutospeedY=0;
 			 }
