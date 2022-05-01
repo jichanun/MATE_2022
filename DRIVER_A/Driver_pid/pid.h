@@ -7,7 +7,7 @@
 typedef struct _PID
 {
 	float kp,ki,kd;       //p/i/d的参数
-	float error,lastError;//误差、上次误差
+	float error,lastError,PreError;//误差、上次误差
 	float integral,maxIntegral;//积分、积分限幅
 	float output,maxOutput;//输出、输出限幅
 }PID;
@@ -24,7 +24,7 @@ void PID_SingleCalc(PID *pid,float reference,float feedback);
 void PID_CascadeCalc(CascadePID *pid,float angleRef,float angleFdb,float speedFdb);
 void PID_Clear(PID *pid);
 void PID_SetMaxOutput(PID *pid,float maxOut);
-
+void SPID_Calc(PID *pid,float reference,float feedback);
 
 
 

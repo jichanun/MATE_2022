@@ -56,4 +56,17 @@ void PID_SetMaxOutput(PID *pid,float maxOut)
 	pid->maxOutput=maxOut;
 }
 
-
+//增量式Pid计算
+void SPID_Calc(PID *pid,float reference,float feedback)
+{
+	//更新数据
+	pid->PreError=pid->lastError;
+	pid->lastError=pid->error;
+	pid->error=reference-feedback;
+//	if(pid->error<0.05)
+//		pid->error = 0;
+	//计算
+	pid->output=pid->error*pid->kp-pid->lastError*pid->ki+pid->PreError*pid->kd;
+	//输出限幅
+	LIMIT(pid->output,-pid->maxOutput,pid->maxOutput);
+}

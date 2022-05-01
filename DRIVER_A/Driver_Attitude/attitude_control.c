@@ -23,6 +23,7 @@ float Sink_Speed =0.1;
 float  Attitude_SETANGLE_P;    
 float Attitude_SETANGLE_R;    
 float Attitude_SETANGLE_Y;  
+float Remote_Ym;
 
 double limitation=1; 
 
@@ -50,6 +51,8 @@ void AttitudeInit(void)
 		PitchMotor.PIDAngle.kp=  Attitude_PANGLE_KP;
 		PitchMotor.PidSpeed.ki=  Attitude_SPEED_KI;
 		PitchMotor.PidSpeed.kd=  Attitude_SPEED_KD;
+		PitchMotor.PIDAngle.maxIntegral=0;
+		PitchMotor.PIDAngle.maxOutput=0.9;
 		PitchMotor.PidSpeed.maxIntegral=0;
 		PitchMotor.PidSpeed.maxOutput=0.9;
 //	}
@@ -60,6 +63,8 @@ void AttitudeInit(void)
 		RollMotor.PIDAngle.kp=  Attitude_RANGLE_KP;
 		RollMotor.PidSpeed.ki=  Attitude_SPEED_KI;
 		RollMotor.PidSpeed.kd=  Attitude_SPEED_KD;
+		RollMotor.PIDAngle.maxIntegral=0;
+		RollMotor.PIDAngle.maxOutput=0.9;
 		RollMotor.PidSpeed.maxIntegral=0;
 		RollMotor.PidSpeed.maxOutput=0.9;
 //	}
@@ -117,7 +122,18 @@ void GetangleR(void)
 
 void GetangleY(void)
 {
-	Attitude_SETANGLE_Y=RemoteDataPort.YawIncrement;
+	if(RemoteDataPort.YawIncrement>0.05||RemoteDataPort.YawIncrement<-0.05)
+	{
+		Attitude_SETANGLE_Y=RemoteDataPort.YawIncrement/10;
+	}
+	else if(RemoteDataPort.YawIncrement<0.05||RemoteDataPort.YawIncrement>-0.05)
+	{
+		if(Remote_Ym!=0)
+		{
+			Attitude_SETANGLE_Y=GYRO.Angle.y_Yaw/180;
+		}
+	}
+	Remote_Ym=RobotAngleY.SetAngle;
 	RobotAngleY.Angle=GYRO.Angle.y_Yaw/180;
 	RobotAngleY.SetAngle=Attitude_SETANGLE_Y;
 }
@@ -171,21 +187,34 @@ void AttitudeCaculate(void)
 	PID_SingleCalc(&RollMotor.PidSpeed,RollMotor.PIDAngle.output,RobotRate.speedR);
 	
 	//Yaw 位置、角速度解算
-	  RobotAngleY.Angle=YawSingularity(RobotAngleY.Angle);
+	 RobotAngleY.Angle=YawSingularity(RobotAngleY.Angle);
 	RobotRate.speedY = RobotRate.speedY/450;
-	PID_SingleCalc(&YawMotor.PIDAngle,RobotAngleY.SetAngle,RobotAngleY.Angle);
-	PID_SingleCalc(&YawMotor.PidSpeed,YawMotor.PIDAngle.output,RobotRate.speedY);
-	
+	SPID_Calc(&YawMotor.PIDAngle,RobotAngleY.SetAngle,RobotAngleY.Angle);
+	SPID_Calc(&YawMotor.PidSpeed,YawMotor.PIDAngle.output,RobotRate.speedY);
 }
 
 
 //速度分配到4+4个电机
 void AttitudeMotorCaculate(void)
 {
-	PROP_Speed.VFL=PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
-	PROP_Speed.VFR=PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
-	PROP_Speed.VBR=-PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
-	PROP_Speed.VBL=-PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
+	if (RemoteDataPort.Grasp!=2)
+	{
+		PROP_Speed.VFL=PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
+		PROP_Speed.VFR=PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
+		PROP_Speed.VBR=-PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
+		PROP_Speed.VBL=-PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
+	}
+	else if (RemoteDataPort.Grasp==2)
+	{
+       if (UART5_RX.DataBuf[0]=='g')
+			 {
+				//sink,yaw
+			 }
+			 if (UART5_RX.DataBuf[0]=='s')
+			 {
+				//sink,yaw
+			 }
+		 }
 //	PROP_Speed.HFL=-YawMotor.PidSpeed.output;
 //	PROP_Speed.HFR=YawMotor.PidSpeed.output;
 //	PROP_Speed.HBL=-YawMotor.PidSpeed.output;
@@ -229,5 +258,3 @@ void AttitudeMotorCaculate(void)
 //	PROP_Speed.VBR=AttitudeMotor[2].PidSpeed.output;
 //	PROP_Speed.VBL=AttitudeMotor[3].PidSpeed.output;
 //}
-
-
