@@ -13,7 +13,7 @@ int Dummyswitch =1;
 
 void ModeChooseandExcute(RemoteDataPortStruct	RemoteDataPort)
 {
-	  Dummyswitch=RemoteDataPort.Grasp;
+	 Dummyswitch=RemoteDataPort.Grasp;
 		/*if(Dummyswitch==0)//选用数据手套方案  100ms读数间隔
 		{
 				angle_DG.S_1=DTGL_Data.hand_x*11.11f;
@@ -24,10 +24,10 @@ void ModeChooseandExcute(RemoteDataPortStruct	RemoteDataPort)
 		}*/
 		 if(Dummyswitch==1)//遥控器备用方案
 		{
-			if(angle_DG.S_1>=700)
-      	angle_DG.S_1=699;
-			if(angle_DG.S_1<=400)
-      	angle_DG.S_1=401;
+			if(angle_DG.S_1>=-100)
+      	angle_DG.S_1=-101;
+			if(angle_DG.S_1<=-830)
+      	angle_DG.S_1=-829;
 			
 			if(angle_DG.S_2>=600)
       	angle_DG.S_2=599;
@@ -45,7 +45,7 @@ void ModeChooseandExcute(RemoteDataPortStruct	RemoteDataPort)
 			  angle_DG.S_3+=RemoteDataPort.Duoji_3*1.2f;
 			
 			
-		  if((angle_DG.S_1>=100&&angle_DG.S_1<=400)&&(angle_DG.S_2>=0&&angle_DG.S_2<=600)&&(angle_DG.S_3>=-400&&angle_DG.S_3<=400))//舵机保护
+		  if((angle_DG.S_1>=-830&&angle_DG.S_1<=-100)&&(angle_DG.S_2>=0&&angle_DG.S_2<=600)&&(angle_DG.S_3>=-400&&angle_DG.S_3<=400))//舵机保护
 				SEVO_AngleSet(&angle_DG) ;
 		}
 }

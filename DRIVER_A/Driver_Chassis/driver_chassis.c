@@ -33,10 +33,10 @@ void ChassisCaculate( void)
 	if (RemoteDataPort.Grasp!=2)
 	{
 		RobotSpeed.AutospeedY=0;
-	ChassisMotor[0].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY+5*RobotSpeed.speedW;
-	ChassisMotor[1].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY-5*RobotSpeed.speedW;
-	ChassisMotor[2].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY-5*RobotSpeed.speedW;
-	ChassisMotor[3].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY+5*RobotSpeed.speedW;
+	ChassisMotor[0].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY+5*RobotSpeed.speedW;
+	ChassisMotor[1].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY-5*RobotSpeed.speedW;
+	ChassisMotor[2].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY-5*RobotSpeed.speedW;
+	ChassisMotor[3].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY+5*RobotSpeed.speedW;
 	}
 	else if (RemoteDataPort.Grasp==2)
 	{

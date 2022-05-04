@@ -122,11 +122,11 @@ void GetangleR(void)
 
 void GetangleY(void)
 {
-	if(RemoteDataPort.YawIncrement>0.01||RemoteDataPort.YawIncrement<-0.01)
+	if(RemoteDataPort.YawIncrement>0.001||RemoteDataPort.YawIncrement<-0.001)
 	{
 		Attitude_SETANGLE_Y=RemoteDataPort.YawIncrement;
 	}
-	else if(RemoteDataPort.YawIncrement<0.01||RemoteDataPort.YawIncrement>-0.01)
+	else if(RemoteDataPort.YawIncrement<0.001||RemoteDataPort.YawIncrement>-0.001)
 	{
 		if(Remote_Ym!=0)
 		{

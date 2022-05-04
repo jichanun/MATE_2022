@@ -287,7 +287,7 @@ void Thread_Remote_ISR(void *argument)
 		{
 			case osOK :
 			{
-				#if useVirtualCOMM == 1 //不使用虚拟串口
+				#if useVirtualCOMM == 0 //不使用虚拟串口
 					/* 遥控器正常接收处理 */
 					REMO_GetData(&REMO_Data) ;
 					RemoteTaskControl(&RemoteDataPort);

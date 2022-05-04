@@ -35,7 +35,7 @@ extern "C" {
 
 /* Configuration -------------------------------------------------------------*/
 
-#define useVirtualCOMM 0
+#define useVirtualCOMM 1
 //useVirtualCOMM==1：使用虚拟串口（岸上通讯）。
 
 
