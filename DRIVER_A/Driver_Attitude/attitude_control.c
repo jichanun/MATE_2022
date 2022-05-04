@@ -2,7 +2,7 @@
 #include "Driver_Gyroscope.h"
 #include "Variables.h"
 #include "task_remote.h"
-
+#include "usart.h"
 
 #define Attitude_PSPEED_KP    (0.2)
 #define Attitude_RSPEED_KP    (0.3)
@@ -18,7 +18,7 @@
 
 int attitude_flag=0;
 
-float Sink_Stable =1;
+//float Sink_Stable =1;
 float Sink_Speed =0.1;
 float  Attitude_SETANGLE_P;    
 float Attitude_SETANGLE_R;    
@@ -122,11 +122,11 @@ void GetangleR(void)
 
 void GetangleY(void)
 {
-	if(RemoteDataPort.YawIncrement>0.05||RemoteDataPort.YawIncrement<-0.05)
+	if(RemoteDataPort.YawIncrement>0.01||RemoteDataPort.YawIncrement<-0.01)
 	{
-		Attitude_SETANGLE_Y=RemoteDataPort.YawIncrement/10;
+		Attitude_SETANGLE_Y=RemoteDataPort.YawIncrement;
 	}
-	else if(RemoteDataPort.YawIncrement<0.05||RemoteDataPort.YawIncrement>-0.05)
+	else if(RemoteDataPort.YawIncrement<0.01||RemoteDataPort.YawIncrement>-0.01)
 	{
 		if(Remote_Ym!=0)
 		{
@@ -199,21 +199,29 @@ void AttitudeMotorCaculate(void)
 {
 	if (RemoteDataPort.Grasp!=2)
 	{
-		PROP_Speed.VFL=PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
-		PROP_Speed.VFR=PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
-		PROP_Speed.VBR=-PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
-		PROP_Speed.VBL=-PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+Sink_Stable*RemoteDataPort.SinkSpeedZ/2+(1-Sink_Stable)*Sink_Speed;
+		PROP_Speed.VFL=PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+RemoteDataPort.SinkSpeedZ/2;
+		PROP_Speed.VFR=PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+RemoteDataPort.SinkSpeedZ/2;
+		PROP_Speed.VBR=-PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+RemoteDataPort.SinkSpeedZ/2;
+		PROP_Speed.VBL=-PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+RemoteDataPort.SinkSpeedZ/2;
 	}
 	else if (RemoteDataPort.Grasp==2)
 	{
-       if (UART5_RX.DataBuf[0]=='g')
-			 {
-				//sink,yaw
-			 }
-			 if (UART5_RX.DataBuf[0]=='s')
-			 {
-				//sink,yaw
-			 }
+       if (UART5_RX.DataBuf[0]=='1')
+			{
+				Sink_Speed=0.05;
+			}			 
+			else if(UART5_RX.DataBuf[0]=='2')
+			{
+				Sink_Speed=0;
+			}
+			else if(UART5_RX.DataBuf[0]=='3')
+			{
+				Sink_Speed=0.1;
+			}
+			PROP_Speed.VFL=PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+Sink_Speed/2;
+			PROP_Speed.VFR=PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+Sink_Speed/2;
+			PROP_Speed.VBR=-PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+Sink_Speed/2;
+			PROP_Speed.VBL=-PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+Sink_Speed/2;
 		 }
 //	PROP_Speed.HFL=-YawMotor.PidSpeed.output;
 //	PROP_Speed.HFR=YawMotor.PidSpeed.output;

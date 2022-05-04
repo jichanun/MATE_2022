@@ -8,7 +8,8 @@
 typedef struct _SPEED
 {
 	float speedX,speedY,speedW;  //目标速度
-	float AutospeedY;   //自控速度设置为匀速，要尽可能缓慢
+	float AutospeedY;
+	float AutospeedX;//自控速度设置为匀速，要尽可能缓慢
 }RobotSpeedStruct;
 
 

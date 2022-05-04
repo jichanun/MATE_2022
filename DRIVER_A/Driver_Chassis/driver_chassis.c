@@ -33,10 +33,10 @@ void ChassisCaculate( void)
 	if (RemoteDataPort.Grasp!=2)
 	{
 		RobotSpeed.AutospeedY=0;
-	ChassisMotor[0].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY+10*RobotSpeed.speedW;
-	ChassisMotor[1].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY-10*RobotSpeed.speedW;
-	ChassisMotor[2].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY-10*RobotSpeed.speedW;
-	ChassisMotor[3].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY+10*RobotSpeed.speedW;
+	ChassisMotor[0].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY+5*RobotSpeed.speedW;
+	ChassisMotor[1].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY-5*RobotSpeed.speedW;
+	ChassisMotor[2].Speed.SetSpeed=RobotSpeed.speedX+RobotSpeed.speedY-5*RobotSpeed.speedW;
+	ChassisMotor[3].Speed.SetSpeed=-RobotSpeed.speedX+RobotSpeed.speedY+5*RobotSpeed.speedW;
 	}
 	else if (RemoteDataPort.Grasp==2)
 	{
@@ -44,14 +44,31 @@ void ChassisCaculate( void)
 			 {
 				 RobotSpeed.AutospeedY=0.05;
 			 }
-			 if (UART5_RX.DataBuf[0]=='s')
+			else if (UART5_RX.DataBuf[0]=='s')
 			 {
 				 RobotSpeed.AutospeedY=0;
 			 }
+			 
 	ChassisMotor[0].Speed.SetSpeed=RobotSpeed.AutospeedY;
 	ChassisMotor[1].Speed.SetSpeed=RobotSpeed.AutospeedY;
 	ChassisMotor[2].Speed.SetSpeed=RobotSpeed.AutospeedY;
 	ChassisMotor[3].Speed.SetSpeed=RobotSpeed.AutospeedY;
+			if (UART5_RX.DataBuf[1]=='1')
+			{
+				RobotSpeed.AutospeedX=0;
+			}			 
+			else if(UART5_RX.DataBuf[1]=='2')
+			{
+				RobotSpeed.AutospeedX=0.05;
+			}
+			else if(UART5_RX.DataBuf[1]=='3')
+			{
+				RobotSpeed.AutospeedX=-0.05;
+			}
+	ChassisMotor[0].Speed.SetSpeed=RobotSpeed.AutospeedX;
+	ChassisMotor[1].Speed.SetSpeed=-RobotSpeed.AutospeedX;
+	ChassisMotor[2].Speed.SetSpeed=RobotSpeed.AutospeedX;
+	ChassisMotor[3].Speed.SetSpeed=-RobotSpeed.AutospeedX;
 	}
 	
 	
