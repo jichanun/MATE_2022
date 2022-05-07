@@ -13,7 +13,7 @@ typedef struct
 	float YawIncrement;
 	
 	u8 Grasp;
-	
+	u8 Claw;
 	/*控制机械臂数据*/
 	float Duoji_1;
 	float Duoji_2;

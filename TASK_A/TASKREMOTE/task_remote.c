@@ -106,7 +106,20 @@ RemoteDataPortStruct RemoteDataCalculate(RemoteDataProcessedStruct	RemoteDataRec
 			RemoteDataPortTemp	=	AutoModeProcessData(RemoteDataReceive);
 			break;
 	}
-	
+	switch(RemoteDataReceive.RightSwitch)
+	{
+		case 1:RemoteDataPortTemp.Claw=1;
+				
+			break;
+		case 2:RemoteDataPortTemp.Claw=2;
+					
+			break;
+		case 3:RemoteDataPortTemp.Claw=3;
+					
+			break;
+		default:
+			break;
+	}
 	return RemoteDataPortTemp;
 }
 

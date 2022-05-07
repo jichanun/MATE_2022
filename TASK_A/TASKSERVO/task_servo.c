@@ -24,10 +24,10 @@ void ModeChooseandExcute(RemoteDataPortStruct	RemoteDataPort)
 		}*/
 		 if(Dummyswitch==1)//遥控器备用方案
 		{
-			if(angle_DG.S_1>=-100)
+			/*if(angle_DG.S_1>=-100)
       	angle_DG.S_1=-101;
 			if(angle_DG.S_1<=-830)
-      	angle_DG.S_1=-829;
+      	angle_DG.S_1=-829;*/
 			
 			if(angle_DG.S_2>=600)
       	angle_DG.S_2=599;
@@ -43,9 +43,12 @@ void ModeChooseandExcute(RemoteDataPortStruct	RemoteDataPort)
 				angle_DG.S_1+=RemoteDataPort.Duoji_1*1.2f;
 			  angle_DG.S_2+=RemoteDataPort.Duoji_2*1.2f;
 			  angle_DG.S_3+=RemoteDataPort.Duoji_3*1.2f;
-			
-			
-		  if((angle_DG.S_1>=-830&&angle_DG.S_1<=-100)&&(angle_DG.S_2>=0&&angle_DG.S_2<=600)&&(angle_DG.S_3>=-400&&angle_DG.S_3<=400))//舵机保护
-				SEVO_AngleSet(&angle_DG) ;
 		}
+		 if(RemoteDataPort.Claw==1)//右拨杆开爪
+			 angle_DG.S_1=-100;
+		 if(RemoteDataPort.Claw==2)//右拨杆关爪
+			 angle_DG.S_1=-830;
+		 if((angle_DG.S_1>=-830&&angle_DG.S_1<=-100)&&(angle_DG.S_2>=0&&angle_DG.S_2<=600)&&(angle_DG.S_3>=-400&&angle_DG.S_3<=400))//舵机保护
+				SEVO_AngleSet(&angle_DG) ;
+		
 }
