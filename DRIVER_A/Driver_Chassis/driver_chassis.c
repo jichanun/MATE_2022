@@ -98,7 +98,7 @@ void GetSpeedX_Y(void)
 
 void GetSpeedW(void)
 {
-	RobotSpeed.speedW = YawMotor.PidSpeed.output;
+	RobotSpeed.speedW = YawMotor.PidSpeed.output+5*RemoteDataPort.YawIncrement;
 }
 
 
