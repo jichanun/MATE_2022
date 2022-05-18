@@ -6,7 +6,7 @@
 
 #define Attitude_PSPEED_KP    (0.2)
 #define Attitude_RSPEED_KP    (0.3)
-#define Attitude_YSPEED_KP    (-0.15)
+#define Attitude_YSPEED_KP    (-0.18)
 #define Attitude_SPEED_KI    (0)
 #define Attitude_SPEED_KD    (0)
 #define Attitude_PANGLE_KP    (20)
@@ -123,13 +123,16 @@ void GetangleR(void)
 
 void GetangleY(void)
 {
-	if(RemoteDataPort.YawIncrement!=0)
+	if(RemoteDataPort.YawIncrement>0.001||RemoteDataPort.YawIncrement<-0.001)
 	{
-		Yaw_Store=GYRO.Angle.y_Yaw/180;
+		Attitude_SETANGLE_Y=RemoteDataPort.YawIncrement;
 	}
-	else if(RemoteDataPort.YawIncrement==0)
+	else if(RemoteDataPort.YawIncrement<0.001||RemoteDataPort.YawIncrement>-0.001)
 	{
-		Attitude_SETANGLE_Y=Yaw_Store;
+		if(Remote_Ym!=0)
+		{
+			Attitude_SETANGLE_Y=GYRO.Angle.y_Yaw/180;
+		}
 	}
 	Remote_Ym=RobotAngleY.SetAngle;
 	RobotAngleY.Angle=GYRO.Angle.y_Yaw/180;
