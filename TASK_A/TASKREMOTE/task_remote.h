@@ -6,18 +6,18 @@ void RemoteDataReceive(void);
 
 typedef struct
 {
-	float	ChassisSpeedX;
-	float	ChassisSpeedY;
-	float SinkSpeedZ;
-	float PitchIncrement;
-	float YawIncrement;
+	volatile float	ChassisSpeedX;
+	volatile float	ChassisSpeedY;
+	volatile float SinkSpeedZ;
+	volatile float PitchIncrement;
+	volatile float YawIncrement;
 	
-	u8 Grasp;
-	u8 Claw;
+	volatile u8 Grasp;
+	volatile u8 Claw;
 	/*控制机械臂数据*/
-	float Duoji_1;
-	float Duoji_2;
-	float Duoji_3;
+	volatile float Duoji_1;
+	volatile float Duoji_2;
+	volatile float Duoji_3;
 //	u8	Friction;
 //	u8	FeedMotor;
 //	u8	Magazine;

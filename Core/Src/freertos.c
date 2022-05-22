@@ -57,7 +57,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-
+uint8_t PROP_IdleLock_Flag ;
+extern uint8_t PROP_IdleLock_Flag ;
 /* USER CODE END Variables */
 /* Definitions for Thread_LED_ */
 osThreadId_t Thread_LED_Handle;
@@ -291,12 +292,17 @@ void Thread_Remote_ISR(void *argument)
 					/* 遥控器正常接收处理 */
 					REMO_GetData(&REMO_Data) ;
 					RemoteTaskControl(&RemoteDataPort);
+					PROP_IdleLock_Flag = 0 ; 
 				#endif
 				break ;
 			}
 			default :
 			{
 				/* 遥控器接收超时处理 （关控保护）*/
+				#if useVirtualCOMM == 0 //不使用虚拟串口
+					/* 遥控器正常接收处理 */
+					PROP_IdleLock_Flag = 1 ; 
+				#endif
 				break ;
 			}
 		}
@@ -318,7 +324,7 @@ void Thread_Gyro_ISR(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    val = osSemaphoreAcquire(sem_USART2_ISR_Handle, osWaitForever) ;	
+    val = osSemaphoreAcquire(sem_USART2_ISR_Handle, 500) ;	
 		uint8_t id ;
 		switch(val)
 		{
@@ -334,6 +340,7 @@ void Thread_Gyro_ISR(void *argument)
 						case 11:{
 							REMO_GetData(&REMO_Data) ;
 							RemoteTaskControl(&RemoteDataPort);
+							PROP_IdleLock_Flag = 0 ; 
 							break ;
 						}
 						//12号虚拟串口处理
@@ -346,9 +353,13 @@ void Thread_Gyro_ISR(void *argument)
 					break ;
 					}
 				#endif
+				break ;
 			}
 			default :{
 				/* 虚拟串口接收错误处理 */
+				#if useVirtualCOMM == 1 //使用虚拟串口
+					PROP_IdleLock_Flag = 1 ; 
+				#endif
 				break ;
 			}
 		}
@@ -479,7 +490,7 @@ void Thread_Claw(void *argument)
   /* Infinite loop */
   for(;;)
   {
-		depth();
+//		depth();
 		ModeChooseandExcute(RemoteDataPort);
     osDelay(1);
   }

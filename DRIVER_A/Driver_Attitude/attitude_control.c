@@ -123,7 +123,7 @@ void GetangleR(void)
 
 void GetangleY(void)
 {
-	if(RemoteDataPort.YawIncrement>0.001||RemoteDataPort.YawIncrement<-0.001)
+	if(RemoteDataPort.YawIncrement>0.001||RemoteDataPort.YawIncrement<(-0.001))
 	{
 		Attitude_SETANGLE_Y=RemoteDataPort.YawIncrement;
 	}
@@ -198,14 +198,14 @@ void AttitudeCaculate(void)
 //速度分配到4+4个电机
 void AttitudeMotorCaculate(void)
 {
-	if (RemoteDataPort.Grasp!=2)
+	if (RemoteDataPort.Grasp!=0x02)
 	{
 		PROP_Speed.VFL=PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+RemoteDataPort.SinkSpeedZ/2;
-		PROP_Speed.VFR=PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+RemoteDataPort.SinkSpeedZ/2;
+ 		PROP_Speed.VFR=PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+RemoteDataPort.SinkSpeedZ/2;
 		PROP_Speed.VBR=-PitchMotor.PidSpeed.output-RollMotor.PidSpeed.output+RemoteDataPort.SinkSpeedZ/2;
 		PROP_Speed.VBL=-PitchMotor.PidSpeed.output+RollMotor.PidSpeed.output+RemoteDataPort.SinkSpeedZ/2;
 	}
-	else if (RemoteDataPort.Grasp==2)
+	else if (RemoteDataPort.Grasp==0x02)
 	{
        if (UART5_RX.DataBuf[0]=='1')
 			{
@@ -239,15 +239,15 @@ void AttitudeMotorCaculate(void)
 	if(PROP_Speed.HBR>limitation) PROP_Speed.HBR=limitation-0.01;	
 	if(PROP_Speed.HFL>limitation) PROP_Speed.HFL=limitation-0.01;
 	//反向限幅
-	if(PROP_Speed.HFR<-limitation) PROP_Speed.HFR=limitation-0.01;	
-	if(PROP_Speed.VFL<-limitation) PROP_Speed.VFL=limitation-0.01;
-	if(PROP_Speed.VFR<-limitation) PROP_Speed.VFR=limitation-0.01;
-	if(PROP_Speed.VBL<-limitation) PROP_Speed.VBL=limitation-0.01;
-	if(PROP_Speed.VBR<-limitation) PROP_Speed.VBR=limitation-0.01;	
-	if(PROP_Speed.HBL<-limitation) PROP_Speed.HBL=limitation-0.01;	
-	if(PROP_Speed.HBR<-limitation) PROP_Speed.HBR=limitation-0.01;	
-	if(PROP_Speed.HFL<-limitation) PROP_Speed.HFL=limitation-0.01;
-	if(PROP_Speed.HFR<-limitation) PROP_Speed.HFR=limitation-0.01;	
+	if(PROP_Speed.HFR>limitation) PROP_Speed.HFR=limitation-0.01;	
+	if(PROP_Speed.VFL<-1*limitation) PROP_Speed.VFL=limitation-0.01;
+	if(PROP_Speed.VFR<-1*limitation) PROP_Speed.VFR=limitation-0.01;
+	if(PROP_Speed.VBL<-1*limitation) PROP_Speed.VBL=limitation-0.01;
+	if(PROP_Speed.VBR<-1*limitation) PROP_Speed.VBR=limitation-0.01;	
+	if(PROP_Speed.HBL<-1*limitation) PROP_Speed.HBL=limitation-0.01;	
+	if(PROP_Speed.HBR<-1*limitation) PROP_Speed.HBR=limitation-0.01;	
+	if(PROP_Speed.HFL<-1*limitation) PROP_Speed.HFL=limitation-0.01;
+	if(PROP_Speed.HFR<-1*limitation) PROP_Speed.HFR=limitation-0.01;	
 }
 //void AttitudeCaculate( void)
 //{
