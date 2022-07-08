@@ -216,6 +216,7 @@ void FeedMotorControlLogic()
 void TriggerInit(void)
 {
 	LL_TIM_CC_EnableChannel(TIM1,LL_TIM_CHANNEL_CH1);
+	LL_TIM_CC_EnableChannel(TIM1,LL_TIM_CHANNEL_CH2);
 	LL_TIM_EnableCounter(TIM1);
 	LL_TIM_EnableAllOutputs(TIM1);
 }

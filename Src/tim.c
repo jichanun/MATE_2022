@@ -65,9 +65,9 @@ void MX_TIM1_Init(void)
   /* Peripheral clock enable */
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_TIM1);
 
-  TIM_InitStruct.Prescaler = 167;
+  TIM_InitStruct.Prescaler = 399;
   TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
-  TIM_InitStruct.Autoreload = 19999;
+  TIM_InitStruct.Autoreload = 8399;
   TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
   TIM_InitStruct.RepetitionCounter = 0;
   LL_TIM_Init(TIM1, &TIM_InitStruct);
@@ -76,13 +76,13 @@ void MX_TIM1_Init(void)
   TIM_OC_InitStruct.OCMode = LL_TIM_OCMODE_PWM1;
   TIM_OC_InitStruct.OCState = LL_TIM_OCSTATE_DISABLE;
   TIM_OC_InitStruct.OCNState = LL_TIM_OCSTATE_DISABLE;
-  TIM_OC_InitStruct.CompareValue = 999;
+  TIM_OC_InitStruct.CompareValue = 0;
   TIM_OC_InitStruct.OCPolarity = LL_TIM_OCPOLARITY_HIGH;
   TIM_OC_InitStruct.OCNPolarity = LL_TIM_OCPOLARITY_HIGH;
   TIM_OC_InitStruct.OCIdleState = LL_TIM_OCIDLESTATE_LOW;
   TIM_OC_InitStruct.OCNIdleState = LL_TIM_OCIDLESTATE_LOW;
   LL_TIM_OC_Init(TIM1, LL_TIM_CHANNEL_CH1, &TIM_OC_InitStruct);
-  LL_TIM_OC_DisableFast(TIM1, LL_TIM_CHANNEL_CH1);
+  LL_TIM_OC_EnableFast(TIM1, LL_TIM_CHANNEL_CH1);
   LL_TIM_SetTriggerOutput(TIM1, LL_TIM_TRGO_RESET);
   LL_TIM_DisableMasterSlaveMode(TIM1);
   TIM_BDTRInitStruct.OSSRState = LL_TIM_OSSR_DISABLE;

@@ -175,8 +175,8 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_CAN1_Init();
-  MX_CAN2_Init();
+//  MX_CAN1_Init();
+//  MX_CAN2_Init();
   MX_USART3_UART_Init();
   MX_UART5_Init();
   MX_TIM1_Init();
@@ -195,10 +195,10 @@ int main(void)
 	HI229_Gyroscope_Init();
 
   //GPIO_Config();
-  //UserTim1Config();
+  UserTim1Config();
   
 	//这行以下5个都要删掉注释
-  CanInit();
+  //CanInit();
   ChassisInit();
   GimbalInit();
   FeedMotorInit();

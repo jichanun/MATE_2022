@@ -220,6 +220,8 @@ void ChassisControl_PWM(ChassisSpeedMessegePort ChassisSpeed)
 		LL_TIM_OC_SetCompareCH2(TIM2,MIDDLE_PWM);
 		LL_TIM_OC_SetCompareCH3(TIM8,MIDDLE_PWM);
 		LL_TIM_OC_SetCompareCH4(TIM8,MIDDLE_PWM);
+		LL_TIM_OC_SetCompareCH1(TIM1,MIDDLE_PWM);
+		LL_TIM_OC_SetCompareCH2(TIM1,MIDDLE_PWM);
 	}	
 	else 
 	{		

@@ -12,7 +12,7 @@ void UserTim1Config(void)//摩擦轮
 	TIM_OC_InitStruct.OCMode = LL_TIM_OCMODE_PWM1;
   TIM_OC_InitStruct.OCState = LL_TIM_OCSTATE_DISABLE;
   TIM_OC_InitStruct.OCNState = LL_TIM_OCSTATE_DISABLE;
-  TIM_OC_InitStruct.CompareValue = 999;
+  TIM_OC_InitStruct.CompareValue = 0;
   TIM_OC_InitStruct.OCPolarity = LL_TIM_OCPOLARITY_HIGH;
   TIM_OC_InitStruct.OCNPolarity = LL_TIM_OCPOLARITY_HIGH;
   TIM_OC_InitStruct.OCIdleState = LL_TIM_OCIDLESTATE_LOW;
@@ -20,7 +20,7 @@ void UserTim1Config(void)//摩擦轮
 	
 	LL_TIM_OC_Init(TIM1, LL_TIM_CHANNEL_CH2, &TIM_OC_InitStruct);
 	LL_TIM_OC_EnablePreload(TIM1, LL_TIM_CHANNEL_CH2);
-	LL_TIM_OC_DisableFast(TIM1, LL_TIM_CHANNEL_CH2);
+	LL_TIM_OC_EnableFast(TIM1, LL_TIM_CHANNEL_CH2);
 	
 	GPIO_InitStruct.Pin = LL_GPIO_PIN_9;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
@@ -37,9 +37,10 @@ void UserTim1Config(void)//摩擦轮
 	TIM1->CCER |=TIM_CCER_CC4E ;
 	
 	LL_TIM_EnableARRPreload(TIM1);
+	LL_TIM_CC_EnableChannel(TIM1,LL_TIM_CHANNEL_CH1);
+	LL_TIM_CC_EnableChannel(TIM1,LL_TIM_CHANNEL_CH2);
+	LL_TIM_EnableCounter(TIM1);
 	LL_TIM_EnableAllOutputs(TIM1);
-	
-	LL_TIM_EnableCounter(TIM1); 
 }
 void ConfigTIM3DMA(u32 DMA_Memory0BaseAddr,u32 DMA_BufferSize)
 {

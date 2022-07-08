@@ -209,6 +209,7 @@ void LEDTask(void const * argument)
   /* USER CODE BEGIN LEDTask */
 	 LaserInit();
 	LL_TIM_OC_SetCompareCH2(TIM5,2950);//舵机关
+	LL_TIM_OC_SetCompareCH2(TIM4,2950);//舵机关
   /* Infinite loop */
 	 for(;;)
   {
