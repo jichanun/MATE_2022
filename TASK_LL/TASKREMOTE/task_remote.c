@@ -16,9 +16,9 @@ int Target_mode;  //发射目标，0基地，1前哨战
 
 enum
 {
-	REMOTE_MODE=1,
-	KEYBOARD_MODE=2,
-	AUTO_MODE=3,
+	MANUAL=1,
+	FULL_AUTO=2,
+	HALF_AUTO=3,
 }RemoteControlMode;
 
 u8 FlagGimbalLock=0;
@@ -411,6 +411,7 @@ RemoteDataPortStruct KeyboardModeProcessData(RemoteDataProcessedStruct	RemoteDat
 	return RemoteDataPortTemp;
 }
 extern int RollSinkControl;
+extern u8 GimbalInitFlag;
 
 RemoteDataPortStruct AutoModeProcessData(RemoteDataProcessedStruct	RemoteDataReceive)
 {
@@ -445,7 +446,7 @@ RemoteDataPortStruct AutoModeProcessData(RemoteDataProcessedStruct	RemoteDataRec
 }
 extern VisionDataStruct VisionData;
   int  ReceiveCount=0;
-
+extern  int RemoteLostCount;
 RemoteDataPortStruct AutoModeProcessData1(RemoteDataProcessedStruct	RemoteDataReceive)
 {
 	static  int  ReceiveCount=0;
@@ -482,23 +483,32 @@ RemoteDataPortStruct AutoModeProcessData1(RemoteDataProcessedStruct	RemoteDataRe
 		RemoteDataPortTemp.Friction=DISABLE;
 		RemoteDataPortTemp.FeedMotor=DISABLE;
 	}
-//	switch(RemoteDataReceive.RightSwitch)
-//		
-//	{
-//		case 1:RemoteDataPortTemp.Friction=DISABLE;
+	switch(RemoteDataReceive.RightSwitch)
+	{
+		case 1:
+//			RemoteDataPortTemp.Friction=DISABLE;
 //					RemoteDataPortTemp.FeedMotor=DISABLE;
-//					
-//			break;
-//		case 2:RemoteDataPortTemp.Friction=ENABLE;
+					
+			break;
+		case 2:
+//			RemoteDataPortTemp.Friction=ENABLE;
 //					RemoteDataPortTemp.FeedMotor=ENABLE;
-//			break;
-//		case 3:RemoteDataPortTemp.Friction=ENABLE;
+						GimbalInitFlag=1;
+			RemoteDataPortTemp.PitchIncrement	=		0;
+	RemoteDataPortTemp.YawIncrement		=	0;
+		 RemoteLostCount=0;
+				RemoteDataPortTemp.Friction=DISABLE;
+		RemoteDataPortTemp.FeedMotor=DISABLE;
+			break;
+		case 3:
+//			RemoteDataPortTemp.Friction=ENABLE;
 //					RemoteDataPortTemp.FeedMotor=DISABLE;
+	
 
-//			break;
-//		default:
-//			break;
-//	}
+			break;
+		default:
+			break;
+	}
 	RemoteDataPortTemp.Laser=RemoteDataPortTemp.Friction;
 	
 	return RemoteDataPortTemp;
@@ -509,21 +519,20 @@ RemoteDataPortStruct RemoteDataCalculate(RemoteDataProcessedStruct	RemoteDataRec
 	RemoteDataPortStruct	RemoteDataPortTemp;
 	
 	RemoteControlMode	=	RemoteDataReceive.LeftSwitch;
-	
+
 	switch(RemoteControlMode)
 	{
-		case	REMOTE_MODE:
+		case	MANUAL:
 			RemoteDataPortTemp	=	RemoteModeProcessData(RemoteDataReceive);
 				AutomaticAiming=0;
 			break;
-		case	KEYBOARD_MODE:
-			RemoteDataPortTemp	=	AutoModeProcessData1(RemoteDataReceive);
-				AutomaticAiming=1;
-			break;
-		case	AUTO_MODE:
+		case	HALF_AUTO:
 			RemoteDataPortTemp	=	AutoModeProcessData(RemoteDataReceive);
 			AutomaticAiming=1;
-		
+			break;
+		case	FULL_AUTO:
+			RemoteDataPortTemp	=	AutoModeProcessData1(RemoteDataReceive);
+				AutomaticAiming=1;
 			break;
 	}
 	
@@ -587,7 +596,7 @@ void RemoteDataPortProcessed(RemoteDataPortStruct	RemoteDataPort)
 	//**************下面的是工训代码
 	#if CONFIG_USE_GYROSCOPE //***如果使用陀螺仪，右摇杆控制位置增量
 	YawSetLocationValueChange((RemoteDataPort.YawIncrement)/300);
-	PitchSetLocationValueChange(RemoteDataPort.PitchIncrement/1000);
+//	PitchSetLocationValueChange(RemoteDataPort.PitchIncrement/1000);
 //	ChassisSetSpeed(RemoteDataPort.ChassisSpeedX,RemoteDataPort.ChassisSpeedY,YAWError,PitchError);	//yaw轴测试用。需要注释
 	ChassisSetSpeed(RemoteDataPort.ChassisSpeedX+VisionRho,RemoteDataPort.ChassisSpeedY,YAWError,0);	
 	#else //****如果不使用陀螺仪，右摇杆控制方向 
@@ -640,5 +649,16 @@ void CAN1Control(RemoteDataPortStruct RemoteDataPort)
 	{
 			LL_TIM_OC_SetCompareCH2(TIM5,2950);//舵机关
 			LL_TIM_OC_SetCompareCH2(TIM4,MIDDLE_PWM);//电机关
+	}
+}
+void RemoteClose()
+{
+	if (RemoteControlMode)
+	{
+		RemoteDataProcessedStruct	RemoteDataReceive={0};
+		RemoteDataReceive.LeftSwitch=RemoteControlMode;
+		RemoteDataReceive.Channel_0=RemoteDataReceive.Channel_1=RemoteDataReceive.Channel_2=RemoteDataReceive.Channel_3=0;
+		RemoteDataPort	=	RemoteDataCalculate(RemoteDataReceive);
+		RemoteDataPortProcessed(RemoteDataPort);
 	}
 }

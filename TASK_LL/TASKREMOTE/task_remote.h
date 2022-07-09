@@ -19,7 +19,7 @@ typedef struct
 	u8	FlagChangeFollow;
 }RemoteDataPortStruct;
 
-
+void RemoteClose(void);
 u8 RemoteTaskControl(void);
 
 void CAN1Control(RemoteDataPortStruct RemoteDataPort);

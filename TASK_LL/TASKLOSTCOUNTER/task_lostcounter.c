@@ -27,18 +27,24 @@ void LostCounterFeed(u8 i)
 }
  int RemoteLostCount=0;
 extern u8 GimbalInitFlag;
+int DEEPLostCount=0;
 
 void LostCounterControl(u16 SystemErrorStatus)
 {
 	if((SystemErrorStatus>>REMOTE_LOST_COUNT)&1) //遥控器丢数据
 	{
-		 RemoteLostCount=0;
-		GimbalInitFlag=1;
+		 //RemoteLostCount=0;
+		DEEPLostCount=0;
+//		GimbalInitFlag=1;
+
 	}
 	else 
 	{
 		 RemoteLostCount=1;
+				DEEPLostCount=1;
+
 	}
+	
 	
 	
 }

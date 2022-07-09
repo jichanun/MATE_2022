@@ -228,6 +228,7 @@ void LEDTask(void const * argument)
 * @param argument: Not used
 * @retval None
 */
+extern  int DEEPLostCount;
 /* USER CODE END Header_FeedMotorTask */
 void FeedMotorTask(void const * argument)
 {
@@ -235,6 +236,8 @@ void FeedMotorTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {		
+		if (!DEEPLostCount)
+					RemoteClose();
     osDelay(4);
   }
   /* USER CODE END FeedMotorTask */
