@@ -589,7 +589,7 @@ void RemoteDataPortProcessed(RemoteDataPortStruct	RemoteDataPort)
 	YawSetLocationValueChange((RemoteDataPort.YawIncrement)/300);
 	PitchSetLocationValueChange(RemoteDataPort.PitchIncrement/1000);
 //	ChassisSetSpeed(RemoteDataPort.ChassisSpeedX,RemoteDataPort.ChassisSpeedY,YAWError,PitchError);	//yaw轴测试用。需要注释
-	ChassisSetSpeed(RemoteDataPort.ChassisSpeedX+VisionRho,RemoteDataPort.ChassisSpeedY,YAWError,PitchError);	
+	ChassisSetSpeed(RemoteDataPort.ChassisSpeedX+VisionRho,RemoteDataPort.ChassisSpeedY,YAWError,0);	
 	#else //****如果不使用陀螺仪，右摇杆控制方向 
 	ChassisSetSpeed(RemoteDataPort.ChassisSpeedX,RemoteDataPort.ChassisSpeedY+VisionRho,RemoteDataPort.YawIncrement,0);//RemoteDataPort.PitchIncrement);	
 	#endif

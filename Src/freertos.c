@@ -210,6 +210,7 @@ void LEDTask(void const * argument)
 	 LaserInit();
 	LL_TIM_OC_SetCompareCH2(TIM5,2950);//舵机关
 	LL_TIM_OC_SetCompareCH2(TIM4,2950);//舵机关
+	//这里一共有三个舵机，写在for循环里才能一直被调用否则只能调用一次
   /* Infinite loop */
 	 for(;;)
   {
@@ -231,12 +232,9 @@ void LEDTask(void const * argument)
 void FeedMotorTask(void const * argument)
 {
   /* USER CODE BEGIN FeedMotorTask */
-	 // TriggerInit();
   /* Infinite loop */
   for(;;)
   {		
-		//TriggerControl();//扳机控制
-    //FeedMotorControlLogic();//拉线电机控制
     osDelay(4);
   }
   /* USER CODE END FeedMotorTask */
@@ -309,8 +307,7 @@ void GimbalTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-		//StraightLineMotorControl();//直线电机控制
-		GimbalControlTask();//Yaw和拨弹电机控制
+		GimbalControlTask();//云台部分控制
     osDelay(1);
   }
   /* USER CODE END GimbalTask */
@@ -332,7 +329,7 @@ void GraspTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-		GraspControlTask();
+		GraspControlTask();//这是古老的舵机控制代码。新舵机在LEDtask里面直接控制PWM占空比就行。
     osDelay(LServo.time);
   }
   /* USER CODE END GraspTask */

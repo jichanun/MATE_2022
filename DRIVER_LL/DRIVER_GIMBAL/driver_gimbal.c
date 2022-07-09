@@ -202,7 +202,7 @@ void GimbalInit(void)
 	LL_TIM_CC_EnableChannel(TIM5,LL_TIM_CHANNEL_CH2);	
 	LL_TIM_EnableCounter(TIM5);
 	LL_TIM_EnableAllOutputs(TIM5);
-	
+	//两个舵机和两个垂直方向电机初始化，剩下两个垂直方向的在mainc tim1config里。
 }
 void VisionInit(void)
 {
@@ -210,9 +210,6 @@ void VisionInit(void)
     VisionRhoIncreasement.Kp = VISION_RHO_KP;
     VisionRhoIncreasement.Ki = VISION_RHO_KI;
     VisionRhoIncreasement.Kd = VISION_RHO_KD;
-//    VisionRhoIncreasement.Ap = VISION_RHO_AP;
-//    VisionRhoIncreasement.Bp = VISION_RHO_BP;
-//    VisionRhoIncreasement.Cp = VISION_RHO_CP;
     VisionRhoIncreasement.OutMax = 300;
     VisionRhoIncreasement.OutMin = -300;
     VisionRhoIncreasement.calc = &PidCalc;
@@ -222,9 +219,6 @@ void VisionInit(void)
     VisionYawIncreasement.Kp = VISION_YAW_KP;
     VisionYawIncreasement.Ki = VISION_YAW_KI;
     VisionYawIncreasement.Kd = VISION_YAW_KD;
-//    VisionYawIncreasement.Ap = VISION_YAW_AP;
-//    VisionYawIncreasement.Bp = VISION_YAW_BP;
-//    VisionYawIncreasement.Cp = VISION_YAW_CP;
     VisionYawIncreasement.OutMax = 3;
     VisionYawIncreasement.OutMin = -3;
     VisionYawIncreasement.calc = &PidCalc;
@@ -386,38 +380,19 @@ void YawSetLocationValueChange(float Yaw);
 void PitchSetLocationValueChange(float Pitch);
 void GimbalDataInput(GimbalSetLocationStruct GimbalData)
 {
-	static u8 FlagPitchUseEncoderTemp=1,FlagYawUseEncoderTemp=1;
 	GimbalSetLocationData.YawSetLocation	=	GimbalData.YawSetLocation;
 	GimbalSetLocationData.PitchSetLocation=	GimbalData.PitchSetLocation;
 //云台电机设定值给定
 	PitchMotor.Location.SetLocation	=	GimbalData.PitchSetLocation;
 	YawMotor.Location.SetLocation	=	GimbalData.YawSetLocation;
 	
-	if(GimbalData.FlagPitchUseEncoder)
-		PitchMotor.Location.Location	=	EncoderDataSave.Pitch;
-	else
-		PitchMotor.Location.Location	=	GyroDataSave.Pitch;
+	PitchMotor.Location.Location=	GyroDataSave.Pitch;
 	
+	YawMotor.Location.Location	=	GyroDataSave.Yaw;
 	
-	if(GimbalData.FlagYawUseEncoder)
-		YawMotor.Location.Location	=	EncoderDataSave.Yaw;
-	else
-		YawMotor.Location.Location	=	GyroDataSave.Yaw;
-	RollMotor.Location.Location=GyroDataSave.Roll;
-	if(FlagPitchUseEncoderTemp!=GimbalData.FlagPitchUseEncoder)
-	{
-		PitchMotor.Location.SetLocation	=	PitchMotor.Location.Location;
-		PitchSetLocationValueChange(PitchMotor.Location.SetLocation);
-	}
-	
-	if(FlagYawUseEncoderTemp!=GimbalData.FlagYawUseEncoder)
-	{
-		YawMotor.Location.SetLocation	=	YawMotor.Location.Location;
-		YawSetLocationValueChange(YawMotor.Location.SetLocation);
-	}
-	
-	FlagPitchUseEncoderTemp=GimbalData.FlagPitchUseEncoder;
-	FlagYawUseEncoderTemp = GimbalData.FlagYawUseEncoder;
+	RollMotor.Location.Location	=	GyroDataSave.Roll;
+
+
 	
 }
 float GimbalSpeedK=0.5;
@@ -471,19 +446,36 @@ void GimbalControlCalculateAndSend(void)
 		RollSinkControl=0;
 
 	RollMotor.RollSink=RemoteDataPort.PitchIncrement*MAX_PWM*GimbalSpeedK+RollSinkControl;//下沉不经过PID故使用K参数
-	
 	/************roll的发送放在这里**************/
 #if 1 //启用关控保护
 	if (!RemoteLostCount)
 	{
 		LL_TIM_OC_SetCompareCH1(TIM12,MIDDLE_PWM);
 		LL_TIM_OC_SetCompareCH2(TIM12,MIDDLE_PWM);
+		LL_TIM_OC_SetCompareCH1(TIM1,MIDDLE_PWM);
+		LL_TIM_OC_SetCompareCH2(TIM1,MIDDLE_PWM);
 	}	
 	else 
 	{
-		#if CONFIG_USE_GYROSCOPE
-			LL_TIM_OC_SetCompareCH1(TIM12,MIDDLE_PWM-RollMotor.RollError+RollMotor.RollSink);
-			LL_TIM_OC_SetCompareCH2(TIM12,MIDDLE_PWM+RollMotor.RollError+RollMotor.RollSink);
+		#if CONFIG_USE_GYROSCOPE//这里speed1-4的加减号是乱写的。方向可能不对，自己照着矩阵改一遍吧^_^
+			float speed1 =	(RollMotor.PIDSpeed.Out+PitchMotor.PIDSpeed.Out)*MAX_PWM+RollMotor.RollSink;
+			float speed2 =	(RollMotor.PIDSpeed.Out-PitchMotor.PIDSpeed.Out)*MAX_PWM+RollMotor.RollSink;
+			float speed3 =	(-RollMotor.PIDSpeed.Out+PitchMotor.PIDSpeed.Out)*MAX_PWM+RollMotor.RollSink;
+			float speed4 =	(-RollMotor.PIDSpeed.Out-PitchMotor.PIDSpeed.Out)*MAX_PWM+RollMotor.RollSink;
+		
+			if (speed1>MAX_PWM)speed1=MAX_PWM;
+			if (speed2>MAX_PWM)speed2=MAX_PWM;
+			if (speed3>MAX_PWM)speed3=MAX_PWM;
+			if (speed4>MAX_PWM)speed4=MAX_PWM;
+			if (speed1<-MAX_PWM)speed1=-MAX_PWM;
+			if (speed2<-MAX_PWM)speed2=-MAX_PWM;
+			if (speed3<-MAX_PWM)speed3=-MAX_PWM;
+			if (speed4<-MAX_PWM)speed4=-MAX_PWM;
+		
+			LL_TIM_OC_SetCompareCH1(TIM12,speed1+MIDDLE_PWM);
+			LL_TIM_OC_SetCompareCH2(TIM12,speed2+MIDDLE_PWM);
+			LL_TIM_OC_SetCompareCH1(TIM1,speed3+MIDDLE_PWM);
+			LL_TIM_OC_SetCompareCH2(TIM1,speed4+MIDDLE_PWM);
 		#else
 			LL_TIM_OC_SetCompareCH1(TIM12,MIDDLE_PWM+RollMotor.RollSink);
 			LL_TIM_OC_SetCompareCH2(TIM12,MIDDLE_PWM+RollMotor.RollSink);

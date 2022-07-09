@@ -152,64 +152,8 @@ int flag_count=1;
 void FeedMotorControlLogic()
 {	
 /*****************************拉线复位一体化*************************************/
-	Switch.Reload0=PBin(15);
-	if(RemoteData.RemoteDataProcessed.RCValue.s1==2)
-	{
-		location=PitchMotor.Location.Location+10;
-		if(Switch.Reload0==1)//触发限位开关
-		{
-			count_++;
-			if(Flag_==1)
-			{
-				loction_1=PitchMotor.Location.Location;
-			}
-			Flag_=0;
-			location=loction_1;
-		}
-		if(count_>=40)
-			{
-				if(flag_count==1)
-				{
-					flag_count=0;
-					Switch.Reload1=1;
-				}
-					location=0;
-			}
-	}		
-	else
-	{
-		flag_count=1;
-		location=0;
-		Flag_=1;
-		count_=0;
-	}
-		PitchSetLocationValueChange(location);
-	  PitchControlCalculateAndSend();
 }
 
-/**************************遥控器控制拉线、遥控器控制拉线复位*****************************/
-//	Switch.Reload0=PBin(15);
-//	if(RemoteData.RemoteDataProcessed.RCValue.s1==2)
-//	{
-//		location=PitchMotor.Location.Location+10;
-//		if(Switch.Reload0==1)//触发限位开关
-//		{
-//			if(Flag_==1)
-//			{
-//				loction_1=PitchMotor.Location.Location;
-//			}
-//			Flag_=0;
-//			location=loction_1;
-//		}
-//	}		
-//	else
-//	{
-//		location=0;
-//		Flag_=1;
-//	}
-//		PitchSetLocationValueChange(location);
-//	  PitchControlCalculateAndSend();
-//}
 
 	
 //*************************************扳机相关函数*****************************************//
@@ -223,14 +167,5 @@ void TriggerInit(void)
 
 void TriggerControl(void)
 {
-	
-		if(RemoteData.RemoteDataProcessed.RCValue.s1==1)
-		 {
-		  Trigger.firecode=930;
-		  }else
-		 {
-		  Trigger.firecode=2400;
-		 }
-		 
 	LL_TIM_OC_SetCompareCH1(TIM1,Trigger.firecode);
 }

@@ -57,33 +57,14 @@ void GimbalControlTask()
 		GimbalSetLocationDataTemp.FlagPitchUseEncoder	=	0;
 		GimbalSetLocationDataTemp.FlagYawUseEncoder	=	0;
 		yaw_OFFSET =Gyroscope.yaw/360;
-		GimbalSetLocationDataTemp.YawSetLocation	=	yaw_OFFSET;//使用陀螺仪则取消注释
+		GimbalSetLocationDataTemp.YawSetLocation	=	yaw_OFFSET;//关控时使yaw设定位置等于陀螺仪实际位置
 
 	}
 	if (VisionReceiveFlag)
+	{	
 		VisionControl();
-	//VisionReceiveDataClear(&VisionData);//接收重置
-
-///**************************换弹电机（2006）**********************************/
-//	//初始化
-//	if(flag_init==0)
-//	{
-//	  FeedMotor.Location.SetLocation=-9;
-//		if(Switch.Init==1)
-//		{
-//			FeedMotor.Location.SetLocation=FeedMotor.Location.Location;
-//			flag_init=1;
-//		}
-//	}
-//	
-//	if(Switch.Reload1==1)
-//	{
-//		FeedMotor.Location.SetLocation=FeedMotor.Location.Location+9;
-//		Switch.Reload1=0;
-//	}
-//	
-	//FeedMotorDataUpdate();
-	//MotorLocationControlLogic();
+		VisionReceiveDataClear(&VisionData);//接收清零使得控制只进行一次（数据可以在last里查看）
+	}
 
 	//Gimbal
 	GimbalDataInput(GimbalSetLocationDataTemp);
@@ -119,7 +100,7 @@ void UART3Unpack(u8 *buff,u32 *num)
 }
 float FilterK=0.05;
 int16_t TurnFlag=0;
-int down_error=30;
+int down_error=30;//深度偏置
 void VisionControl(void)
 {
 	VisionReceiveFlag=0;
@@ -133,83 +114,33 @@ void VisionControl(void)
 		a/=130;
 		VisionData.rho=(float)VisionReceiveData[0]-330+VisionData.rho_offset;//偏离值
 		VisionData.angle=(float)atan(a)*57.3+VisionData.yaw_offset;//角度值
-		VisionData.angle=VisionData.angle*FilterK+VisionData.angle*(1-FilterK);
+		VisionData.angle=VisionData.angle*FilterK+VisionData.angle*(1-FilterK);//对视觉做个均值滤波
 		VisionData.error_x=(int)(-VisionReceiveData[2])+down_error;//深度
 		VisionData.error_y=VisionReceiveData[3];
 		if (VisionData.error_x>20)
 			VisionData.error_x=20;
-	#if  0			////////////////使用滤波
-		VisionData.status=UART3BUFF[18];
-		switch (VisionData.status)
-		{
-			case 'C':
-				VisionData.statuscount.circle++;
-			break;
-			case 'S':
-				VisionData.statuscount.square++;
-			break;
-			case 'N':
-			{
-				VisionData.statuscount.circle=VisionData.statuscount.square=0;
-			VisionData.statusfinal='N';
-				break;
-			}
-			default:
-				break;
-		}
-		if (VisionData.statuscount.circle>3)
-		{
-			VisionData.statusfinal='C';
-			VisionData.statuscount.circle=VisionData.statuscount.square=0;
-		}
-		else if (VisionData.statuscount.square>3)
-		{
-			VisionData.statusfinal='S';
-			VisionData.statuscount.circle=VisionData.statuscount.square=0;
-		}
-	#else         ///////////不使用滤波
 		VisionData.statusfinal=UART3BUFF[18];
-	#endif 
-	#if 1 //视觉处的变结构PID
+		#if 1 //视觉处的变结构PID，实际上就是乘个系数控制视觉控制的速度
 		VisionRhoIncreasement.Ref=VisionData.rho;
 		VisionRhoIncreasement.calc(&VisionRhoIncreasement);
 		VisionData.change_rho=VisionRhoIncreasement.Out;
-		//计算有问题
+		
 		VisionYawIncreasement.Ref=VisionData.angle;
 		VisionYawIncreasement.calc(&VisionYawIncreasement);
 		VisionData.change_angle=VisionYawIncreasement.Out/500;
 	#endif 
 		//视觉处理****************************************************
-			if(AutomaticAiming&&VisionData.rho!=-330)
+		if(AutomaticAiming&&VisionData.rho!=-330)//如果发送的数据不是0
 		{
-//			if((VisionData.change_angle<=25.0f*VisionYawIncreasement.Kp&&VisionData.change_angle>=3.0f*VisionYawIncreasement.Kp)||
-//					(VisionData.change_angle>=-25.0f*VisionYawIncreasement.Kp&&VisionData.change_angle<=-3.0f*VisionYawIncreasement.Kp))
 			{
-				if(fabs(YawMotor.Location.SetLocation-YawMotor.Location.Location)<0.05)
+				if(fabs(YawMotor.Location.SetLocation-YawMotor.Location.Location)<0.05)//如果机器人已经到达上次控制的既定位置
 				{
-					//这些注释是用来弯道快速转弯
-//					if (VisionData.angle>50&&TurnFlag<0&&fabs(VisionData.angle-VisionData.angle_last)<20){
-//						YawSetLocationValueChange(-0.25);
-//						TurnFlag=60;
-//					}
-//					else if (VisionData.angle<-50&&TurnFlag<0&&fabs(VisionData.angle-VisionData.angle_last)<20)
-//					{
-//						YawSetLocationValueChange(-0.25);
-//						TurnFlag=60;
-//					}
-//					else 
-					{
 						YawSetLocationValueChange(-VisionData.change_angle);
 						if (TurnFlag>-10)
 						TurnFlag--;
-					}
 				}
 			}
-//		if((VisionData.change_rho<=12.5f*VisionYawIncreasement.Kp&&VisionData.change_rho>=0.5f*VisionYawIncreasement.Kp)||
-//				(VisionData.change_rho>=-12.5f*VisionYawIncreasement.Kp&&VisionData.change_rho<=-0.5f*VisionYawIncreasement.Kp))
-				VisionRho=VisionData.change_rho/Rho_Maximum;
+				VisionRho=VisionData.change_rho/Rho_Maximum;//直接进行横移
 		}
 	}
-//	else 				RollMotor.RollSink=0;
-
 }
