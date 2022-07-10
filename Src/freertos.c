@@ -208,15 +208,15 @@ void LEDTask(void const * argument)
 
   /* USER CODE BEGIN LEDTask */
 	 LaserInit();
-	LL_TIM_OC_SetCompareCH2(TIM5,2950);//舵机关
-	LL_TIM_OC_SetCompareCH2(TIM4,2950);//舵机关
 	//这里一共有三个舵机，写在for循环里才能一直被调用否则只能调用一次
   /* Infinite loop */
 	 for(;;)
   {
 		LED0=!LED0;
 		LEDControl(VisionData.statusfinal);			
-		LL_TIM_OC_SetCompareCH1(TIM5,PWM51);//300左550中700右
+	LL_TIM_OC_SetCompareCH2(TIM5,PWM51);//舵机关
+	LL_TIM_OC_SetCompareCH2(TIM4,PWM51);//舵机关
+		LL_TIM_OC_SetCompareCH1(TIM5,PWM51);//实际测试结果为180-1030为0-180°，三通道均好用
     osDelay(500);
   }
   /* USER CODE END LEDTask */
