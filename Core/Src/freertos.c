@@ -522,7 +522,7 @@ void Thread_FunctionVerify(void *argument)
 //	UART11_TX.DataBuf[2] = '3' ;
 //	UART11_TX.DataLength = 4 ;
 //	UART11_TX.Flag = 1 ;
-//	bsp_Uart_Transmit(&UART11_TX) ;
+	bsp_Uart_Transmit(&UART11_TX) ;
 	osDelay(1000) ;
 	
   }

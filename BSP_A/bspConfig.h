@@ -40,7 +40,7 @@ extern "C" {
 
 
 /* Exported constants --------------------------------------------------------*/
-#define UART_BUF_LENGTH 100  	//UART缓冲长度，以byte为单位
+#define UART_BUF_LENGTH 18  	//UART缓冲长度，以byte为单位
 #define I2C_BUF_LENGTH 20			//I2C缓冲长度，以byte为单位
 #define I2C_Timeout 1000  		//I2C操作超时参数，以ms为单位
 
