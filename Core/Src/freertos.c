@@ -292,7 +292,7 @@ void Thread_Remote_ISR(void *argument)
 				UART11_TX.DataLength = UART1_RX.DataLength ;
 				UART11_TX.Flag = 1 ;
 				UART1_RX.Flag = 0 ;
-				COMM_Transmit(&UART11_TX) ;
+//				COMM_Transmit(&UART11_TX) ;
 //				REMO_GetData(&REMO_Data) ;
 //				RemoteTaskControl(&RemoteDataPort);
 				break ;
@@ -523,7 +523,7 @@ void Thread_FunctionVerify(void *argument)
 //	UART11_TX.DataLength = 4 ;
 //	UART11_TX.Flag = 1 ;
 	bsp_Uart_Transmit(&UART11_TX) ;
-	osDelay(1000) ;
+	osDelay(200) ;
 	
   }
 
@@ -535,4 +535,3 @@ void Thread_FunctionVerify(void *argument)
 
 /* USER CODE END Application */
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

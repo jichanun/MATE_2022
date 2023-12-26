@@ -45,20 +45,25 @@ UART_DataTypeDef* COMM_Transmit(UART_DataTypeDef* vuart) //, UART_DataTypeDef* r
 	//checksum Ð£ÑéºÍ
 	uint8_t checksum = vuart->ID; 
 	uint8_t temp;
-	for(uint16_t i=0; i<length; i++) 
+	
+	ruart->DataBuf[0] = 0xff ;
+	ruart->DataBuf[1] = 0xff ;
+	ruart->DataBuf[2] = 0x17 ;
+	
+	for(uint16_t i=3; i<length+3; i++) 
 	{
-		temp = vuart->DataBuf[i] ;
+		temp = vuart->DataBuf[i-3] ;
 		ruart->DataBuf[i] = temp ;
 		checksum += temp ;
 	}
 	vuart->Flag = 0 ;
 //	memcpy(ruart->DataBuf, (const void*)vuart->DataBuf, length) ;
 	
-	ruart->DataBuf[length++] = 0xff ;
-	ruart->DataBuf[length++] = vuart->ID ;
-	ruart->DataBuf[length++] = checksum ;
-	ruart->DataBuf[length++] = 0xff ;
-	ruart->DataLength = length ;
+//	ruart->DataBuf[length++] = 0xff ;
+//	ruart->DataBuf[length++] = vuart->ID ;
+//	ruart->DataBuf[length++] = checksum ;
+//	ruart->DataBuf[length++] = 0xff ;
+	ruart->DataLength = length+3 ;
 	ruart->Flag = 1 ;
 	
 	return ruart ;
