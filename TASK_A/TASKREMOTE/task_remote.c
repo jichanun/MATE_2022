@@ -142,3 +142,28 @@ u8 RemoteTaskControl(RemoteDataPortStruct * dataport)
 
 	return 1;
 }
+
+Wave_Para wave;
+RelativeStruct Rel;
+void WaveInit(void)
+{
+	wave.A = 20.0;//单边幅值，不是总幅值！！
+	wave.differential = 0;//频率差值
+	wave.frequency = 0.5;
+	wave.wavenum = 2;
+	wave.offset = 30;
+	wave.delta_phi = 2*180*wave.wavenum/8.0f;//默认为利用波数计算出相邻电机间相位差，但也可以后面再赋值
+	
+	wave.flag_L = 1;
+	wave.flag_R = 1;//波传递方向，都为-1即传递方向相同【-1为波向后传播】
+	
+	wave.f_L = wave.frequency;
+	wave.f_R = wave.frequency;
+	
+	Rel.Current=1.5;
+	Rel.fai=1.1;
+	Rel.Fpara = Rel.Rpara =2;
+	
+	
+	
+}

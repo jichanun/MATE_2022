@@ -288,8 +288,8 @@ void Thread_Remote_ISR(void *argument)
 			case osOK :
 			{
 				/* 遥控器正常接收处理 */
-				memcpy(UART11_TX.DataBuf, (const void*) UART1_RX.DataBuf, UART1_RX.DataLength) ;
-				UART11_TX.DataLength = UART1_RX.DataLength ;
+//				memcpy(UART11_TX.DataBuf, (const void*) UART1_RX.DataBuf, UART1_RX.DataLength) ;
+//				UART11_TX.DataLength = UART1_RX.DataLength ;
 				UART11_TX.Flag = 1 ;
 				UART1_RX.Flag = 0 ;
 //				COMM_Transmit(&UART11_TX) ;
@@ -478,52 +478,43 @@ void Thread_Claw(void *argument)
 * @param argument: Not used
 * @retval None
 */
-float temperaturee,pressuree,depthh;
-	uint8_t send1, send2 ;
-u8 Send=1;
+u8 WaveSend[20];
+u8 EnableFlag =20;
+u8 Mode =5;
+
 /* USER CODE END Header_Thread_FunctionVerify */
 void Thread_FunctionVerify(void *argument)
 {
   /* USER CODE BEGIN Thread_FunctionVerify */
-	
-	send1 = 0x48 ;
-	send2 = 0x00;//0xA0+3*2 ;
-//	DepthInit();
+	WaveInit();
   /* Infinite loop */
   for(;;)
   {
-//		if (Send){
-//			GetDepth();
-//		}
-//		else 
-//			osDelay(20);
-//		BoardCaculate(UART2_RX.DataBuf);
-//		SEVO_AngleSet(&SEVO_Angle) ;
-//		HAL_I2C_Master_Transmit(&hi2c2,0xEC,&send1,1,1000) ;
-//    osDelay(10);
-//		HAL_I2C_Master_Transmit(&hi2c2,0xEC,&send2,1,1000) ;
-//		HAL_I2C_Master_Receive(&hi2c2,0xED,(uint8_t*)i2cbuf,4,1000) ;
-//		osDelay(1000);
-//		UART2_TX.DataBuf[0] = send1 ;
-//		UART2_TX.DataLength = 1 ;
-//		UART2_TX.Flag = 1 ;
-//		BSP_STATUS=bsp_Uart_Transmit(&UART2_TX) ;
-//		flag=bsp_Uart_Transmit(&UART2_TX) ;
-//		HAL_UART_Transmit_DMA(UART2_TX.huart, UART2_TX.DataBuf, 
-//								UART2_TX.DataLength);
-//		PROP_SpeedSet(&PROP_Speed) ;
-//		ReadMS5837(&temperaturee,&pressuree,&depthh);
-//	UART5_TX.DataBuf[0] = '1' ;
-//	UART5_TX.DataLength = 2 ;
-//	UART5_TX.Flag = 1 ;
-//	bsp_Uart_Transmit(&UART5_TX) ;
-//	UART11_TX.DataBuf[0] = '1' ;
-//	UART11_TX.DataBuf[1] = '2' ;
-//	UART11_TX.DataBuf[2] = '3' ;
-//	UART11_TX.DataLength = 4 ;
-//	UART11_TX.Flag = 1 ;
-	bsp_Uart_Transmit(&UART11_TX) ;
-	osDelay(200) ;
+		
+		WaveSend[0] = 0xff ;
+		WaveSend[1] = 0xff ;
+		WaveSend[2] = 0x17 ;
+		for(int i =3;i<9;i++)
+			WaveSend[i] = UART1_RX.DataBuf[i-3];
+		WaveSend[9] = EnableFlag ;
+		WaveSend[10] = Mode ;
+		WaveSend[11] = (int8_t)((Rel.Fpara+2.5) *50)&0xff ;
+		WaveSend[12] = (int8_t)((Rel.Fpara+2.5) *50)&0xff ;
+		WaveSend[13] = (int8_t)(Rel.Current *50)&0xff ;
+		WaveSend[14] = (int8_t)((Rel.fai+2.5) *50)&0xff ;
+		
+		
+		
+				memcpy(UART11_TX.DataBuf, (const void*) WaveSend, 15) ;
+				UART11_TX.DataLength = 15 ;
+		
+		
+		
+		
+		
+		
+		bsp_Uart_Transmit(&UART11_TX) ;
+		osDelay(400) ;
 	
   }
 
